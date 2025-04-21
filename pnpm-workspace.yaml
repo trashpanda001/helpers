@@ -1,0 +1,6 @@
+publicHoistPattern:
+  - "*eslint*"
+  - "*prettier*"
+strictPeerDependencies: true
+ignoredBuiltDependencies:
+  - esbuild

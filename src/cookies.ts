@@ -1,0 +1,113 @@
+const isSSR = typeof window == "undefined"
+
+type CookieOptions = {
+  domain?: string
+  maxAge?: "session" | number
+  path?: string
+  sameSite?: "" | "Lax" | "None" | "Strict"
+}
+
+/** Delete the given cookie.
+ *
+ * The domain and path options should match what was used to set the cookie. See `nukeCookie` for a way to delete
+ * cookies with all permutations of domains, subdomains, paths, and subpaths.
+ */
+export function deleteCookie(name: string, options?: CookieOptions) {
+  if (isSSR) {
+    throw new Error("deleteCookie is not available during SSR")
+  }
+  setCookie(name, "", options)
+}
+
+/**
+ * Get a cookie by name.
+ *
+ * Returns a URI decoded value, or an empty string if the cookie does not exist.
+ */
+export function getCookie(name: string) {
+  if (isSSR) {
+    throw new Error("getCookie is not available during SSR")
+  }
+  const regex = new RegExp("(?:^|;\\s*)" + name + "=([^;]*)")
+  const match = document.cookie.match(regex)
+  return match ? decodeURIComponent(match[1]!) : ""
+}
+
+/**
+ * Get all cookies.
+ *
+ * Return an object mapping cookie names to URI decoded values. Assumes all cookie names are unique.
+ */
+export function getCookies() {
+  if (isSSR) {
+    throw new Error("getCookies is not available during SSR")
+  }
+  return document.cookie.split("; ").reduce((cookies: Record<string, string>, cookie) => {
+    if (cookie) {
+      const [name, value] = cookie.split("=")
+      cookies[name!] = decodeURIComponent(value!)
+    }
+    return cookies
+  }, {})
+}
+
+/**
+ * Delete a cookie with all permutations of domains and subdomains of `window.location.hostname` and
+ * all subpaths of the given path (defaults to `window.location.pathname`).
+ *
+ * For example, nuking cookie `orbit` on `https://example.com/x`, would attempt to set:
+ * - Set-Cookie: orbit=; Domain=example.com; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Domain=example.com; Path=/; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Domain=example.com; Path=/x; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Domain=com; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Domain=com; Path=/; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Domain=com; Path=/x; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Path=/; Secure; Max-Age=0
+ * - Set-Cookie: orbit=; Path=/x; Secure; Max-Age=0
+ *
+ * It's the only way to be sure.
+ */
+export function nukeCookie(name: string, path?: string) {
+  if (isSSR) {
+    throw new Error("nukeCookie is not available during SSR")
+  }
+  const domainParts = window.location.hostname.split(".")
+  const domains = domainParts.map((_, i) => domainParts.slice(i).join(".")).concat([""])
+  const pathname = path ?? window.location.pathname
+  const paths = Array.from({ length: pathname.length + 1 }).map((_, i) => pathname.substring(0, i))
+  domains.forEach((domain) => {
+    paths.forEach((path) => {
+      setCookie(name, "", { domain, maxAge: 0, path, sameSite: "" })
+    })
+  })
+}
+
+/**
+ * Set a cookie to the given value.
+ *
+ * Assumes the cookie name is a valid cookie token and URI encodes the value. If the value is an empty string, the
+ * cookie is deleted. The cookie is not HTTP-only, so it can be accessed from JavaScript.
+ *
+ * Cookie options and defaults:
+ * - domain: set explicitly to apex domain to allow subdomains access (default: no domain set)
+ * - path: path to set the cookie on (default: "/")
+ * - sameSite: "Strict", Lax", or "None" (default: "Lax")
+ * - maxAge: "session" or number of seconds before expiration (default: 34560000 seconds = 400 days)
+ */
+export function setCookie(name: string, value: string, options: CookieOptions = {}) {
+  if (isSSR) {
+    throw new Error("setCookie is not available during SSR")
+  }
+  const { domain, maxAge = value != "" ? 34560000 : 0, path = "/", sameSite = "Lax" } = options
+
+  const cookie = [
+    `${name}=${encodeURIComponent(value)}`,
+    domain ? `; Domain=${domain}` : "",
+    path ? `; Path=${path}` : "",
+    window.location.protocol == "https:" ? "; Secure" : "",
+    sameSite ? `; SameSite=${sameSite}` : "",
+    maxAge != "session" ? `; Max-Age=${maxAge}` : "",
+  ].join("")
+  document.cookie = cookie
+}
