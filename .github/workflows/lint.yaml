@@ -1,13 +1,17 @@
-name: Lint and Build and Test
+name: Lint & Build & Test
 on:
   push:
+    branches:
+      - "**"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "NODE_VERSION=$(grep 'node =' .mise.toml | cut -d '"' -f2)" >> ${GITHUB_ENV}
-      - uses: pnpm/action-setup@v4
+      - run: |
+          NODE_VERSION=$(awk -F'"' '/node =/ {print $2}' .mise.toml)
+          echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
+          corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
