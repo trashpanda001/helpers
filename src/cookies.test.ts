@@ -1,5 +1,5 @@
+import { getCookie, getCookies, nukeCookie, setCookie } from "@trashpanda001/helpers/cookies"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { getCookie, getCookies, nukeCookie, setCookie } from "./cookies.js"
 
 function removeAllCookies() {
   document.cookie.split("; ").forEach((cookie) => {
@@ -11,21 +11,21 @@ function removeAllCookies() {
 describe("getCookie", () => {
   beforeEach(removeAllCookies)
 
-  it("should return the value of an existing cookie", () => {
+  it("returns the value of an existing cookie", () => {
     document.cookie = "testCookie=testValue"
     expect(getCookie("testCookie")).toBe("testValue")
   })
 
-  it("should return an empty string for a non-existing cookie", () => {
+  it("returns an empty string for a non-existing cookie", () => {
     expect(getCookie("nonExistingCookie")).toBe("")
   })
 
-  it("should decode URI-encoded cookie values", () => {
+  it("decodes URI-encoded cookie values", () => {
     document.cookie = "symbolsCookie=%21%40%23%24%25"
     expect(getCookie("symbolsCookie")).toBe("!@#$%")
   })
 
-  it("should retrieve the correct cookie when multiple cookies are set", () => {
+  it("retrieves the correct cookie when multiple cookies are set", () => {
     document.cookie = "firstCookie=value1"
     document.cookie = "secondCookie=value2"
     document.cookie = "thirdCookie=value3"
@@ -34,7 +34,7 @@ describe("getCookie", () => {
     expect(getCookie("thirdCookie")).toBe("value3")
   })
 
-  it("should handle cookies with special characters in values", () => {
+  it("handles cookies with special characters in values", () => {
     document.cookie = "specialCookie=value with spaces"
     document.cookie = "jsonCookie=%7B%22key%22%3A%22value%22%7D"
     document.cookie = "symbolsCookie=%21%40%23%24%25"
@@ -43,7 +43,7 @@ describe("getCookie", () => {
     expect(getCookie("symbolsCookie")).toBe("!@#$%")
   })
 
-  it("should correctly handle cookies with same name prefix", () => {
+  it("handles cookies with same name prefix", () => {
     document.cookie = "user=john"
     document.cookie = "username=johndoe"
     document.cookie = "user_id=12345"
@@ -56,11 +56,11 @@ describe("getCookie", () => {
 describe("getCookies", () => {
   beforeEach(removeAllCookies)
 
-  it("should return an empty object in there are no cookies", () => {
+  it("returns an empty object in there are no cookies", () => {
     expect(getCookies()).toEqual({})
   })
 
-  it("should return all cookies as a key-value object", () => {
+  it("returns all cookies as a key-value object", () => {
     document.cookie = "firstCookie=value1"
     document.cookie = "secondCookie=value2"
     document.cookie = "thirdCookie=value3"
@@ -72,7 +72,7 @@ describe("getCookies", () => {
     })
   })
 
-  it("should decode URI-encoded cookie values", () => {
+  it("decodes URI-encoded cookie values", () => {
     document.cookie = "specialCookie=value%20with%20spaces"
     document.cookie = "jsonCookie=%7B%22key%22%3A%22value%22%7D"
     document.cookie = "symbolsCookie=%21%40%23%24%25"
@@ -86,67 +86,67 @@ describe("getCookies", () => {
 })
 
 describe("setCookie", () => {
-  it("should use defaults", () => {
+  it("uses defaults", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar")
     expect(setter).toHaveBeenCalledWith("foo=bar; Path=/; SameSite=Lax; Max-Age=34560000")
   })
 
-  it("should delete a cookie with an empty value", () => {
+  it("deletes the cookie with an empty value", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "")
     expect(setter).toHaveBeenCalledWith("foo=; Path=/; SameSite=Lax; Max-Age=0")
   })
 
-  it("should URI-encode the cookie value", () => {
+  it("URI-encodes the cookie value", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("special", "a value with spaces & symbols!")
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("special=a%20value%20with%20spaces%20%26%20symbols!"))
   })
 
-  it("should handle setting an explicit domain", () => {
+  it("handles setting an explicit domain", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar", { domain: "example.com" })
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("; Domain=example.com"))
   })
 
-  it("should handle an explicit maxAge", () => {
+  it("handles an explicit maxAge", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar", { maxAge: 12345 })
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("; Max-Age=12345"))
   })
 
-  it("should handle a maxAge of session", () => {
+  it("handles a maxAge of 'session'", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar", { maxAge: "session" })
     expect(setter).toHaveBeenCalledWith(expect.not.stringContaining("Max-Age="))
   })
 
-  it("should handle an explicit path", () => {
+  it("handles an explicit path", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar", { path: "/custom" })
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("; Path=/custom"))
   })
 
-  it("should handle a no/empty-string path", () => {
+  it("handles an empty-string path", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar", { path: "" })
     expect(setter).toHaveBeenCalledWith(expect.not.stringContaining("Path="))
   })
 
-  it("should handle an explicit sameSite", () => {
+  it("handles an explicit sameSite", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar", { sameSite: "Strict" })
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("; SameSite=Strict"))
   })
 
-  it("should handle a no/empty-string sameSite", () => {
+  it("handles an empty-string sameSite", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar", { sameSite: "" })
     expect(setter).toHaveBeenCalledWith(expect.not.stringContaining("SameSite="))
   })
 
-  it("should set a secure cookie on HTTPS", () => {
+  it("sets a secure cookie on HTTPS", () => {
     vi.spyOn(window.location, "protocol", "get").mockReturnValue("https:")
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "bar")
@@ -155,19 +155,19 @@ describe("setCookie", () => {
 })
 
 describe("deleteCookie", () => {
-  it("should delete a cookie with defaults", () => {
+  it("deletes a cookie with defaults", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "")
     expect(setter).toHaveBeenCalledWith("foo=; Path=/; SameSite=Lax; Max-Age=0")
   })
 
-  it("should delete a cookie with an explicit domain", () => {
+  it("deletes a cookie with an explicit domain", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "", { domain: "example.com" })
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("; Domain=example.com"))
   })
 
-  it("should delete a cookie with an explicit path", () => {
+  it("deletes a cookie with an explicit path", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     setCookie("foo", "", { path: "/custom" })
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("; Path=/custom"))
@@ -175,7 +175,7 @@ describe("deleteCookie", () => {
 })
 
 describe("nukeCookie", () => {
-  it("should delete a cookie with all domain permutations", () => {
+  it("deletes a cookie with all domain permutations", () => {
     vi.spyOn(window.location, "hostname", "get").mockReturnValue("foo.bar.com")
     const setter = vi.spyOn(document, "cookie", "set")
     nukeCookie("baz")
@@ -184,7 +184,7 @@ describe("nukeCookie", () => {
     expect(setter).toHaveBeenCalledWith(expect.not.stringContaining("; Domain="))
   })
 
-  it("should delete a cookie with all pathname permutations", () => {
+  it("deletes a cookie with all pathname permutations", () => {
     vi.spyOn(window.location, "pathname", "get").mockReturnValue("/foo")
     const setter = vi.spyOn(document, "cookie", "set")
     nukeCookie("baz")
@@ -195,7 +195,7 @@ describe("nukeCookie", () => {
     expect(setter).toHaveBeenCalledWith(expect.not.stringContaining("; Path="))
   })
 
-  it("should delete a cookie with all explicit path permutations", () => {
+  it("deletes a cookie with all explicit path permutations", () => {
     const setter = vi.spyOn(document, "cookie", "set")
     nukeCookie("baz", "/bar")
     expect(setter).toHaveBeenCalledWith(expect.stringContaining("; Path=/bar"))

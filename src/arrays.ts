@@ -21,21 +21,20 @@ export function chunkEvery<T>(array: T[], chunkSize: number) {
 
 /**
  * Similar to `find`, but returns the value of the function invocation instead of the element itself. The
- * return value is considered to be found when the result is NOT `false`. Returns `false` if no value is found.
+ * return value is considered to be found when the result is NOT `false`. Returns `undefined` if no value is found.
  *
  * @example
  * ```ts
- * findValue([2,3,4], (x) => x > 2 ? x * x : false)  // 9
+ * findValue([2,3,4], (x) => x > 2 ? x * x : undefined)  // 9
  * ```
  */
-export function findValue<T, S>(array: T[], fn: (x: T) => false | S) {
+export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
   for (let i = 0; i < array.length; i++) {
     const value = fn(array[i]!)
-    if (value !== false) {
-      return value
+    if (value !== undefined) {
+      return value as S
     }
   }
-  return false
 }
 
 // /**
@@ -64,7 +63,9 @@ export function shuffleArray<T>(input: T[]) {
   const array = [...input]
   for (let i = array.length - 1; i > 0; i--) {
     const j = randomInt(0, i + 1)
-    ;[array[i], array[j]] = [array[j]!, array[i]!]
+    const x = array[i]!
+    array[i] = array[j]!
+    array[j] = x
   }
   return array
 }
