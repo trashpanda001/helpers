@@ -1,21 +1,20 @@
-/**
- * Gets a value from a nested structure via "dot-notation".
- *
- * @returns the value or undefined if the path does not exist
- * @example
- * ```ts
- * getIn({a: {b: {c: 42 }}}, "a.b.c")  // 42
- * ```
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getIn = (object: Record<string, any>, path: string): any =>
-  path.split(".").reduce((acc, key) => acc?.[key], object)
+// /**
+//  * Gets a value from a nested structure via "dot-notation".
+//  *
+//  * @returns the value or undefined if the path does not exist
+//  * @example
+//  * ```ts
+//  * getIn({a: {b: {c: 42 }}}, "a.b.c")  // 42
+//  * ```
+//  */
+// // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// export const getIn = (object: Record<string, any>, path: string): any =>
+//   path.split(".").reduce((acc, key) => acc?.[key], object)
 
 /**
  * Given an object, map its entries (key, value) to a new key/value pair, and return a new object. If the mapping
  * function generates duplicate keys, the latest entry wins.
  *
- * @returns result object
  * @example
  * ```ts
  * objectMap({ a: "alpha", b: "beta" }, ([key, value]) => [value, key])  // { alpha: "a", beta: "b" }
