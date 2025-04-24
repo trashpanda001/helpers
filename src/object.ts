@@ -37,3 +37,4 @@ export function mapObject(
  * ```
  */
 export const invertObject = (object: Record<string, string>) => mapObject(object, ([key, value]) => [value, key])
+// TODO: allow values to be anything coercible to string
