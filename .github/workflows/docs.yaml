@@ -1,0 +1,14 @@
+name: Generate Docs
+on:
+  workflow_dispatch:
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:docs
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+      - uses: actions/deploy-pages@v4

@@ -13,6 +13,7 @@
     "url": "https://github.com/trashpanda001/helpers.git"
   },
   "author": "Trash Panda <adrian@danieli.org>",
+  "homepage": "https://trashpanda001.github.io/helpers/",
   "exports": {
     "./array": "./dist/array.js",
     "./cookie": "./dist/cookie.js",
@@ -32,11 +33,12 @@
   ],
   "scripts": {
     "build": "pnpm run clean && tsc",
+    "build:docs": "typedoc",
     "clean": "rm -rf dist/*",
     "loc": "tokei --exclude pnpm-lock.yaml",
     "lint": "eslint --fix --max-warnings=0 && prettier --cache --write '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}'",
     "lint:ci": "eslint --max-warnings=0 && prettier --cache --check '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}'",
-    "prepublishOnly": "pnpm run build",
+    "prepublishOnly": "pnpm run build build:docs",
     "publishd": "pnpm publish --dry-run",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -51,6 +53,7 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "happy-dom": "^17.4.4",
     "prettier": "^3.5.3",
+    "typedoc": "^0.28.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.0",
     "vitest": "^3.1.2"

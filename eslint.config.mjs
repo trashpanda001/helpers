@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint"
 
 const eslintConfig = defineConfig([
   // ignore dist/ and explicitly include file extensions we want
-  globalIgnores(["dist/"]),
+  globalIgnores(["dist/", "docs/"]),
   { files: ["**/*.{cjs,cts,js,jsx,mjs,mts,ts,tsx}"] },
 
   // @eslint/js recommended
