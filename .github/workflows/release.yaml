@@ -3,7 +3,7 @@ on:
   push:
     tags:
       - "v*" # e.g. v1.2.3
-    workflow_dispatch:
+  workflow_dispatch:
 jobs:
   release:
     runs-on: ubuntu-latest
