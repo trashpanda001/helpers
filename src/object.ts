@@ -20,10 +20,10 @@
  * objectMap({ a: "alpha", b: "beta" }, ([key, value]) => [value, key])  // { alpha: "a", beta: "b" }
  * ```
  */
-export function mapObject(
-  object: Record<string, string>,
-  keyValueFn: (entry: [string, string]) => [string, string],
-): Record<string, string> {
+export function mapObject<T, S>(
+  object: Record<string, T>,
+  keyValueFn: (entry: [string, T]) => [string, S],
+): Record<string, S> {
   return Object.fromEntries(Object.entries(object).map(keyValueFn))
 }
 
@@ -36,5 +36,5 @@ export function mapObject(
  * invertObject({ a: "alpha", b: "beta" })  // { alpha: "a", beta: "b" }
  * ```
  */
-export const invertObject = (object: Record<string, string>) => mapObject(object, ([key, value]) => [value, key])
-// TODO: allow values to be anything coercible to string
+export const invertObject = (object: Record<string, PropertyKey>) =>
+  mapObject(object, ([key, value]) => [value.toString(), key])

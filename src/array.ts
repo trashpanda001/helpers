@@ -38,19 +38,25 @@ export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
   }
 }
 
-// /**
-//  * Splits an array into groups based on `keyFn`.
-//  *
-//  * The result is an object where each key is given by `keyFn` and each value is an array of elements given by `valueFn`.
-//  * The order of elements within each list is preserved from the original array.
-//  *
-//  * @param array - array to group
-//  * @param keyFn - key function (e.g. `(string) => string.length`)
-//  * @param valueFn - optional value function (defaults to `(x) => x`)
-//  */
-// export function groupBy<T, T2>(array: T[], keyFn: (x: T) => string, valueFn: (x: T) => T2 = (x) => x) {
-//   return array.reduce((acc, x) => ((acc[keyFn(x)] ||= []).push(valueFn(x)), acc), {})
-// }
+/**
+ * Splits an array into groups based on `keyFn`.
+ *
+ * The result is an object where each key is given by `keyFn` and each value is an array of elements given by `valueFn`.
+ * The order of elements within each list is preserved from the original array.
+ */
+export function groupBy<T, K extends PropertyKey, V = T>(array: T[], keyFn: (x: T) => K, valueFn?: (x: T) => V) {
+  const valueFn_ = valueFn ?? (identity as (x: T) => V)
+  return array.reduce(
+    (acc, x) => {
+      const key = keyFn(x)
+      const value = valueFn_(x)
+      const group = (acc[key] ??= [])
+      group.push(value)
+      return acc
+    },
+    {} as Record<K, V[]>,
+  )
+}
 
 /**
  * Creates a new shuffled array via the Durtenfeld shuffle algorithm.
@@ -71,37 +77,35 @@ export function shuffleArray<T>(input: T[]) {
   return array
 }
 
-// /**
-//  * A stable array sort using a mapping function. This implements the Lisp decorate-sort-undecorate
-//  * pattern (aka Schwartzian transform): it first maps all the elements, then sorts by the mapped value,
-//  * and then returns an array of the original elements. If two elements map to the same value, the
-//  * original element order is preserved.
-//  *
-//  * @example
-//  * sortBy(data, (e) => parseISO(e.created_at), (a,b) => b - a)
-//  * // data sorted by created_at from latest to earliest
-//  *
-//  * @param {Array<*>} array - original array
-//  * @param {function} mapper - mapping function
-//  * @param {function} comparator - comparator function
-//  * @returns {Array<*>} sorted array
-//  */
-// export const sortBy = (array, mapper, comparator) =>
-//   array
-//     .map((e, i) => [e, mapper(e), i])
-//     .sort((a, b) => {
-//       const result = comparator(a[1], b[1])
-//       return result == 0 ? a[2] - b[2] : result // if equal, use original element order
-//     })
-//     .map((e) => e[0])
+/**
+ * A stable array sort using a mapping function. This implements the Lisp decorate-sort-undecorate
+ * pattern (aka Schwartzian transform): it first maps all the elements, then sorts by the mapped value,
+ * and then returns an array of the original elements. If two elements map to the same value, the
+ * original element order is preserved.
+ *
+ * @example
+ * ```ts
+ * sortBy(data, (e) => parseISO(e.created_at), (a,b) => b - a)
+ * // data sorted by created_at from latest to earliest
+ * ```
+ */
+export function sortBy<T, V>(array: T[], mapper: (x: T) => V, comparator: (a: V, b: V) => number) {
+  return array
+    .map((e, i) => [e, mapper(e), i] as [T, V, number]) // add index to preserve original order
+    .sort((a, b) => {
+      const result = comparator(a[1], b[1])
+      return result == 0 ? a[2] - b[2] : result // if equal, use original element order
+    })
+    .map((e) => e[0])
+}
 
 /**
  * Return an array with the results of invoking a value or callback for each index `0 <= i < n`.
  *
  * @example
  * ```ts
- * times(3)          // [0, 1, 2]
- * times(3, i => i*i) // [0, 1, 4]
+ * times(3)            // [0, 1, 2]
+ * times(3, i => i*i)  // [0, 1, 4]
  * ```
  */
 export function times<T>(n: number, mapFn?: (i: number) => T) {

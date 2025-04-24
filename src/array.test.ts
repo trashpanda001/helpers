@@ -1,4 +1,4 @@
-import { chunkEvery, findValue, shuffleArray, times, uniq, uniqBy } from "@trashpanda001/helpers/array"
+import { chunkEvery, findValue, groupBy, shuffleArray, sortBy, times, uniq, uniqBy } from "@trashpanda001/helpers/array"
 import { describe, expect, it } from "vitest"
 
 describe("chunkEvery", () => {
@@ -55,12 +55,92 @@ describe("findValue", () => {
   })
 })
 
+describe("groupBy", () => {
+  it("groups numbers by their floored value", () => {
+    const arr = [6.1, 4.2, 6.3]
+    expect(groupBy(arr, Math.floor)).toEqual({ "4": [4.2], "6": [6.1, 6.3] })
+  })
+
+  it("groups strings by their length", () => {
+    const arr = ["one", "two", "three", "four", "five"]
+    expect(groupBy(arr, (x) => x.length)).toEqual({
+      "3": ["one", "two"],
+      "4": ["four", "five"],
+      "5": ["three"],
+    })
+  })
+
+  it("returns an empty object when input is empty", () => {
+    expect(groupBy([], (x) => x)).toEqual({})
+  })
+})
+
 describe("shuffleArray", () => {
   it("returns a new array with the same elements in a different order", () => {
     const arr = [1, 2, 3, 4, 5]
     const result = shuffleArray(arr)
     expect(result).toHaveLength(arr.length) // same length
     expect([...result].sort()).toEqual([...arr].sort()) // same elements
+  })
+})
+
+describe("sortBy", () => {
+  it("sorts numbers ascending by absolute value", () => {
+    const arr = [-3, -1, 2]
+    const result = sortBy(
+      arr,
+      (x) => Math.abs(x),
+      (a, b) => a - b,
+    )
+    expect(result).toEqual([-1, 2, -3])
+  })
+
+  it("sorts numbers descending by absolute value", () => {
+    const arr = [-9, 7, 8]
+    const result = sortBy(
+      arr,
+      (x) => Math.abs(x),
+      (a, b) => b - a,
+    )
+    expect(result).toEqual([-9, 8, 7])
+  })
+
+  it("sorts objects by a key and preserves stability", () => {
+    const arr = [
+      { group: "a", id: 1 },
+      { group: "b", id: 2 },
+      { group: "a", id: 3 },
+      { group: "b", id: 4 },
+    ]
+    // sort by group (a before b), maintain original order for same group
+    const result = sortBy(
+      arr,
+      (x) => x.group,
+      (a, b) => a.localeCompare(b),
+    )
+    expect(result).toEqual([
+      { group: "a", id: 1 },
+      { group: "a", id: 3 },
+      { group: "b", id: 2 },
+      { group: "b", id: 4 },
+    ])
+  })
+})
+
+describe("times", () => {
+  it("returns an array of the specified length filled with the result of the mapper function", () => {
+    const result = times(3, (i) => i * 2)
+    expect(result).toEqual([0, 2, 4])
+  })
+
+  it("returns an array of the specified length filled with the default value when no mapper is provided", () => {
+    const result = times(3)
+    expect(result).toEqual([0, 1, 2])
+  })
+
+  it("returns an empty array when n is zero", () => {
+    const result = times(0)
+    expect(result).toEqual([])
   })
 })
 
@@ -96,20 +176,5 @@ describe("uniqBy", () => {
       "DOG",
       "raccoon",
     ])
-  })
-})
-
-describe("times", () => {
-  it("returns an array of the specified length filled with the result of the mapper function", () => {
-    const result = times(3, (i) => i * 2)
-    expect(result).toEqual([0, 2, 4])
-  })
-  it("returns an array of the specified length filled with the default value when no mapper is provided", () => {
-    const result = times(3)
-    expect(result).toEqual([0, 1, 2])
-  })
-  it("returns an empty array when n is zero", () => {
-    const result = times(0)
-    expect(result).toEqual([])
   })
 })

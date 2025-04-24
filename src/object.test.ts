@@ -9,7 +9,8 @@ describe("mapObject", () => {
   })
 
   it("handles an empty object", () => {
-    const result = mapObject({}, ([k, v]) => [v, k])
+    const input: Record<string, string> = {}
+    const result = mapObject(input, ([k, v]) => [v, k])
     expect(result).toEqual({})
   })
 
@@ -37,13 +38,9 @@ describe("invertObject", () => {
     expect(result).toEqual({ dup: "y" })
   })
 
-  // it("coerces non-string values to strings when inverting", () => {
-  //   // es-lint-disable-next-line @typescript-eslint/no-explicit-any
-  //   const input = { a: 1, b: 2, c: 1 }
-  //   const result = invertObject(input)
-  //   expect(result).toEqual({
-  //     "1": "c", // last entry for value 1
-  //     "2": "b",
-  //   })
-  // })
+  it("coerces non-string values to strings when inverting", () => {
+    const input = { a: 1, b: 2, c: 1 }
+    const result = invertObject(input)
+    expect(result).toEqual({ "1": "c", "2": "b" })
+  })
 })
