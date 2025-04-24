@@ -1,3 +1,4 @@
+import { identity } from "./function.js"
 import { randomInt } from "./number.js"
 
 /**
@@ -94,25 +95,19 @@ export function shuffleArray<T>(input: T[]) {
 //     })
 //     .map((e) => e[0])
 
-// /**
-//  * Return an array with the results of invoking the callback function with `i` where `0 <= i < n`.
-//  *
-//  * @example
-//  * times(2, "french hen") // ["french hen", "french hen"]
-//  * times(2, i => <div key={i}>{i}</div>) // JSX <div key="0">0</div><div key="1">1</div>
-//  * times(2) // [0, 1]
-//  *
-//  * @param {number} n - repeat this many times
-//  * @param {*|function|undefined} valueOrFunction - if undefined, uses the identity function
-//  * @returns {*[]} array of `n` elements, the result of each function call
-//  */
-// export function times(n: number, identity) {
-//   const array = Array(n)
-//   if (typeof value === "function") {
-//     return array.fill().map((_, index) => value(index))
-//   }
-//   return array.fill(value)
-// }
+/**
+ * Return an array with the results of invoking a value or callback for each index `0 <= i < n`.
+ *
+ * @example
+ * ```ts
+ * times(3)          // [0, 1, 2]
+ * times(3, i => i*i) // [0, 1, 4]
+ * ```
+ */
+export function times<T>(n: number, mapFn?: (i: number) => T) {
+  const fn = mapFn ?? (identity as (i: number) => T)
+  return Array.from({ length: n }, (_, i) => fn(i))
+}
 
 /**
  * Return a copy of the array removing all duplicated elements. The order of the elements is

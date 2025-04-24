@@ -1,4 +1,4 @@
-import { chunkEvery, findValue, shuffleArray, uniq, uniqBy } from "@trashpanda001/helpers/array"
+import { chunkEvery, findValue, shuffleArray, times, uniq, uniqBy } from "@trashpanda001/helpers/array"
 import { describe, expect, it } from "vitest"
 
 describe("chunkEvery", () => {
@@ -96,5 +96,20 @@ describe("uniqBy", () => {
       "DOG",
       "raccoon",
     ])
+  })
+})
+
+describe("times", () => {
+  it("returns an array of the specified length filled with the result of the mapper function", () => {
+    const result = times(3, (i) => i * 2)
+    expect(result).toEqual([0, 2, 4])
+  })
+  it("returns an array of the specified length filled with the default value when no mapper is provided", () => {
+    const result = times(3)
+    expect(result).toEqual([0, 1, 2])
+  })
+  it("returns an empty array when n is zero", () => {
+    const result = times(0)
+    expect(result).toEqual([])
   })
 })
