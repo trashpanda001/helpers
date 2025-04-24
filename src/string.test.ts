@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest"
 import {
   capitalize,
   countable,
@@ -11,7 +10,8 @@ import {
   unprefixName,
   urlDecode64,
   urlEncode64,
-} from "./string.js"
+} from "@trashpanda001/helpers/string"
+import { describe, expect, it } from "vitest"
 
 describe("capitalize", () => {
   it("should capitalize the first letter", () => {

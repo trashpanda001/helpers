@@ -1,4 +1,4 @@
-import { identity, noop, sleep } from "@trashpanda001/helpers/functions"
+import { identity, noop, sleep } from "@trashpanda001/helpers/function"
 import { describe, expect, it, vi } from "vitest"
 
 describe("identity", () => {

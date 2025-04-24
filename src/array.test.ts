@@ -1,4 +1,4 @@
-import { chunkEvery, findValue, shuffleArray, uniq, uniqBy } from "@trashpanda001/helpers/arrays"
+import { chunkEvery, findValue, shuffleArray, uniq, uniqBy } from "@trashpanda001/helpers/array"
 import { describe, expect, it } from "vitest"
 
 describe("chunkEvery", () => {

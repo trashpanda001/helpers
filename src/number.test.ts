@@ -1,5 +1,5 @@
+import { clamp, distance, mod, quantize, randomFloat, randomInt } from "@trashpanda001/helpers/number"
 import { afterEach, describe, expect, it, vi } from "vitest"
-import { clamp, distance, mod, quantize, randomFloat, randomInt } from "./math.js"
 
 afterEach(() => {
   vi.restoreAllMocks()

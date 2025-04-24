@@ -1,6 +1,5 @@
 // @vitest-environment node
-
-import { deleteCookie, getCookie, getCookies, nukeCookie, setCookie } from "@trashpanda001/helpers/cookies"
+import { deleteCookie, getCookie, getCookies, nukeCookie, setCookie } from "@trashpanda001/helpers/cookie"
 import { describe, expect, it } from "vitest"
 
 describe("SSR tests", () => {

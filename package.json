@@ -14,9 +14,12 @@
   },
   "author": "Trash Panda <adrian@danieli.org>",
   "exports": {
-    "./arrays": "./dist/arrays.js",
-    "./cookies": "./dist/cookies.js",
-    "./functions": "./dist/functions.js"
+    "./array": "./dist/array.js",
+    "./cookie": "./dist/cookie.js",
+    "./function": "./dist/function.js",
+    "./number": "./dist/number.js",
+    "./object": "./dist/object.js",
+    "./string": "./dist/string.js"
   },
   "files": [
     "package.json",

@@ -1,4 +1,4 @@
-import { randomInt } from "./math.js"
+import { randomInt } from "./number.js"
 
 /**
  * Breaks an array into chunks of size `chunkSize`. The last chunk may contain less than `chunkSize` items.

@@ -1,5 +1,5 @@
+import { invertObject, mapObject } from "@trashpanda001/helpers/object"
 import { describe, expect, it } from "vitest"
-import { invertObject, mapObject } from "./object.js"
 
 describe("mapObject", () => {
   it("maps keys and values according to the mapping function", () => {

@@ -1,4 +1,4 @@
-import { getCookie, getCookies, nukeCookie, setCookie } from "@trashpanda001/helpers/cookies"
+import { getCookie, getCookies, nukeCookie, setCookie } from "@trashpanda001/helpers/cookie"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 function removeAllCookies() {
