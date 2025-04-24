@@ -12,7 +12,7 @@ export const identity = <T>(value: T) => value
  * A noop "no operation" function – ignores inputs and returns void.
  *
  * @example
- * ```html
+ * ```tsx
  * <button onClick={noop}>Try again</button>
  * ```
  */

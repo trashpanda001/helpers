@@ -2,10 +2,10 @@ name: Publish Release
 on:
   push:
     tags:
-      - "v*" # e.g. v1.2.3
+      - "v*"
   workflow_dispatch:
 jobs:
-  release:
+  build-and-publish-npm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,11 +17,27 @@ jobs:
         with:
           cache: "pnpm"
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: "https://registry.npmjs.org"
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint:ci
       - run: pnpm build
       - run: pnpm test
+      - run: pnpm build:docs
+      - uses: actions/upload-pages-artifact@v3
+        id: deployment
+        with:
+          path: docs/
       - run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-docs:
+    needs: build-and-publish-npm
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v4

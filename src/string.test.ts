@@ -4,6 +4,7 @@ import {
   decode64,
   encode64,
   encodeRfc3986,
+  encodeUrl,
   hashCode,
   hostname,
   styleToString,
@@ -137,5 +138,39 @@ describe("urlDecode64/urlEncode64", () => {
     const encPad = urlEncode64(sample, true)
     expect(encPad.endsWith("=")).toBe(true)
     expect(urlDecode64(encPad)).toBe(sample)
+  })
+})
+
+describe("encodeUrl", () => {
+  it("encodes passed parameters", () => {
+    const url = encodeUrl("/search", { a: null, limit: 200, query: "foo bar", z: undefined })
+    expect(url).toBe("/search?limit=200&query=foo+bar")
+  })
+
+  it("encodes empty parameters object", () => {
+    const url = encodeUrl("/empty", {})
+    expect(url).toBe("/empty")
+  })
+
+  it("encodes with null parameters object", () => {
+    const url = encodeUrl("/none", null)
+    expect(url).toBe("/none")
+  })
+
+  it("merges parameters with existing query string", () => {
+    const url = encodeUrl("/search?limit=200", { query: "foo" })
+    expect(url).toBe("/search?limit=200&query=foo")
+  })
+
+  it("overrides query string with parameters", () => {
+    const url = encodeUrl("/search?limit=200&foo=bar", { foo: null, limit: 50 })
+    expect(url).toBe("/search?limit=50")
+  })
+
+  it("supports absolute URLs", () => {
+    const url = encodeUrl("https://google.com/?q=foo", { q: "bar" })
+    expect(url).toBe("https://google.com/?q=bar")
+    const url2 = encodeUrl("http://google.com/?q=foo", { q: "bar" })
+    expect(url2).toBe("http://google.com/?q=bar")
   })
 })

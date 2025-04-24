@@ -50,25 +50,29 @@ export function encode64(data: string, padding = false) {
 export const encodeRfc3986 = (string: string) =>
   encodeURIComponent(string).replace(/[!'()*]/g, (c) => "%" + c.charCodeAt(0).toString(16))
 
-// /**
-//  * Encode a URL with optional query parameters. Automatically drops null or undefined parameter values (if needed,
-//  * explicitly pass as string values). Handles the case if the `url` already constains some re-encoded query parameters.
-//  *
-//  * @example
-//  * ```ts
-//  * encodeUrl("/search", { query: "foo", ignored: null })  // "/search?query=foo"
-//  * encodeUrl("/search?limit=200", { query: "foo" })       // "/search?limit=200&query=foo"
-//  * encodeUrl("/none", {})                                 // "/none"
-//  * ```
-//  */
-// export function encodeUrl(url: string, params: Record<string, null | string | undefined> = {}) {
-//   const entries = Object.entries(params).filter(([_k, v]) => v != null)
-//   const encodedParams = new URLSearchParams(entries).toString()
-//   if (encodedParams == "") {
-//     return url
-//   }
-//   return url.includes("?") ? `${url}&${encodedParams}` : `${url}?${encodedParams}`
-// }
+/**
+ * Encode a URL with optional query parameters. Automatically drops null or undefined parameter values (if needed,
+ * explicitly pass as string values). Handles the case if the `url` already constains some re-encoded query parameters.
+ *
+ * @example
+ * ```ts
+ * encodeUrl("/search", { a: null, limit: 200, query: "foo bar", z: undefined })  // "/search?limit=200&query=foo+bar"
+ * encodeUrl("/search?limit=200", { query: "foo" })                               // "/search?limit=200&query=foo"
+ * encodeUrl("/none", null)                                                       // "/none"
+ * ```
+ */
+export function encodeUrl(url: string, params: null | Record<string, null | number | string | undefined> | undefined) {
+  const isAbsolute = /^https?:\/\//.test(url)
+  const u = new URL(url, !isAbsolute ? "http://localhost" : undefined)
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value != null) {
+      u.searchParams.set(key, String(value))
+    } else {
+      u.searchParams.delete(key)
+    }
+  })
+  return isAbsolute ? u.href : u.pathname + u.search + u.hash
+}
 
 /**
  * DJBX33A (Daniel J. Bernstein, Times 33 with Addition).
@@ -79,7 +83,7 @@ export const encodeRfc3986 = (string: string) =>
  * hashCode("abc")  // 108966
  * ```
  *
- * @param string - string to hash
+ * @param s - string to hash
  * @returns integer (possibly negative)
  */
 export const hashCode = (s: string) => s.split("").reduce((a, b) => ((a << 5) + a + b.charCodeAt(0)) | 0, 0)
@@ -100,7 +104,7 @@ export const hostname = (url: string) => {
   }
 }
 
-type CSSProperties = Record<string, null | number | string | undefined>
+export type CSSProperties = Record<string, null | number | string | undefined>
 
 /**
  * Convert a CSS object to a CSS value. Similar to what React does when using a style object in a Component.

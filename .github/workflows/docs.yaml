@@ -1,8 +1,8 @@
-name: Generate Docs
+name: Regenerate Docs
 on:
   workflow_dispatch:
 jobs:
-  build:
+  build-with-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,16 +24,14 @@ jobs:
         with:
           path: docs/
 
-  deploy:
-    needs: build
+  publish-docs:
+    needs: build-with-docs
     permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
+      - uses: actions/deploy-pages@v4

@@ -6,7 +6,7 @@ const isSSR = typeof window == "undefined"
  * - path: path to set the cookie on (default: "/")
  * - sameSite: "Strict", Lax", "None", or "" (default: "Lax")
  */
-type CookieOptions = {
+export type CookieOptions = {
   domain?: string
   maxAge?: "session" | number
   path?: string
