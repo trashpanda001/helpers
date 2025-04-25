@@ -1,12 +1,12 @@
 import { identity } from "./function.js"
-import { randomInt } from "./number.js"
 
 /**
  * Breaks an array into chunks of size `chunkSize`. The last chunk may contain less than `chunkSize` items.
  *
  * @example
  * ```ts
- * chunkEvery([1, 2, 3, 4, 5], 2)  // [[1, 2], [3, 4], [5]]
+ * chunkEvery([1, 2, 3, 4, 5], 2)
+ * // [[1, 2], [3, 4], [5]]
  * ```
  */
 export function chunkEvery<T>(array: T[], chunkSize: number) {
@@ -26,7 +26,8 @@ export function chunkEvery<T>(array: T[], chunkSize: number) {
  *
  * @example
  * ```ts
- * findValue([2,3,4], (x) => x > 2 ? x * x : undefined)  // 9
+ * findValue([2,3,4], (x) => x > 2 ? x * x : undefined)
+ * // 9
  * ```
  */
 export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
@@ -43,6 +44,12 @@ export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
  *
  * The result is an object where each key is given by `keyFn` and each value is an array of elements given by `valueFn`.
  * The order of elements within each list is preserved from the original array.
+ *
+ * @example
+ * ```ts
+ * groupBy(["one", "two", "three", "four", "five"], (x) => x.length)
+ * // { "3": ["one", "two"], "4": ["four", "five"], "5": ["three"] }
+ * ```
  */
 export function groupBy<T, K extends PropertyKey, V = T>(array: T[], keyFn: (x: T) => K, valueFn?: (x: T) => V) {
   const valueFn_ = valueFn ?? (identity as (x: T) => V)
@@ -63,16 +70,14 @@ export function groupBy<T, K extends PropertyKey, V = T>(array: T[], keyFn: (x: 
  *
  * @example
  * ```ts
- * shuffleArray([1, 2, 3, 4, 5])  // [2, 4, 1, 5, 3]
+ * shuffle([1, 2, 3, 4, 5])  // [2, 4, 1, 5, 3]
  * ```
  */
-export function shuffleArray<T>(input: T[]) {
+export function shuffle<T>(input: T[]) {
   const array = [...input]
   for (let i = array.length - 1; i > 0; i--) {
-    const j = randomInt(0, i + 1)
-    const x = array[i]!
-    array[i] = array[j]!
-    array[j] = x
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j]!, array[i]!]
   }
   return array
 }
@@ -122,19 +127,20 @@ export function times<T>(n: number, mapFn?: (i: number) => T) {
  * uniq([1, 2, 3, 4, 3, 2, 1])  // [1, 2, 3, 4]
  * ```
  */
-export const uniq = <T>(array: T[]) => [...new Set(array)] // JS sets are iterable in insertion order!!
+export function uniq<T>(array: T[]) {
+  return [...new Set(array)] // JS sets are iterable in insertion order
+}
 
 /**
  * Returns a new array that removes elements for which `uniqFn` returned duplicate elements. The first occurrence of
  * each element is kept.
  *
+ * @returns array without duplicates, based on mapping each element to a value
  * @example
+ * ```ts
  * uniqBy(["cat", "dog", "raccoon", "meow", "woof"], (x) => x.length)
  * // ["cat", "raccoon", "meow"]
- *
- * @param array - an array
- * @param uniqFn - a mapper function
- * @returns array without duplicates, based on mapping each element to a value
+ * ```
  */
 export function uniqBy<T, S>(array: T[], uniqFn: (x: T) => S) {
   const set = new Set<S>()

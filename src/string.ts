@@ -1,3 +1,5 @@
+const isSSR = typeof window == "undefined"
+
 /**
  * Convert first character in a string to uppercase, leaving the rest untouched.
  */
@@ -21,8 +23,9 @@ export function countable(count: number, singular: string, plural: string = sing
  * decode64("YQ==")  // "a"
  * ```
  */
-export const decode64 = (data: string) =>
-  typeof window === "undefined" ? Buffer.from(data, "base64").toString() : window.atob(data)
+export function decode64(data: string) {
+  return isSSR ? Buffer.from(data, "base64").toString() : window.atob(data)
+}
 
 /**
  * Encodes a string into a base-64 encoded string. No padding by default.
@@ -34,7 +37,7 @@ export const decode64 = (data: string) =>
  * ```
  */
 export function encode64(data: string, padding = false) {
-  const encoded = typeof window === "undefined" ? Buffer.from(data).toString("base64") : window.btoa(data)
+  const encoded = isSSR ? Buffer.from(data).toString("base64") : window.btoa(data)
   return padding ? encoded : encoded.replace(/=+$/g, "")
 }
 
@@ -47,8 +50,9 @@ export function encode64(data: string, padding = false) {
  * encodeRfc3986("interrobang?!")  // "interrobang%3F%21"
  * ```
  */
-export const encodeRfc3986 = (string: string) =>
-  encodeURIComponent(string).replace(/[!'()*]/g, (c) => "%" + c.charCodeAt(0).toString(16))
+export function encodeRfc3986(string: string) {
+  return encodeURIComponent(string).replace(/[!'()*]/g, (c) => "%" + c.charCodeAt(0).toString(16))
+}
 
 /**
  * Encode a URL with optional query parameters. Automatically drops null or undefined parameter values (if needed,
@@ -86,7 +90,9 @@ export function encodeUrl(url: string, params: null | Record<string, null | numb
  * @param s - string to hash
  * @returns integer (possibly negative)
  */
-export const hashCode = (s: string) => s.split("").reduce((a, b) => ((a << 5) + a + b.charCodeAt(0)) | 0, 0)
+export function hashCode(s: string) {
+  return s.split("").reduce((a, b) => ((a << 5) + a + b.charCodeAt(0)) | 0, 0)
+}
 
 /**
  * Returns the hostname of the given URL or empty string.
@@ -137,7 +143,9 @@ export function styleToString(styles: CSSProperties) {
  * unprefixName("Theodore") // "Theodore"
  * ```
  */
-export const unprefixName = (name: string) => name.replace(/^(the|a|an) /i, "")
+export function unprefixName(name: string) {
+  return name.replace(/^(the|a|an) /i, "")
+}
 
 /**
  * Decodes a URL-safe base-64 string into a binary string.
@@ -148,7 +156,9 @@ export const unprefixName = (name: string) => name.replace(/^(the|a|an) /i, "")
  * urlDecode64("QS9CK0M=")  // "A/B+C"
  * ```
  */
-export const urlDecode64 = (data: string) => decode64(data.replace(/-/g, "+").replace(/_/g, "/"))
+export function urlDecode64(data: string) {
+  return decode64(data.replace(/-/g, "+").replace(/_/g, "/"))
+}
 
 /**
  * Encodes a binary string into a base-64 encoded string with a URL and filename safe alphabet.
@@ -159,5 +169,6 @@ export const urlDecode64 = (data: string) => decode64(data.replace(/-/g, "+").re
  * urlEncode64("A/B+C", true)  // "QS9CK0M="
  * ```
  */
-export const urlEncode64 = (data: string, padding = false) =>
-  encode64(data, padding).replace(/\+/g, "-").replace(/\//g, "_")
+export function urlEncode64(data: string, padding = false) {
+  return encode64(data, padding).replace(/\+/g, "-").replace(/\//g, "_")
+}

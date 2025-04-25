@@ -81,4 +81,6 @@ export function randomFloat(min: number, max?: number) {
  * randomInt(10, 20)  // [10, 20)]
  * ```
  */
-export const randomInt = (min: number, max?: number) => Math.floor(randomFloat(min, max))
+export function randomInt(min: number, max?: number) {
+  return Math.floor(randomFloat(min, max))
+}

@@ -1,4 +1,4 @@
-import { chunkEvery, findValue, groupBy, shuffleArray, sortBy, times, uniq, uniqBy } from "@trashpanda001/helpers/array"
+import { chunkEvery, findValue, groupBy, shuffle, sortBy, times, uniq, uniqBy } from "@trashpanda001/helpers/array"
 import { describe, expect, it } from "vitest"
 
 describe("chunkEvery", () => {
@@ -75,10 +75,11 @@ describe("groupBy", () => {
   })
 })
 
-describe("shuffleArray", () => {
+describe("shuffle", () => {
   it("returns a new array with the same elements in a different order", () => {
     const arr = [1, 2, 3, 4, 5]
-    const result = shuffleArray(arr)
+    const result = shuffle(arr)
+    expect(result).not.toBe(arr) // different reference
     expect(result).toHaveLength(arr.length) // same length
     expect([...result].sort()).toEqual([...arr].sort()) // same elements
   })
