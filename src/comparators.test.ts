@@ -52,47 +52,6 @@ describe("compareBooleansDesc", () => {
   })
 })
 
-describe("compareNumbersAsc", () => {
-  it("sorts numbers in ascending order", () => {
-    expect(compareNumbersAsc(1, 2)).toBeLessThan(0)
-    expect(compareNumbersAsc(2, 1)).toBeGreaterThan(0)
-    expect(compareNumbersAsc(1, 1)).toBe(0)
-  })
-
-  it("handles negative numbers", () => {
-    expect(compareNumbersAsc(-1, 1)).toBeLessThan(0)
-    expect(compareNumbersAsc(-2, -1)).toBeLessThan(0)
-  })
-
-  it("sorts null and undefined last", () => {
-    expect(compareNumbersAsc(0, null)).toBeLessThan(0)
-    expect(compareNumbersAsc(100, undefined)).toBeLessThan(0)
-    expect(compareNumbersAsc(null, 0)).toBeGreaterThan(0)
-    expect(compareNumbersAsc(undefined, -100)).toBeGreaterThan(0)
-    expect(compareNumbersAsc(null, undefined)).toBe(0)
-  })
-})
-
-describe("compareNumbersDesc", () => {
-  it("sorts numbers in descending order", () => {
-    expect(compareNumbersDesc(2, 1)).toBeLessThan(0)
-    expect(compareNumbersDesc(1, 2)).toBeGreaterThan(0)
-    expect(compareNumbersDesc(1, 1)).toBe(0)
-  })
-
-  it("handles negative numbers", () => {
-    expect(compareNumbersDesc(1, -1)).toBeLessThan(0)
-    expect(compareNumbersDesc(-1, -2)).toBeLessThan(0)
-  })
-
-  it("sorts null and undefined last", () => {
-    expect(compareNumbersDesc(0, null)).toBeLessThan(0)
-    expect(compareNumbersDesc(-100, undefined)).toBeLessThan(0)
-    expect(compareNumbersDesc(null, 0)).toBeGreaterThan(0)
-    expect(compareNumbersDesc(undefined, 100)).toBeGreaterThan(0)
-  })
-})
-
 describe("compareDatesAsc", () => {
   it("sorts dates in ascending order", () => {
     const earlier = new Date(2020, 0, 1)
@@ -140,6 +99,47 @@ describe("compareDatesDesc", () => {
   })
 })
 
+describe("compareNumbersAsc", () => {
+  it("sorts numbers in ascending order", () => {
+    expect(compareNumbersAsc(1, 2)).toBeLessThan(0)
+    expect(compareNumbersAsc(2, 1)).toBeGreaterThan(0)
+    expect(compareNumbersAsc(1, 1)).toBe(0)
+  })
+
+  it("handles negative numbers", () => {
+    expect(compareNumbersAsc(-1, 1)).toBeLessThan(0)
+    expect(compareNumbersAsc(-2, -1)).toBeLessThan(0)
+  })
+
+  it("sorts null and undefined last", () => {
+    expect(compareNumbersAsc(0, null)).toBeLessThan(0)
+    expect(compareNumbersAsc(100, undefined)).toBeLessThan(0)
+    expect(compareNumbersAsc(null, 0)).toBeGreaterThan(0)
+    expect(compareNumbersAsc(undefined, -100)).toBeGreaterThan(0)
+    expect(compareNumbersAsc(null, undefined)).toBe(0)
+  })
+})
+
+describe("compareNumbersDesc", () => {
+  it("sorts numbers in descending order", () => {
+    expect(compareNumbersDesc(2, 1)).toBeLessThan(0)
+    expect(compareNumbersDesc(1, 2)).toBeGreaterThan(0)
+    expect(compareNumbersDesc(1, 1)).toBe(0)
+  })
+
+  it("handles negative numbers", () => {
+    expect(compareNumbersDesc(1, -1)).toBeLessThan(0)
+    expect(compareNumbersDesc(-1, -2)).toBeLessThan(0)
+  })
+
+  it("sorts null and undefined last", () => {
+    expect(compareNumbersDesc(0, null)).toBeLessThan(0)
+    expect(compareNumbersDesc(-100, undefined)).toBeLessThan(0)
+    expect(compareNumbersDesc(null, 0)).toBeGreaterThan(0)
+    expect(compareNumbersDesc(undefined, 100)).toBeGreaterThan(0)
+  })
+})
+
 describe("compareStrings", () => {
   it("sorts strings alphabetically", () => {
     expect(compareStrings("a", "b")).toBeLessThan(0)
@@ -170,19 +170,6 @@ describe("compareStringsNatural", () => {
   })
 })
 
-describe("compareStringsReversed", () => {
-  it("sorts strings in reverse alphabetical order", () => {
-    expect(compareStringsReversed("b", "a")).toBeLessThan(0)
-    expect(compareStringsReversed("a", "b")).toBeGreaterThan(0)
-  })
-
-  it("sorts empty strings, null and undefined last", () => {
-    expect(compareStringsReversed("a", "")).toBeLessThan(0)
-    expect(compareStringsReversed("a", null)).toBeLessThan(0)
-    expect(compareStringsReversed("a", undefined)).toBeLessThan(0)
-  })
-})
-
 describe("compareStringsNaturalReversed", () => {
   it("sorts strings with numbers in reverse natural order", () => {
     expect(compareStringsNaturalReversed("file2", "file1")).toBeLessThan(0)
@@ -193,5 +180,18 @@ describe("compareStringsNaturalReversed", () => {
     expect(compareStringsNaturalReversed("a", "")).toBeLessThan(0)
     expect(compareStringsNaturalReversed("a", null)).toBeLessThan(0)
     expect(compareStringsNaturalReversed("a", undefined)).toBeLessThan(0)
+  })
+})
+
+describe("compareStringsReversed", () => {
+  it("sorts strings in reverse alphabetical order", () => {
+    expect(compareStringsReversed("b", "a")).toBeLessThan(0)
+    expect(compareStringsReversed("a", "b")).toBeGreaterThan(0)
+  })
+
+  it("sorts empty strings, null and undefined last", () => {
+    expect(compareStringsReversed("a", "")).toBeLessThan(0)
+    expect(compareStringsReversed("a", null)).toBeLessThan(0)
+    expect(compareStringsReversed("a", undefined)).toBeLessThan(0)
   })
 })

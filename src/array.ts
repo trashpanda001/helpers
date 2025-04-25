@@ -1,10 +1,14 @@
 import { identity } from "./function.js"
 
 /**
- * Breaks an array into chunks of size `chunkSize`. The last chunk may contain less than `chunkSize` items.
+ * Breaks an array into chunks of size `chunkSize`.
  *
- * @example
+ * The last chunk may contain less than `chunkSize` items.
+ *
+ * @example Chunk into groups of 2
  * ```ts
+ * import { chunkEvery } from "@trashpanda001/helpers/array"
+ *
  * chunkEvery([1, 2, 3, 4, 5], 2)
  * // [[1, 2], [3, 4], [5]]
  * ```
@@ -21,11 +25,15 @@ export function chunkEvery<T>(array: T[], chunkSize: number) {
 }
 
 /**
- * Similar to `find`, but returns the value of the function invocation instead of the element itself. The
- * return value is considered to be found when the result is NOT `false`. Returns `undefined` if no value is found.
+ * Like `find`, but returns the value of the function invocation instead of the element itself.
  *
- * @example
+ * The return value is considered to be found when the result is NOT `undefined`. Returns `undefined`
+ * if no value is found.
+ *
+ * @example Find the first element that is greater than 2 and return its square
  * ```ts
+ * import { findValue } from "@trashpanda001/helpers/array"
+ *
  * findValue([2,3,4], (x) => x > 2 ? x * x : undefined)
  * // 9
  * ```
@@ -42,11 +50,13 @@ export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
 /**
  * Splits an array into groups based on `keyFn`.
  *
- * The result is an object where each key is given by `keyFn` and each value is an array of elements given by `valueFn`.
- * The order of elements within each list is preserved from the original array.
+ * The result is an object where each key is given by `keyFn` and each value is an array of elements
+ * given by `valueFn`. The order of elements within each list is preserved from the original array.
  *
- * @example
+ * @example Group elements by their string length
  * ```ts
+ * import { groupBy } from "@trashpanda001/helpers/array"
+ *
  * groupBy(["one", "two", "three", "four", "five"], (x) => x.length)
  * // { "3": ["one", "two"], "4": ["four", "five"], "5": ["three"] }
  * ```
@@ -68,8 +78,12 @@ export function groupBy<T, K extends PropertyKey, V = T>(array: T[], keyFn: (x: 
 /**
  * Creates a new shuffled array via the Durtenfeld shuffle algorithm.
  *
- * @example
+ * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
+ *
+ * @example Shuffle an array
  * ```ts
+ * import { shuffle } from "@trashpanda001/helpers/array"
+ *
  * shuffle([1, 2, 3, 4, 5])  // [2, 4, 1, 5, 3]
  * ```
  */
@@ -83,15 +97,18 @@ export function shuffle<T>(input: T[]) {
 }
 
 /**
- * A stable array sort using a mapping function. This implements the Lisp decorate-sort-undecorate
- * pattern (aka Schwartzian transform): it first maps all the elements, then sorts by the mapped value,
- * and then returns an array of the original elements. If two elements map to the same value, the
- * original element order is preserved.
+ * A stable array sort using a mapping function.
  *
- * @example
+ * This implements the Lisp decorate-sort-undecorate pattern (aka Schwartzian transform): it first maps
+ * all the elements, then sorts by the mapped value, and then returns an array of the original elements.
+ * If two elements map to the same value, the original element order is preserved.
+ *
+ * @example Sort by absolute value ascending
  * ```ts
- * sortBy(data, (e) => parseISO(e.created_at), (a,b) => b - a)
- * // data sorted by created_at from latest to earliest
+ * import { sortBy } from "@trashpanda001/helpers/array"
+ *
+ * sortBy([-3, -1, 2], (x) => Math.abs(x), (a, b) => a - b)
+ * // [-1, 2, -3]
  * ```
  */
 export function sortBy<T, V>(array: T[], mapper: (x: T) => V, comparator: (a: V, b: V) => number) {
@@ -107,10 +124,14 @@ export function sortBy<T, V>(array: T[], mapper: (x: T) => V, comparator: (a: V,
 /**
  * Return an array with the results of invoking a value or callback for each index `0 <= i < n`.
  *
- * @example
+ * @example Three times
  * ```ts
- * times(3)            // [0, 1, 2]
- * times(3, i => i*i)  // [0, 1, 4]
+ * import { times } from "@trashpanda001/helpers/array"
+ *
+ * times(3)
+ * // [0, 1, 2]
+ * times(3, (i) => i * i)
+ * // [0, 1, 4]
  * ```
  */
 export function times<T>(n: number, mapFn?: (i: number) => T) {
@@ -119,12 +140,16 @@ export function times<T>(n: number, mapFn?: (i: number) => T) {
 }
 
 /**
- * Return a copy of the array removing all duplicated elements. The order of the elements is
- * preserved.
+ * Return a copy of the array removing all duplicated elements.
  *
- * @example
+ * The order of the elements is preserved.
+ *
+ * @example Unique elements
  * ```ts
- * uniq([1, 2, 3, 4, 3, 2, 1])  // [1, 2, 3, 4]
+ * import { uniq } from "@trashpanda001/helpers/array"
+ *
+ * uniq([1, 2, 3, 4, 3, 2, 1])
+ * // [1, 2, 3, 4]
  * ```
  */
 export function uniq<T>(array: T[]) {
@@ -132,12 +157,14 @@ export function uniq<T>(array: T[]) {
 }
 
 /**
- * Returns a new array that removes elements for which `uniqFn` returned duplicate elements. The first occurrence of
- * each element is kept.
+ * Returns a new array that removes elements for which `uniqFn` returned duplicate elements.
  *
- * @returns array without duplicates, based on mapping each element to a value
- * @example
+ * The first occurrence of each element is kept.
+ *
+ * @example Unique elements by length
  * ```ts
+ * import { uniqBy } from "@trashpanda001/helpers/array"
+ *
  * uniqBy(["cat", "dog", "raccoon", "meow", "woof"], (x) => x.length)
  * // ["cat", "raccoon", "meow"]
  * ```
