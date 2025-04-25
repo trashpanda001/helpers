@@ -8,6 +8,26 @@ export function capitalize(string: string) {
 }
 
 /**
+ * Breaks a string into chunks of size `chunkSize`. The last chunk may contain less than `chunkSize` characters.
+ *
+ * @example
+ * ```ts
+ * chunkEvery("Hello", 2)
+ * // ["He, "ll", "o"]
+ * ```
+ */
+export function chunkEvery(string: string, chunkSize: number) {
+  if (!(Number.isInteger(chunkSize) && chunkSize > 0)) {
+    throw new RangeError("Chunk size must be a positive integer")
+  }
+  const result = []
+  for (let i = 0; i < string.length; i += chunkSize) {
+    result.push(string.slice(i, i + chunkSize))
+  }
+  return result
+}
+
+/**
  * Pluralize / count something in English.
  */
 export function countable(count: number, singular: string, plural: string = singular + "s") {

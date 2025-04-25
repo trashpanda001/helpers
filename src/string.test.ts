@@ -1,5 +1,6 @@
 import {
   capitalize,
+  chunkEvery,
   countable,
   decode64,
   encode64,
@@ -32,9 +33,35 @@ describe("capitalize", () => {
   })
 })
 
+describe("chunkEvery", () => {
+  it("returns an empty array when the input is an empty empty", () => {
+    expect(chunkEvery("", 3)).toEqual([])
+  })
+
+  it("returns a single chunk when size >= string length", () => {
+    const string = "abc"
+    expect(chunkEvery(string, 3)).toEqual(["abc"])
+    expect(chunkEvery(string, 5)).toEqual(["abc"])
+  })
+
+  it("splits into chunks of the given size", () => {
+    const string = "hello"
+    expect(chunkEvery(string, 2)).toEqual(["he", "ll", "o"])
+  })
+
+  it("handles a chunk size of one", () => {
+    expect(chunkEvery("abc", 1)).toEqual(["a", "b", "c"])
+  })
+
+  it("throws if the chunk size is zero or negative", () => {
+    expect(() => chunkEvery("abc", 0)).toThrow()
+    expect(() => chunkEvery("abc", -1)).toThrow()
+  })
+})
+
 describe("countable", () => {
   it("returns singular for count = 1", () => {
-    expect(countable(1, "item")).toBe("1 item")
+    expect(countable(1, "item")).toEqual("1 item")
   })
 
   it("returns plural for count = 0", () => {
