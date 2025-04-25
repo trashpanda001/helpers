@@ -1,15 +1,19 @@
+/**
+ * Cookie utilities.
+ *
+ * @module
+ */
 const isSSR = typeof window == "undefined"
 
-/** Cookie options and defaults:
- * - domain: set explicitly to apex domain to allow subdomains access (default: no domain set)
- * - maxAge: "session" or number of seconds before expiration (default: 34560000 seconds = 400 days)
- * - path: path to set the cookie on (default: "/")
- * - sameSite: "Strict", Lax", "None", or "" (default: "Lax")
- */
+/** Cookie options */
 export type CookieOptions = {
+  /** Explicitly set to apex domain to allow subdomains access (default: no domain set) */
   domain?: string
+  /** Max age in seconds or a session cookie (default: 34560000 seconds = 400 days) */
   maxAge?: "session" | number
+  /** Path (default: "/") */
   path?: string
+  /** Same site policy (default: "Lax") */
   sameSite?: "" | "Lax" | "None" | "Strict"
 }
 
@@ -18,9 +22,13 @@ export type CookieOptions = {
  * The domain and path options should match what was used to set the cookie. See `nukeCookie` for a way to delete
  * cookies with all permutations of domains, subdomains, paths, and subpaths.
  *
+ * @param name the cookie name
+ * @param options cookie options
  * @throws Error if called during SSR
  * @example
  * ```ts
+ * import { deleteCookie } from "@trashpanda001/helpers/cookie"
+ *
  * deleteCookie("foo")
  * // Set-Cookie: foo=; Path=/; Secure; Same-Site=Lax; Max-Age=0
  * deleteCookie("bar", { domain: "example.com" })
@@ -39,9 +47,13 @@ export function deleteCookie(name: string, options?: CookieOptions) {
  *
  * Returns a URI decoded value, or an empty string if the cookie does not exist.
  *
+ * @param name the cookie name
+ * @returns the cookie value or an empty string if not found
  * @throws Error if called during SSR
  * @example
  * ```ts
+ * import { getCookie } from "@trashpanda001/helpers/cookie"
+ *
  * getCookie("foo")      // "bar"
  * getCookie("unknown")  // ""
  * ```
@@ -60,9 +72,12 @@ export function getCookie(name: string) {
  *
  * Returns an object mapping cookie names to URI decoded values. Assumes all cookie names are unique.
  *
+ * @returns an object mapping cookie names to values
  * @throws Error if called during SSR
  * @example
  * ```ts
+ * import { getCookies } from "@trashpanda001/helpers/cookie"
+ *
  * getCookies()  // { foo: "bar", baz: "qux" }
  * ```
  */
@@ -81,11 +96,15 @@ export function getCookies() {
 
 /**
  * Delete a cookie with all permutations of domains and subdomains of `window.location.hostname` and
- * all subpaths of the given path (defaults to `window.location.pathname`).
+ * all subpaths of the given path.
  *
+ * @param name the cookie name
+ * @param path the path to delete the cookie from (default: `window.location.pathname`)
  * @throws Error if called during SSR
  * @example
  * ```ts
+ * import { nukeCookie } from "@trashpanda001/helpers/cookie"
+ *
  * nukeCookie("orbit")  // on `https://example.com/xy`
  * // Set-Cookie: orbit=; Domain=example.com; Secure; Max-Age=0
  * // Set-Cookie: orbit=; Domain=example.com; Path=/; Secure; Max-Age=0
@@ -123,9 +142,14 @@ export function nukeCookie(name: string, path?: string) {
  * Assumes the cookie name is a valid cookie token and URI encodes the value. If the value is an empty string, the
  * cookie is deleted. The cookie is not HTTP-only, so it can be accessed from JavaScript.
  *
+ * @param name the cookie name
+ * @param value the cookie value
+ * @param options cookie options
  * @throws Error if called during SSR
  * @example
  * ```ts
+ * import { setCookie } from "@trashpanda001/helpers/cookie"
+ *
  * setCookie("foo", "bar")
  * // Set-Cookie: foo=bar; Path=/; Secure; Same-Site=Lax; Max-Age=34560000
  * setCookie("foo", "bar", { maxAge: 3600 })

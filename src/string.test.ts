@@ -125,6 +125,23 @@ describe("hostname", () => {
   it("returns empty string on invalid URL", () => {
     expect(hostname("not a url")).toBe("")
   })
+
+  it("handles URL objects", () => {
+    const url = new URL("https://subdomain.example.org:8080/path?query=value")
+    expect(hostname(url)).toBe("subdomain.example.org")
+  })
+
+  it("handles null input", () => {
+    expect(hostname(null)).toBe("")
+  })
+
+  it("extracts hostname without port", () => {
+    expect(hostname("https://example.com:8080/path")).toBe("example.com")
+  })
+
+  it("handles URLs with subdomains", () => {
+    expect(hostname("https://api.example.com/v1")).toBe("api.example.com")
+  })
 })
 
 describe("styleToString", () => {

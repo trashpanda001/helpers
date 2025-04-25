@@ -1,3 +1,8 @@
+/**
+ * Array utilities.
+ *
+ * @module
+ */
 import { identity } from "./function.js"
 
 /**
@@ -5,6 +10,9 @@ import { identity } from "./function.js"
  *
  * The last chunk may contain less than `chunkSize` items.
  *
+ * @param array the array to chunk
+ * @param chunkSize a positive integer
+ * @returns an array of arrays
  * @example Chunk into groups of 2
  * ```ts
  * import { chunkEvery } from "@trashpanda001/helpers/array"
@@ -27,15 +35,21 @@ export function chunkEvery<T>(array: T[], chunkSize: number) {
 /**
  * Like `find`, but returns the value of the function invocation instead of the element itself.
  *
- * The return value is considered to be found when the result is NOT `undefined`. Returns `undefined`
- * if no value is found.
+ * The return value is considered to be found when the `fn` result is NOT `undefined`.
  *
+ * @param array the array to search
+ * @param fn a function given an element that returns the final value or `undefined`
+ * @returns the first value found or `undefined`
  * @example Find the first element that is greater than 2 and return its square
  * ```ts
  * import { findValue } from "@trashpanda001/helpers/array"
  *
- * findValue([2,3,4], (x) => x > 2 ? x * x : undefined)
- * // 9
+ * findValue([2, 3, 4], (x) => x > 2 ? x * x : undefined)
+ * // 9 -- found 3, result of 3 * 3
+ * [2, 3, 4].find((x) => x > 2)
+ * // 3 -- found 3, result of 3
+ * [2, 3, 4].findIndex((x) => x > 2)
+ * // 1 -- found 3, index of 1
  * ```
  */
 export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
@@ -53,20 +67,29 @@ export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
  * The result is an object where each key is given by `keyFn` and each value is an array of elements
  * given by `valueFn`. The order of elements within each list is preserved from the original array.
  *
+ * @param array the array to group
+ * @param keyFn a function that returns the key for each element
+ * @param valueFn a function that returns the value for each element
+ * @returns an object that maps group keys to arrays of elements/values
  * @example Group elements by their string length
  * ```ts
  * import { groupBy } from "@trashpanda001/helpers/array"
  *
  * groupBy(["one", "two", "three", "four", "five"], (x) => x.length)
  * // { "3": ["one", "two"], "4": ["four", "five"], "5": ["three"] }
+ * groupBy(["one", "two", "three", "four", "five"], (x) => x.length, (x) => x.toUpperCase())
+ * // { "3": ["ONE", "TWO"], "4": ["FOUR", "FIVE"], "5": ["THREE"] }
  * ```
  */
-export function groupBy<T, K extends PropertyKey, V = T>(array: T[], keyFn: (x: T) => K, valueFn?: (x: T) => V) {
-  const valueFn_ = valueFn ?? (identity as (x: T) => V)
+export function groupBy<T, K extends PropertyKey, V = T>(
+  array: T[],
+  keyFn: (x: T) => K,
+  valueFn: (x: T) => V = identity as (x: T) => V,
+) {
   return array.reduce(
     (acc, x) => {
       const key = keyFn(x)
-      const value = valueFn_(x)
+      const value = valueFn(x)
       const group = (acc[key] ??= [])
       group.push(value)
       return acc
@@ -80,20 +103,23 @@ export function groupBy<T, K extends PropertyKey, V = T>(array: T[], keyFn: (x: 
  *
  * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
  *
+ * @param array the array to shuffle
+ * @returns a new shuffled array
  * @example Shuffle an array
  * ```ts
  * import { shuffle } from "@trashpanda001/helpers/array"
  *
- * shuffle([1, 2, 3, 4, 5])  // [2, 4, 1, 5, 3]
+ * shuffle([1, 2, 3, 4, 5])
+ * // [2, 4, 1, 5, 3]
  * ```
  */
-export function shuffle<T>(input: T[]) {
-  const array = [...input]
-  for (let i = array.length - 1; i > 0; i--) {
+export function shuffle<T>(array: T[]) {
+  const newArray = [...array]
+  for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    ;[array[i], array[j]] = [array[j]!, array[i]!]
+    ;[newArray[i], newArray[j]] = [newArray[j]!, newArray[i]!]
   }
-  return array
+  return newArray
 }
 
 /**
@@ -103,6 +129,10 @@ export function shuffle<T>(input: T[]) {
  * all the elements, then sorts by the mapped value, and then returns an array of the original elements.
  * If two elements map to the same value, the original element order is preserved.
  *
+ * @param array the array to sort
+ * @param mapFn a function that maps each element to a value
+ * @param compareFn a function that compares two mapped values
+ * @returns a new sorted array
  * @example Sort by absolute value ascending
  * ```ts
  * import { sortBy } from "@trashpanda001/helpers/array"
@@ -111,19 +141,22 @@ export function shuffle<T>(input: T[]) {
  * // [-1, 2, -3]
  * ```
  */
-export function sortBy<T, V>(array: T[], mapper: (x: T) => V, comparator: (a: V, b: V) => number) {
+export function sortBy<T, V>(array: T[], mapFn: (x: T) => V, compareFn: (a: V, b: V) => number) {
   return array
-    .map((e, i) => [e, mapper(e), i] as [T, V, number]) // add index to preserve original order
+    .map((e, i) => [e, mapFn(e), i] as [T, V, number]) // add index to preserve original order
     .sort((a, b) => {
-      const result = comparator(a[1], b[1])
+      const result = compareFn(a[1], b[1])
       return result == 0 ? a[2] - b[2] : result // if equal, use original element order
     })
     .map((e) => e[0])
 }
 
 /**
- * Return an array with the results of invoking a value or callback for each index `0 <= i < n`.
+ * Return an array with the results of invoking `mapFn` for each index.
  *
+ * @param n a non-negative integer
+ * @param mapFn a function that returns the value for each index
+ * @returns an array of length `n`
  * @example Three times
  * ```ts
  * import { times } from "@trashpanda001/helpers/array"
@@ -134,9 +167,8 @@ export function sortBy<T, V>(array: T[], mapper: (x: T) => V, comparator: (a: V,
  * // [0, 1, 4]
  * ```
  */
-export function times<T>(n: number, mapFn?: (i: number) => T) {
-  const fn = mapFn ?? (identity as (i: number) => T)
-  return Array.from({ length: n }, (_, i) => fn(i))
+export function times<T>(n: number, mapFn: (i: number) => T = identity as (i: number) => T) {
+  return Array.from({ length: n }, (_, i) => mapFn(i))
 }
 
 /**
@@ -144,7 +176,9 @@ export function times<T>(n: number, mapFn?: (i: number) => T) {
  *
  * The order of the elements is preserved.
  *
- * @example Unique elements
+ * @param array the input array
+ * @returns a new array with unique elements
+ * @example Unique numbers
  * ```ts
  * import { uniq } from "@trashpanda001/helpers/array"
  *
@@ -161,6 +195,9 @@ export function uniq<T>(array: T[]) {
  *
  * The first occurrence of each element is kept.
  *
+ * @param array the input array
+ * @param uniqFn a function that returns the value to check for duplicates
+ * @returns a new array with unique elements
  * @example Unique elements by length
  * ```ts
  * import { uniqBy } from "@trashpanda001/helpers/array"
