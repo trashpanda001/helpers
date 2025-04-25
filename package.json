@@ -16,6 +16,7 @@
   "homepage": "https://trashpanda001.github.io/helpers/",
   "exports": {
     "./array": "./dist/array.js",
+    "./comparators": "./dist/comparators.js",
     "./cookie": "./dist/cookie.js",
     "./function": "./dist/function.js",
     "./number": "./dist/number.js",
@@ -47,7 +48,9 @@
   "devDependencies": {
     "@eslint/js": "^9.25.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "@types/luxon": "^3.6.2",
     "@types/node": "^22.15.0",
+    "@types/string-natural-compare": "^3.0.4",
     "eslint": "^9.25.1",
     "eslint-plugin-perfectionist": "^4.12.3",
     "eslint-plugin-unused-imports": "^4.1.4",
@@ -58,7 +61,16 @@
     "typescript-eslint": "^8.31.0",
     "vitest": "^3.1.2"
   },
-  "dependencies": {
-    "string-natural-compare": "^3.0.1"
+  "peerDependencies": {
+    "luxon": "^3",
+    "string-natural-compare": "^3"
+  },
+  "peerDependenciesMeta": {
+    "luxon": {
+      "optional": true
+    },
+    "string-natural-compare": {
+      "optional": true
+    }
   }
 }
