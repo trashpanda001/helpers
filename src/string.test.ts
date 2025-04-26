@@ -196,11 +196,6 @@ describe("encodeUrl", () => {
     expect(url).toBe("/empty")
   })
 
-  it("encodes with null parameters object", () => {
-    const url = encodeUrl("/none", null)
-    expect(url).toBe("/none")
-  })
-
   it("merges parameters with existing query string", () => {
     const url = encodeUrl("/search?limit=200", { query: "foo" })
     expect(url).toBe("/search?limit=200&query=foo")
@@ -211,10 +206,16 @@ describe("encodeUrl", () => {
     expect(url).toBe("/search?limit=50")
   })
 
-  it("supports absolute URLs", () => {
+  it("supports absolute string URLs", () => {
     const url = encodeUrl("https://google.com/?q=foo", { q: "bar" })
     expect(url).toBe("https://google.com/?q=bar")
     const url2 = encodeUrl("http://google.com/?q=foo", { q: "bar" })
     expect(url2).toBe("http://google.com/?q=bar")
+  })
+
+  it("supports real URL objects", () => {
+    const url = new URL("https://google.com/?q=foo")
+    const encodedUrl = encodeUrl(url, { q: "bar" })
+    expect(encodedUrl).toBe("https://google.com/?q=bar")
   })
 })

@@ -5,8 +5,10 @@
  */
 const isSSR = typeof window == "undefined"
 
-/** CSS properties object. */
+/** CSS properties. */
 export type CSSProperties = Record<string, null | number | string | undefined>
+/** URL or JSON parameters. */
+export type Params = Record<string, boolean | null | number | string | undefined>
 
 /**
  * Convert first character in a string to uppercase, leaving the rest untouched.
@@ -155,14 +157,21 @@ export function encodeRfc3986(string: string) {
  * // "/none"
  * ```
  */
-export function encodeUrl(url: string, params: null | Record<string, null | number | string | undefined> | undefined) {
-  const isAbsolute = /^https?:\/\//.test(url)
-  const u = new URL(url, !isAbsolute ? "http://localhost" : undefined)
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value != null) {
-      u.searchParams.set(key, String(value))
-    } else {
+export function encodeUrl(url: string | URL, params: Params = {}) {
+  let u: URL
+  let isAbsolute: boolean
+  if (url instanceof URL) {
+    isAbsolute = true
+    u = url
+  } else {
+    isAbsolute = /^https?:\/\//.test(url)
+    u = new URL(url, !isAbsolute ? "http://localhost" : undefined)
+  }
+  Object.entries(params).forEach(([key, value]) => {
+    if (value == null) {
       u.searchParams.delete(key)
+    } else {
+      u.searchParams.set(key, String(value))
     }
   })
   return isAbsolute ? u.href : u.pathname + u.search + u.hash
