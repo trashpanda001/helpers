@@ -1,4 +1,14 @@
-import { chunkEvery, findValue, groupBy, shuffle, sortBy, times, uniq, uniqBy } from "@trashpanda001/helpers/array"
+import {
+  chunkEvery,
+  CONTINUE,
+  findValue,
+  groupBy,
+  shuffle,
+  sortBy,
+  times,
+  uniq,
+  uniqBy,
+} from "@trashpanda001/helpers/array"
 import { describe, expect, it } from "vitest"
 
 describe("chunkEvery", () => {
@@ -29,15 +39,15 @@ describe("chunkEvery", () => {
 
 describe("findValue", () => {
   it("returns the square of the first number greater than 2", () => {
-    expect(findValue([2, 3, 4], (x) => (x > 2 ? x * x : undefined))).toEqual(9)
+    expect(findValue([2, 3, 4], (x) => (x > 2 ? x * x : CONTINUE))).toEqual(9)
   })
 
   it("returns undefined since no number is greater than 4", () => {
-    expect(findValue([2, 3, 4], (x) => (x > 4 ? x * x : undefined))).toBeUndefined()
+    expect(findValue([2, 3, 4], (x) => (x > 4 ? x * x : CONTINUE))).toBeUndefined()
   })
 
   it("handles empty arrays", () => {
-    expect(findValue([], (x) => (x > 2 ? x * x : undefined))).toBeUndefined()
+    expect(findValue([], (x) => (x > 2 ? x * x : CONTINUE))).toBeUndefined()
   })
 
   const users = [
@@ -47,11 +57,11 @@ describe("findValue", () => {
   ]
 
   it("returns the name of id=2", () => {
-    expect(findValue(users, (u) => (u.id == 2 ? u.name : undefined))).toEqual("Bob")
+    expect(findValue(users, (u) => (u.id == 2 ? u.name : CONTINUE))).toEqual("Bob")
   })
 
   it("returns undefined when no object matches", () => {
-    expect(findValue(users, (u) => (u.id == 4 ? u.name : undefined))).toBeUndefined()
+    expect(findValue(users, (u) => (u.id == 4 ? u.name : CONTINUE))).toBeUndefined()
   })
 })
 
@@ -153,12 +163,6 @@ describe("uniq", () => {
 
   it("returns an empty array when input is empty", () => {
     expect(uniq([])).toEqual([])
-  })
-
-  it("treats distinct object references as unique", () => {
-    const a = { x: 1 }
-    const b = { x: 1 }
-    expect(uniq([a, a, b])).toEqual([a, b])
   })
 })
 

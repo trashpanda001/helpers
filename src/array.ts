@@ -4,6 +4,7 @@
  * @module
  */
 import { identity } from "./function.js"
+import type { Primitive } from "./types.js"
 
 /**
  * Breaks an array into chunks of size `chunkSize`.
@@ -21,7 +22,7 @@ import { identity } from "./function.js"
  * // [[1, 2], [3, 4], [5]]
  * ```
  */
-export function chunkEvery<T>(array: T[], chunkSize: number) {
+export function chunkEvery<T>(array: readonly T[], chunkSize: number) {
   if (!(Number.isInteger(chunkSize) && chunkSize > 0)) {
     throw new RangeError("Chunk size must be a positive integer")
   }
@@ -31,6 +32,9 @@ export function chunkEvery<T>(array: T[], chunkSize: number) {
   }
   return result
 }
+
+/** Sentinel value to continue execution. */
+export const CONTINUE = Symbol.for("continue")
 
 /**
  * Like `find`, but returns the value of the function invocation instead of the element itself.
@@ -42,9 +46,9 @@ export function chunkEvery<T>(array: T[], chunkSize: number) {
  * @returns the first value found or `undefined`
  * @example Find the first element that is greater than 2 and return its square
  * ```ts
- * import { findValue } from "@trashpanda001/helpers/array"
+ * import { findValue, CONTINUE } from "@trashpanda001/helpers/array"
  *
- * findValue([2, 3, 4], (x) => x > 2 ? x * x : undefined)
+ * findValue([2, 3, 4], (x) => x > 2 ? x * x : CONTINUE)
  * // 9 -- found 3, result of 3 * 3
  * [2, 3, 4].find((x) => x > 2)
  * // 3 -- found 3, result of 3
@@ -52,13 +56,14 @@ export function chunkEvery<T>(array: T[], chunkSize: number) {
  * // 1 -- found 3, index of 1
  * ```
  */
-export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
+export function findValue<T, S>(array: readonly T[], fn: (x: T) => S | typeof CONTINUE) {
   for (let i = 0; i < array.length; i++) {
     const value = fn(array[i]!)
-    if (value !== undefined) {
+    if (value !== CONTINUE) {
       return value as S
     }
   }
+  return undefined
 }
 
 /**
@@ -82,7 +87,7 @@ export function findValue<T, S>(array: T[], fn: (x: T) => S | undefined) {
  * ```
  */
 export function groupBy<T, K extends PropertyKey, V = T>(
-  array: T[],
+  array: readonly T[],
   keyFn: (x: T) => K,
   valueFn: (x: T) => V = identity as (x: T) => V,
 ) {
@@ -113,7 +118,7 @@ export function groupBy<T, K extends PropertyKey, V = T>(
  * // [2, 4, 1, 5, 3]
  * ```
  */
-export function shuffle<T>(array: T[]) {
+export function shuffle<T>(array: readonly T[]) {
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -141,9 +146,9 @@ export function shuffle<T>(array: T[]) {
  * // [-1, 2, -3]
  * ```
  */
-export function sortBy<T, V>(array: T[], mapFn: (x: T) => V, compareFn: (a: V, b: V) => number) {
+export function sortBy<T, V>(array: readonly T[], mapFn: (x: T) => V, compareFn: (a: V, b: V) => number) {
   return array
-    .map((e, i) => [e, mapFn(e), i] as [T, V, number]) // add index to preserve original order
+    .map((e, i) => [e, mapFn(e), i] as const) // add index to preserve original order
     .sort((a, b) => {
       const result = compareFn(a[1], b[1])
       return result == 0 ? a[2] - b[2] : result // if equal, use original element order
@@ -186,8 +191,8 @@ export function times<T>(n: number, mapFn: (i: number) => T = identity as (i: nu
  * // [1, 2, 3, 4]
  * ```
  */
-export function uniq<T>(array: T[]) {
-  return [...new Set(array)] // JS sets are iterable in insertion order
+export function uniq<T extends Primitive>(array: readonly T[]) {
+  return [...new Set(array)]
 }
 
 /**
@@ -206,7 +211,7 @@ export function uniq<T>(array: T[]) {
  * // ["cat", "raccoon", "meow"]
  * ```
  */
-export function uniqBy<T, S>(array: T[], uniqFn: (x: T) => S) {
+export function uniqBy<T, S extends Primitive>(array: readonly T[], uniqFn: (x: T) => S) {
   const set = new Set<S>()
   const newArray: T[] = []
   array.forEach((element) => {

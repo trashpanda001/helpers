@@ -18,7 +18,7 @@
  * // 42
  * ```
  */
-export function getIn(object: Record<string, unknown>, path: string) {
+export function getIn(object: Readonly<Record<string, unknown>>, path: string) {
   return path.split(".").reduce((acc: unknown, key) => {
     if (acc != null && typeof acc == "object" && key in acc) {
       return (acc as Record<string, unknown>)[key]
@@ -43,7 +43,7 @@ export function getIn(object: Record<string, unknown>, path: string) {
  * // { alpha: "a", beta: "b" }
  * ```
  */
-export function invertObject(object: Record<string, PropertyKey>) {
+export function invertObject(object: Readonly<Record<string, PropertyKey>>) {
   return mapObject(object, ([key, value]) => [String(value), key])
 }
 
@@ -66,7 +66,7 @@ export function invertObject(object: Record<string, PropertyKey>) {
  * ```
  */
 export function mapObject<T, S>(
-  object: Record<string, T>,
+  object: Readonly<Record<string, T>>,
   keyValueFn: (entry: [string, T]) => [string, S],
 ): Record<string, S> {
   return Object.fromEntries(Object.entries(object).map(keyValueFn))

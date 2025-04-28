@@ -96,6 +96,7 @@ export function mod(dividend: number, divisor: number) {
  */
 export function quantize(value: number, step: number) {
   if (step <= 0) {
+    // TODO: should step be an integer?
     throw new RangeError("step must be positive")
   }
   return Math.round(value / step) * step

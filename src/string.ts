@@ -3,12 +3,9 @@
  *
  * @module
  */
-const isSSR = typeof window == "undefined"
+import type { CSSProperties, Params } from "./types.js"
 
-/** CSS properties. */
-export type CSSProperties = Record<string, null | number | string | undefined>
-/** URL or JSON parameters. */
-export type Params = Record<string, boolean | null | number | string | undefined>
+const isSSR = typeof window == "undefined"
 
 /**
  * Convert first character in a string to uppercase, leaving the rest untouched.

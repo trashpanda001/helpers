@@ -10,9 +10,7 @@
  */
 import { DateTime } from "luxon"
 import naturalCompare from "string-natural-compare"
-
-/** An optional value that may not be present. */
-export type Optional<T> = null | T | undefined
+import type { Optional } from "./types.js"
 
 /**
  * Compare two booelans, sorting false then true.

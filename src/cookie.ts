@@ -35,7 +35,7 @@ export type CookieOptions = {
  * // Set-Cookie: foo=; Domain=example.com; Path=/; Secure; Same-Site=Lax; Max-Age=0
  * ```
  */
-export function deleteCookie(name: string, options?: CookieOptions) {
+export function deleteCookie(name: string, options?: Readonly<CookieOptions>) {
   if (isSSR) {
     throw new Error("deleteCookie is not available during SSR")
   }
@@ -160,7 +160,7 @@ export function nukeCookie(name: string, path?: string) {
  * // Set-Cookie: foo=bar; Domain=example.com; Path=/; Secure; Same-Site=Lax; Max-Age=34560000
  * ```
  */
-export function setCookie(name: string, value: string, options: CookieOptions = {}) {
+export function setCookie(name: string, value: string, options: Readonly<CookieOptions> = {}) {
   if (isSSR) {
     throw new Error("setCookie is not available during SSR")
   }
