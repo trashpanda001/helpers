@@ -1,3 +1,8 @@
+/**
+ * Common types.
+ *
+ * @module
+ */
 /** CSS properties. */
 export type CSSProperties = Record<string, null | number | string | undefined>
 

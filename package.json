@@ -21,7 +21,8 @@
     "./function": "./dist/function.js",
     "./number": "./dist/number.js",
     "./object": "./dist/object.js",
-    "./string": "./dist/string.js"
+    "./string": "./dist/string.js",
+    "./types": "./dist/types.js"
   },
   "files": [
     "package.json",
