@@ -6,6 +6,11 @@
 import { identity } from "./function.js"
 import type { Primitive } from "./types.js"
 
+export type { Primitive }
+
+/** Sentinel value to continue execution. */
+export const CONTINUE = Symbol.for("continue")
+
 /**
  * Breaks an array into chunks of size `chunkSize`.
  *
@@ -32,9 +37,6 @@ export function chunkEvery<T>(array: readonly T[], chunkSize: number) {
   }
   return result
 }
-
-/** Sentinel value to continue execution. */
-export const CONTINUE = Symbol.for("continue")
 
 /**
  * Like `find`, but returns the value of the function invocation instead of the element itself.
