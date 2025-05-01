@@ -12,6 +12,8 @@ import { DateTime } from "luxon"
 import naturalCompare from "string-natural-compare"
 import type { Optional } from "./types.js"
 
+export type { Optional }
+
 /**
  * Compare two booelans, sorting false then true.
  *

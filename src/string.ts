@@ -3,7 +3,9 @@
  *
  * @module
  */
-import type { CSSProperties, Params } from "./types.js"
+import type { CSSProperties, URLParams } from "./types.js"
+
+export type { CSSProperties, URLParams }
 
 const isSSR = typeof window == "undefined"
 
@@ -154,7 +156,7 @@ export function encodeRfc3986(string: string) {
  * // "/none"
  * ```
  */
-export function encodeUrl(url: string | URL, params: Params = {}) {
+export function encodeUrl(url: string | URL, params: URLParams = {}) {
   let u: URL
   let isAbsolute: boolean
   if (url instanceof URL) {
