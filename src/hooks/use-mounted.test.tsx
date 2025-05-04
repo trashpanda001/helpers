@@ -13,6 +13,7 @@ describe("useMounted", () => {
     render(<TestComponent />)
     expect(screen.getByTestId("mounted").textContent).toBe("true")
   })
+
   it("renders false in SSR / before useEffect", () => {
     const html = renderToString(<TestComponent />)
     expect(html).toBe('<div data-testid="mounted">false</div>')
