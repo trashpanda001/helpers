@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react"
+import { useForceUpdate } from "@trashpanda001/helpers/hooks"
 import { useRef } from "react"
 import { describe, expect, it } from "vitest"
-import { useForceUpdate } from "./use-force-update.js"
 
 describe("useForceUpdate hook", () => {
   it("re-renders component when forceUpdate is called", () => {

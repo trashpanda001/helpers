@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
+import { useMounted } from "@trashpanda001/helpers/hooks"
 import { renderToString } from "react-dom/server"
 import { describe, expect, it } from "vitest"
-import { useMounted } from "./use-mounted.js"
 
 function TestComponent() {
   const mounted = useMounted()

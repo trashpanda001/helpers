@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react"
+import { useBeforeUnload } from "@trashpanda001/helpers/hooks"
 import { describe, expect, it, vi } from "vitest"
-import { useBeforeUnload } from "./use-before-unload.js"
 
 function TestComponent({ callback, enabled = true }: { callback: (e: Event) => void; enabled?: boolean }) {
   useBeforeUnload(callback as (e: BeforeUnloadEvent) => void, enabled)

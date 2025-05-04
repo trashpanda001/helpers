@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react"
+import { useVisibility } from "@trashpanda001/helpers/hooks"
 import { afterEach, describe, expect, it } from "vitest"
-import { useVisibility } from "./use-visibility.js"
 
 describe("useVisibility hook", () => {
   afterEach(() => {
