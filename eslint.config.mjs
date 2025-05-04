@@ -6,11 +6,13 @@ import { defineConfig, globalIgnores } from "eslint/config"
 import tseslint from "typescript-eslint"
 
 const eslintConfig = defineConfig([
-  // ignore dist/ and explicitly include file extensions we want
+  // ignore dist/ and docs/
   globalIgnores(["dist/", "docs/"]),
+
+  // include file extensions we want
   { files: ["**/*.{cjs,cts,js,jsx,mjs,mts,ts,tsx}"] },
 
-  // @eslint/js recommended
+  // @eslint/js
   {
     extends: ["js/recommended"],
     plugins: {
@@ -25,7 +27,7 @@ const eslintConfig = defineConfig([
     },
   },
 
-  // tseslint recommended
+  // tseslint
   {
     extends: ["tseslint/recommended"],
     plugins: {
@@ -54,20 +56,9 @@ const eslintConfig = defineConfig([
     },
   },
 
-  // React and TSX support
+  // eslint-plugin-react
   {
-    files: ["**/*.{jsx,tsx}"],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      ecmaFeatures: { jsx: true },
-      ecmaVersion: "latest",
-      sourceType: "module",
-    },
-    plugins: { react },
-    extends: ["plugin:react/recommended", "plugin:react/jsx-runtime"],
-    settings: {
-      react: { version: "detect" },
-    },
+    extends: [react.configs.flat["jsx-runtime"]],
   },
 ])
 

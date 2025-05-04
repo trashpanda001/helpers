@@ -1,4 +1,5 @@
-import { render, screen, waitFor } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
+import { renderToString } from "react-dom/server"
 import { describe, expect, it } from "vitest"
 import { useMounted } from "./use-mounted.js"
 
@@ -8,16 +9,12 @@ function TestComponent() {
 }
 
 describe("useMounted", () => {
-  it("renders a boolean string", () => {
+  it("renders true after useEffect", () => {
     render(<TestComponent />)
-    const el = screen.getByTestId("mounted")
-    expect(["true", "false"]).toContain(el.textContent)
+    expect(screen.getByTestId("mounted").textContent).toBe("true")
   })
-
-  it("returns true after mount", async () => {
-    render(<TestComponent />)
-    await waitFor(() => {
-      expect(screen.getByTestId("mounted").textContent).toBe("true")
-    })
+  it("renders false in SSR / before useEffect", () => {
+    const html = renderToString(<TestComponent />)
+    expect(html).toBe('<div data-testid="mounted">false</div>')
   })
 })
