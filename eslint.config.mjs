@@ -1,5 +1,6 @@
 import js from "@eslint/js"
 import perfectionist from "eslint-plugin-perfectionist"
+import react from "eslint-plugin-react"
 import unusedImports from "eslint-plugin-unused-imports"
 import { defineConfig, globalIgnores } from "eslint/config"
 import tseslint from "typescript-eslint"
@@ -50,6 +51,22 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/no-unused-vars": "off",
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }], // allow _unused
+    },
+  },
+
+  // React and TSX support
+  {
+    files: ["**/*.{jsx,tsx}"],
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+      ecmaFeatures: { jsx: true },
+      ecmaVersion: "latest",
+      sourceType: "module",
+    },
+    plugins: { react },
+    extends: ["plugin:react/recommended", "plugin:react/jsx-runtime"],
+    settings: {
+      react: { version: "detect" },
     },
   },
 ])
