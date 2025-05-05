@@ -1,15 +1,18 @@
 import js from "@eslint/js"
 import perfectionist from "eslint-plugin-perfectionist"
+import react from "eslint-plugin-react"
 import unusedImports from "eslint-plugin-unused-imports"
 import { defineConfig, globalIgnores } from "eslint/config"
 import tseslint from "typescript-eslint"
 
 const eslintConfig = defineConfig([
-  // ignore dist/ and explicitly include file extensions we want
+  // ignore dist/ and docs/
   globalIgnores(["dist/", "docs/"]),
+
+  // include file extensions we want
   { files: ["**/*.{cjs,cts,js,jsx,mjs,mts,ts,tsx}"] },
 
-  // @eslint/js recommended
+  // @eslint/js
   {
     extends: ["js/recommended"],
     plugins: {
@@ -24,7 +27,7 @@ const eslintConfig = defineConfig([
     },
   },
 
-  // tseslint recommended
+  // tseslint
   {
     extends: ["tseslint/recommended"],
     plugins: {
@@ -51,6 +54,11 @@ const eslintConfig = defineConfig([
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }], // allow _unused
     },
+  },
+
+  // eslint-plugin-react
+  {
+    extends: [react.configs.flat["jsx-runtime"]],
   },
 ])
 
