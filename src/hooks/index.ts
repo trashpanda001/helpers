@@ -1,5 +1,7 @@
 export { useBeforeUnload } from "./use-before-unload.js"
 export { useForceUpdate } from "./use-force-update.js"
+export { useMediaQuery } from "./use-media-query.js"
 export { useMounted } from "./use-mounted.js"
+export { useOrientation } from "./use-orientation.js"
 export { useToggle } from "./use-toggle.js"
 export { useVisibility } from "./use-visibility.js"

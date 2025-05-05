@@ -22,12 +22,12 @@
     "declaration": true,
     /* If your code runs in the DOM: */
     "lib": ["es2022", "dom", "dom.iterable"],
-    "jsx": "react-jsx",
 
     // Customizations
     "rootDir": "src",
     "outDir": "dist",
-    "declarationMap": true
+    "declarationMap": true,
+    "jsx": "react-jsx"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
