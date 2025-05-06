@@ -41,14 +41,14 @@ export function chunkEvery<T>(array: readonly T[], chunkSize: number) {
 /**
  * Like `find`, but returns the value of the function invocation instead of the element itself.
  *
- * The return value is considered to be found when the `fn` result is NOT `undefined`.
+ * The return value is considered to be found if `fn` returns a value other than `CONTINUE`.
  *
  * @param array the array to search
- * @param fn a function given an element that returns the final value or `undefined`
+ * @param fn a function given an element that returns the final value or `CONTINUE`
  * @returns the first value found or `undefined`
  * @example Find the first element that is greater than 2 and return its square
  * ```ts
- * import { findValue, CONTINUE } from "@trashpanda001/helpers/array"
+ * import { CONTINUE, findValue } from "@trashpanda001/helpers/array"
  *
  * findValue([2, 3, 4], (x) => x > 2 ? x * x : CONTINUE)
  * // 9 -- found 3, result of 3 * 3

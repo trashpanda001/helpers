@@ -1,4 +1,4 @@
-import { getIn, invertObject, mapObject } from "@trashpanda001/helpers/object"
+import { getIn, invertObject, mapObject, putIn } from "@trashpanda001/helpers/object"
 import { describe, expect, it } from "vitest"
 
 describe("getIn", () => {
@@ -80,5 +80,84 @@ describe("mapObject", () => {
     const input = { first: "dup", second: "dup", third: "unique" }
     const result = mapObject(input, ([k, v]) => [v, k])
     expect(result).toEqual({ dup: "second", unique: "third" })
+  })
+})
+
+describe("putIn", () => {
+  it("creates a new value on an object", () => {
+    const input = {}
+    putIn(input, "a", 100)
+    expect(input).toEqual({ a: 100 })
+  })
+
+  it("overwrites a value in an object", () => {
+    const input = { a: 42 }
+    putIn(input, "a", 100)
+    expect(input).toEqual({ a: 100 })
+  })
+
+  it("creates a new value in an array", () => {
+    const input = [42]
+    putIn(input, "2", 100)
+    expect(input).toEqual([42, undefined, 100])
+  })
+
+  it("overwrites a value in an array", () => {
+    const input = [42]
+    putIn(input, "0", 100)
+    expect(input).toEqual([100])
+  })
+
+  it("traverses nested objects", () => {
+    const input = { a: { b: { c: 42 } } }
+    putIn(input, "a.b.c", 100)
+    expect(input).toEqual({ a: { b: { c: 100 } } })
+  })
+
+  it("traverses nested arrays ", () => {
+    const input = { a: [{ c: 42 }, { c: 43 }] }
+    putIn(input, "a.1.c", 100)
+    expect(input).toEqual({ a: [{ c: 42 }, { c: 100 }] })
+  })
+
+  it("creates a new array entry", () => {
+    const input = { a: [{ c: 42 }] }
+    putIn(input, "a.1", 100)
+    expect(input).toEqual({ a: [{ c: 42 }, 100] })
+  })
+
+  it("throws an error if traversing fails", () => {
+    const input = { a: {} }
+    expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
+  })
+
+  it("throws an error if traversing a primitive", () => {
+    const input = { a: { b: "cat" } }
+    expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
+  })
+
+  it("throws an error if array and expected an object", () => {
+    const input = { a: [{ c: 42 }] }
+    expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
+  })
+
+  it("throws an error if object and expected an array", () => {
+    const input = { a: { b: { c: 42 } } }
+    expect(() => putIn(input, "a.0.c", 100)).toThrow(Error)
+  })
+
+  it("throws an error if traversing null", () => {
+    const input = { a: { b: null } }
+    expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
+  })
+
+  it("does nothing if path is empty", () => {
+    const input: unknown[] = []
+    putIn(input, "", 100)
+    expect(input).toEqual([])
+
+    const input2 = {}
+    putIn(input2, "", 100)
+    expect(input2).toEqual({})
   })
 })
