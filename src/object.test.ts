@@ -122,17 +122,29 @@ describe("putIn", () => {
 
   it("creates a new array entry", () => {
     const input = { a: [{ c: 42 }] }
-    putIn(input, "a.1", 100)
-    expect(input).toEqual({ a: [{ c: 42 }, 100] })
+    putIn(input, "a.1", { c: 100 })
+    expect(input).toEqual({ a: [{ c: 42 }, { c: 100 }] })
   })
 
-  it("throws an error if traversing fails", () => {
-    const input = { a: {} }
-    expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
+  it("creates new objects as needed", () => {
+    const input = {}
+    putIn(input, "a.b.c", 100)
+    expect(input).toEqual({ a: { b: { c: 100 } } })
+  })
+
+  it("creates new arrays as needed", () => {
+    const input = { a: [] }
+    putIn(input, "a.0.1", 100)
+    expect(input).toEqual({ a: [[undefined, 100]] })
   })
 
   it("throws an error if traversing a primitive", () => {
     const input = { a: { b: "cat" } }
+    expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
+  })
+
+  it("throws an error if traversing null", () => {
+    const input = { a: { b: null } }
     expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
   })
 
@@ -144,11 +156,6 @@ describe("putIn", () => {
   it("throws an error if object and expected an array", () => {
     const input = { a: { b: { c: 42 } } }
     expect(() => putIn(input, "a.0.c", 100)).toThrow(Error)
-  })
-
-  it("throws an error if traversing null", () => {
-    const input = { a: { b: null } }
-    expect(() => putIn(input, "a.b.c", 100)).toThrow(Error)
   })
 
   it("does nothing if path is empty", () => {
