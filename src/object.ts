@@ -18,7 +18,7 @@
  * // 42
  * ```
  */
-export function getIn(object: Readonly<Record<string, unknown>>, path: string) {
+export function getIn(object: Readonly<Record<string, unknown> | unknown[]>, path: string) {
   return path.split(".").reduce((acc: unknown, key) => {
     if (acc != null && typeof acc == "object") {
       if (Array.isArray(acc) && !isNaN(Number(key))) {
