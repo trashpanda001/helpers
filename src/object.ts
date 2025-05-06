@@ -79,7 +79,7 @@ export function mapObject<T, S>(
 
 /**
  * Puts a value into a nested structure via "dot-notation" (mutates object). Traverses nested objects
- * and arrays, raising if the path is invalid.
+ * and arrays, creating new nested objects/arrays as needed.
  *
  * @param object a mutable object
  * @param path a dot-notation path
@@ -92,8 +92,8 @@ export function mapObject<T, S>(
  * putIn(x, "a.b.c", { d: 123 })
  * // x = { a: { b: { c: { d: 123 } } }
  *
- * const y = { a: [{ c: 42 }, { c: 43 }] }
- * putIn(x, "a.1.c", 100)
+ * const y = { a: [{ c: 42 }] }
+ * putIn(y, "a.1", { c: 100 })
  * // y = { a: [{ c: 42 }, { c: 100 }] }
  * ```
  */
@@ -120,15 +120,25 @@ export function putIn(object: Record<string, unknown> | unknown[], path: string,
       throw new Error("encountered a non-array, non-object value")
     }
 
-    if (keyIndex != leafIndex) {
-      return isNumeric ? (acc as unknown[])[index] : (acc as Record<string, unknown>)[key]
+    // set value for leaf
+    if (keyIndex == leafIndex) {
+      if (isNumeric) {
+        return ((acc as unknown[])[index] = value)
+      }
+      return ((acc as Record<string, unknown>)[key] = value)
     }
 
-    // if this is the last key, set the value
-    if (isNumeric) {
-      ;(acc as unknown[])[index] = value
-    } else {
-      ;(acc as Record<string, unknown>)[key] = value
+    // traverse existing child
+    const child = isNumeric ? (acc as unknown[])[index] : (acc as Record<string, unknown>)[key]
+    if (child !== undefined) {
+      return child
     }
+
+    // create new array/object child based on next key type
+    const newChild = isNaN(Number(keys[keyIndex + 1])) ? {} : []
+    if (isNumeric) {
+      return ((acc as unknown[])[index] = newChild)
+    }
+    return ((acc as Record<string, unknown>)[key] = newChild)
   }, object)
 }
