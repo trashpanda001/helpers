@@ -15,7 +15,7 @@ A collection of helpers for my projects. Here be dragons.
 pnpm add @trashpanda001/helpers
 ```
 
-[npm-img]: http://img.shields.io/npm/v/@trashpanda001/helpers.svg
+[npm-img]: http://img.shields.io/npm/v/@trashpanda001/helpers?color=green
 [npm-url]: https://www.npmjs.com/package/@trashpanda001/helpers
 [build-img]: https://github.com/trashpanda001/helpers/actions/workflows/test.yaml/badge.svg
 [build-url]: https://github.com/trashpanda001/helpers/actions/workflows/test.yaml
