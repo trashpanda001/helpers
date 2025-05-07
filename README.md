@@ -1,5 +1,5 @@
 [![NPM version][npm-img]][npm-url]
-[![Build Status][badge-build]][build-url]
+[![Build Status][build-img]][build-url]
 
 A collection of helpers for my projects. Here be dragons.
 
