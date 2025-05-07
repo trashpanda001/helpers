@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react"
-import { useViewport } from "@trashpanda001/helpers/hooks"
+import { useViewport } from "@trashpanda001/helpers/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
 describe("useViewport hook", () => {

@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react"
  * @example
  * Listen for clicks outside of an element.
  * ```tsx
- * import { useClickOutside } from "@trashpanda001/helpers/hooks"
+ * import { useClickOutside } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const ref = useClickOutside((event) => {

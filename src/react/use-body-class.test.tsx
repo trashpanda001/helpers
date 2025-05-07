@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react"
-import { useBodyClass } from "@trashpanda001/helpers/hooks"
+import { useBodyClass } from "@trashpanda001/helpers/react"
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
 
 describe("useBodyClass", () => {

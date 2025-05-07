@@ -8,7 +8,7 @@ import { useEffect } from "react"
  *
  * @example
  * ```tsx
- * import { useBodyStyle } from "@trashpanda001/helpers/hooks"
+ * import { useBodyStyle } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   useBodyStyle({ backgroundColor: "red", color: "white" })

@@ -1,5 +1,5 @@
 import { act, render, renderHook, screen } from "@testing-library/react"
-import { useResizeObserver } from "@trashpanda001/helpers/hooks"
+import { useResizeObserver } from "@trashpanda001/helpers/react"
 import { useRef } from "react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 

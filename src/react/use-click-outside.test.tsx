@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react"
-import { useClickOutside } from "@trashpanda001/helpers/hooks"
+import { useClickOutside } from "@trashpanda001/helpers/react"
 import { describe, expect, it, vi } from "vitest"
 
 describe("useClickOutside", () => {

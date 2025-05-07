@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
  * @example
  * Check if the page is visible.
  * ```tsx
- * import { useVisibility } from "@trashpanda001/helpers/hooks"
+ * import { useVisibility } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const isVisible = useVisibility()

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
  *
  * @example
  * ```tsx
- * import { useMounted } from "@trashpanda001/helpers/hooks"
+ * import { useMounted } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const mounted = useMounted()

@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react"
  * @example
  * Listen for hover events on an element.
  * ```tsx
- * import { useHover } from "@trashpanda001/helpers/hooks"
+ * import { useHover } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const { ref, isHovered } = useHover((hovered) => {

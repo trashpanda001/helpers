@@ -1,7 +1,7 @@
 {
   "name": "@trashpanda001/helpers",
   "description": "Helpers for my projects.",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "type": "module",
   "engines": {
     "node": "^22.0.0"
@@ -19,9 +19,9 @@
     "./comparators": "./dist/comparators.js",
     "./cookie": "./dist/cookie.js",
     "./function": "./dist/function.js",
-    "./hooks": "./dist/hooks/index.js",
     "./number": "./dist/number.js",
     "./object": "./dist/object.js",
+    "./react": "./dist/react/index.js",
     "./string": "./dist/string.js",
     "./types": "./dist/types.js"
   },

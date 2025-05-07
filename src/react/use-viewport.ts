@@ -29,7 +29,7 @@ export type ViewportInfo = {
  * @example
  * Get viewport dimensions on resize.
  * ```tsx
- * import { useViewport } from "@trashpanda001/helpers/hooks"
+ * import { useViewport } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const { width, height } = useViewport()

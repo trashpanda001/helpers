@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
  *
  * @example
  * ```tsx
- * import { useResizeObserver } from "@trashpanda001/helpers/hooks"
+ * import { useResizeObserver } from "@trashpanda001/helpers/react"
  * import { useRef } from "react"
  *
  * function Component() {

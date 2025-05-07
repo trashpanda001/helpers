@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react"
-import { useHover } from "@trashpanda001/helpers/hooks"
+import { useHover } from "@trashpanda001/helpers/react"
 import { describe, expect, it, vi } from "vitest"
 
 function TestComponent({ onHover = (_hovered: boolean) => {} }) {

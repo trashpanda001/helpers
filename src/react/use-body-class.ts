@@ -10,7 +10,7 @@ import { useEffect } from "react"
  *
  * @example
  * ```tsx
- * import { useBodyClass } from "@trashpanda001/helpers/hooks"
+ * import { useBodyClass } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   useBodyClass("bg-gray-800, "bg-gray-900")

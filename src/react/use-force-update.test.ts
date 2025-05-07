@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react"
-import { useForceUpdate } from "@trashpanda001/helpers/hooks"
+import { useForceUpdate } from "@trashpanda001/helpers/react"
 import { useRef } from "react"
 import { describe, expect, it } from "vitest"
 

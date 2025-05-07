@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react"
-import { useBeforeUnload } from "@trashpanda001/helpers/hooks"
+import { useBeforeUnload } from "@trashpanda001/helpers/react"
 import { describe, expect, it, vi } from "vitest"
 
 function TestComponent({ callback, enabled = true }: { callback: (e: Event) => void; enabled?: boolean }) {

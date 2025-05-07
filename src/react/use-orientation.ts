@@ -8,7 +8,7 @@ import { useMediaQuery } from "./use-media-query.js"
  * @example
  * Check if the device is in portrait mode.
  * ```tsx
- * import { useOrientation } from "@trashpanda001/helpers/hooks"
+ * import { useOrientation } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const orientation = useOrientation()

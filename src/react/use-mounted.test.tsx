@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react"
-import { useMounted } from "@trashpanda001/helpers/hooks"
+import { useMounted } from "@trashpanda001/helpers/react"
 import { renderToString } from "react-dom/server"
 import { describe, expect, it } from "vitest"
 
