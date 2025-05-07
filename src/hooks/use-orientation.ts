@@ -5,7 +5,7 @@ import { useMediaQuery } from "./use-media-query.js"
  *
  * @returns the current orientation
  *
- * @exammple
+ * @example
  * Check if the device is in portrait mode.
  * ```tsx
  * import { useOrientation } from "@trashpanda001/helpers/hooks"
