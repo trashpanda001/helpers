@@ -45,8 +45,8 @@
     "prepublishOnly": "pnpm run lint:ci && pnpm run build && pnpm run build:docs",
     "publishd": "pnpm publish --dry-run",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "watch": "concurrently \"pnpm run build:watch\" \"pnpm run test:watch\""
+    "test:watch": "vitest watch",
+    "watch": "concurrently 'pnpm run build:watch' 'pnpm test:watch'"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
