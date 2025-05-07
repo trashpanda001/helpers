@@ -16,10 +16,12 @@ export const CONTINUE = Symbol.for("continue")
  *
  * The last chunk may contain less than `chunkSize` items.
  *
- * @param array the array to chunk
- * @param chunkSize a positive integer
+ * @param array - the array to chunk
+ * @param chunkSize - a positive integer
  * @returns an array of arrays
- * @example Chunk into groups of 2
+ *
+ * @example
+ * Chunk into groups of 2.
  * ```ts
  * import { chunkEvery } from "@trashpanda001/helpers/array"
  *
@@ -43,10 +45,12 @@ export function chunkEvery<T>(array: readonly T[], chunkSize: number) {
  *
  * The return value is considered to be found if `fn` returns a value other than `CONTINUE`.
  *
- * @param array the array to search
- * @param fn a function given an element that returns the final value or `CONTINUE`
+ * @param array - the array to search
+ * @param fn - a function given an element that returns the final value or `CONTINUE`
  * @returns the first value found or `undefined`
- * @example Find the first element that is greater than 2 and return its square
+ *
+ * @example
+ * Find the first element that is greater than 2 and return its square.
  * ```ts
  * import { CONTINUE, findValue } from "@trashpanda001/helpers/array"
  *
@@ -74,11 +78,13 @@ export function findValue<T, S>(array: readonly T[], fn: (x: T) => S | typeof CO
  * The result is an object where each key is given by `keyFn` and each value is an array of elements
  * given by `valueFn`. The order of elements within each list is preserved from the original array.
  *
- * @param array the array to group
- * @param keyFn a function that returns the key for each element
- * @param valueFn a function that returns the value for each element
+ * @param array - the array to group
+ * @param keyFn - a function that returns the key for each element
+ * @param valueFn - a function that returns the value for each element
  * @returns an object that maps group keys to arrays of elements/values
- * @example Group elements by their string length
+ *
+ * @example
+ * Group elements by their string length.
  * ```ts
  * import { groupBy } from "@trashpanda001/helpers/array"
  *
@@ -110,9 +116,11 @@ export function groupBy<T, K extends PropertyKey, V = T>(
  *
  * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
  *
- * @param array the array to shuffle
+ * @param array - the array to shuffle
  * @returns a new shuffled array
- * @example Shuffle an array
+ *
+ * @example
+ * Shuffle an array.
  * ```ts
  * import { shuffle } from "@trashpanda001/helpers/array"
  *
@@ -136,11 +144,13 @@ export function shuffle<T>(array: readonly T[]) {
  * all the elements, then sorts by the mapped value, and then returns an array of the original elements.
  * If two elements map to the same value, the original element order is preserved.
  *
- * @param array the array to sort
- * @param mapFn a function that maps each element to a value
- * @param compareFn a function that compares two mapped values
+ * @param array - the array to sort
+ * @param mapFn - a function that maps each element to a value
+ * @param compareFn - a function that compares two mapped values
  * @returns a new sorted array
- * @example Sort by absolute value ascending
+ *
+ * @example
+ * Sort by absolute value ascending.
  * ```ts
  * import { sortBy } from "@trashpanda001/helpers/array"
  *
@@ -161,10 +171,12 @@ export function sortBy<T, V>(array: readonly T[], mapFn: (x: T) => V, compareFn:
 /**
  * Return an array with the results of invoking `mapFn` for each index.
  *
- * @param n a non-negative integer
- * @param mapFn a function that returns the value for each index
+ * @param n - a non-negative integer
+ * @param mapFn - a function that returns the value for each index
  * @returns an array of length `n`
- * @example Three times
+ *
+ * @example
+ * Three times.
  * ```ts
  * import { times } from "@trashpanda001/helpers/array"
  *
@@ -183,9 +195,11 @@ export function times<T>(n: number, mapFn: (i: number) => T = identity as (i: nu
  *
  * The order of the elements is preserved.
  *
- * @param array the input array
+ * @param array - the input array
  * @returns a new array with unique elements
- * @example Unique numbers
+ *
+ * @example
+ * Unique numbers.
  * ```ts
  * import { uniq } from "@trashpanda001/helpers/array"
  *
@@ -202,10 +216,12 @@ export function uniq<T extends Primitive>(array: readonly T[]) {
  *
  * The first occurrence of each element is kept.
  *
- * @param array the input array
- * @param uniqFn a function that returns the value to check for duplicates
+ * @param array - the input array
+ * @param uniqFn - a function that returns the value to check for duplicates
  * @returns a new array with unique elements
- * @example Unique elements by length
+ *
+ * @example
+ * Unique elements by length.
  * ```ts
  * import { uniqBy } from "@trashpanda001/helpers/array"
  *

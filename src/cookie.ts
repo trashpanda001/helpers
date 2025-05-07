@@ -22,9 +22,10 @@ export type CookieOptions = {
  * The domain and path options should match what was used to set the cookie. See `nukeCookie` for a way to delete
  * cookies with all permutations of domains, subdomains, paths, and subpaths.
  *
- * @param name the cookie name
- * @param options cookie options
+ * @param name - the cookie name
+ * @param options - cookie options
  * @throws Error if called during SSR
+ *
  * @example
  * ```ts
  * import { deleteCookie } from "@trashpanda001/helpers/cookie"
@@ -47,9 +48,10 @@ export function deleteCookie(name: string, options?: Readonly<CookieOptions>) {
  *
  * Returns a URI decoded value, or an empty string if the cookie does not exist.
  *
- * @param name the cookie name
+ * @param name - the cookie name
  * @returns the cookie value or an empty string if not found
  * @throws Error if called during SSR
+ *
  * @example
  * ```ts
  * import { getCookie } from "@trashpanda001/helpers/cookie"
@@ -74,6 +76,7 @@ export function getCookie(name: string) {
  *
  * @returns an object mapping cookie names to values
  * @throws Error if called during SSR
+ *
  * @example
  * ```ts
  * import { getCookies } from "@trashpanda001/helpers/cookie"
@@ -98,9 +101,10 @@ export function getCookies() {
  * Delete a cookie with all permutations of domains and subdomains of `window.location.hostname` and
  * all subpaths of the given path.
  *
- * @param name the cookie name
- * @param path the path to delete the cookie from (default: `window.location.pathname`)
+ * @param name - the cookie name
+ * @param path - the path to delete the cookie from (default: `window.location.pathname`)
  * @throws Error if called during SSR
+ *
  * @example
  * ```ts
  * import { nukeCookie } from "@trashpanda001/helpers/cookie"
@@ -142,10 +146,11 @@ export function nukeCookie(name: string, path?: string) {
  * Assumes the cookie name is a valid cookie token and URI encodes the value. If the value is an empty string, the
  * cookie is deleted. The cookie is not HTTP-only, so it can be accessed from JavaScript.
  *
- * @param name the cookie name
- * @param value the cookie value
- * @param options cookie options
+ * @param name - the cookie name
+ * @param value - the cookie value
+ * @param options - cookie options
  * @throws Error if called during SSR
+ *
  * @example
  * ```ts
  * import { setCookie } from "@trashpanda001/helpers/cookie"

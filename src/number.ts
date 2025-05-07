@@ -7,10 +7,11 @@
 /**
  * Clamp a number between a min and max value.
  *
- * @param value the number to clamp
- * @param min the minimum value
- * @param max the maximum value
+ * @param value - the number to clamp
+ * @param min - the minimum value
+ * @param max - the maximum value
  * @returns the clamped value
+ *
  * @example
  * ```ts
  * import { clamp } from "@trashpanda001/helpers/number"
@@ -30,11 +31,12 @@ export function clamp(value: number, min: number, max: number) {
 /**
  * Calculate the Euclidean distance between two points with cartesian coordinates.
  *
- * @param x1 the x coordinate of the first point
- * @param y1 the y coordinate of the first point
- * @param x2 the x coordinate of the second point
- * @param y2 the y coordinate of the second point
+ * @param x1 - the x coordinate of the first point
+ * @param y1 - the y coordinate of the first point
+ * @param x2 - the x coordinate of the second point
+ * @param y2 - the y coordinate of the second point
  * @returns the distance between the two points
+ *
  * @example
  * ```ts
  * import { distance } from "@trashpanda001/helpers/number"
@@ -55,10 +57,11 @@ export function distance(x1: number, y1: number, x2: number, y2: number) {
  * The result will always have the sign of the divisor. This differs from the `%` operator in JavaScript,
  * which is really the remainder operator.
  *
- * @param dividend the number to be divided
- * @param divisor the number to divide by
+ * @param dividend - the number to be divided
+ * @param divisor - the number to divide by
  * @returns the modulo remainder with the sign of the divisor
  * @throws RangeError if divisor is zero
+ *
  * @example
  * ```ts
  * import { mod } from "@trashpanda001/helpers/number"
@@ -80,10 +83,11 @@ export function mod(dividend: number, divisor: number) {
 /**
  * Quantize a number to a given step interval.
  *
- * @param value the number to quantize
- * @param step the positive step interval
+ * @param value - the number to quantize
+ * @param step - the positive step interval
  * @returns the quantized value
  * @throws RangeError if step is not positive
+ *
  * @example
  * ```ts
  * import { quantize } from "@trashpanda001/helpers/number"
@@ -106,9 +110,10 @@ export function quantize(value: number, step: number) {
  * Generate a random float between `min` (inclusive) and `max` (exclusive). If `max` is omitted,
  * generates a random float between `0-min`.
  *
- * @param min the minimum value
- * @param max the maximum value (exclusive)
+ * @param min - the minimum value
+ * @param max - the maximum value (exclusive)
  * @returns a random float between `min` and `max`
+ *
  * @example
  * ```ts
  * import { randomFloat } from "@trashpanda001/helpers/number"
@@ -127,9 +132,10 @@ export function randomFloat(min: number, max?: number) {
  * Generate a random integer between `min` (inclusive) and `max` (exclusive). If `max` is omitted,
  * generates a random integer between `0-min`.
  *
- * @param min the minimum value
- * @param max the maximum value (exclusive)
+ * @param min - the minimum value
+ * @param max - the maximum value (exclusive)
  * @returns a random integer between `min` and `max`
+ *
  * @example
  * ```ts
  * import { randomInt } from "@trashpanda001/helpers/number"

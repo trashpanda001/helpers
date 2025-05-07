@@ -7,9 +7,10 @@
 /**
  * Gets a value from a nested structure via "dot-notation". Returns `undefined` if the path does not exist.
  *
- * @param object the object to search
- * @param path the dot-notation path to search for
+ * @param object - the object to search
+ * @param path - the dot-notation path to search for
  * @returns the value at the path or `undefined` if not found
+ *
  * @example
  * ```ts
  * import { getIn } from "@trashpanda001/helpers/object"
@@ -38,8 +39,9 @@ export function getIn(object: Readonly<Record<string, unknown> | unknown[]>, pat
  * Values are coerced to strings as an object's key must be a string. Duplicate values are overwritten
  * by the latest value.
  *
- * @param object the object to invert
+ * @param object - the object to invert
  * @returns a new object with the keys and values inverted
+ *
  * @example
  * ```ts
  * import { invertObject } from "@trashpanda001/helpers/object"
@@ -57,9 +59,10 @@ export function invertObject(object: Readonly<Record<string, PropertyKey>>) {
  *
  * If the mapping function generates duplicate keys, the latest entry wins.
  *
- * @param object the object to map
- * @param keyValueFn a function that takes an entry and returns a new entry
+ * @param object - the object to map
+ * @param keyValueFn - a function that takes an entry and returns a new entry
  * @returns a new object with the mapped entries
+ *
  * @example
  * ```ts
  * import { mapObject } from "@trashpanda001/helpers/object"
@@ -81,9 +84,10 @@ export function mapObject<T, S>(
  * Puts a value into a nested structure via "dot-notation" (mutates object). Traverses nested objects
  * and arrays, creating new nested objects/arrays as needed.
  *
- * @param object a mutable object
- * @param path a dot-notation path
- * @param value a value
+ * @param object - a mutable object
+ * @param path - a dot-notation path
+ * @param value - a value
+ *
  * @example
  * ```ts
  * import { putIn } from "@trashpanda001/helpers/object"

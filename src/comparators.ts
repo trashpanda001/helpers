@@ -19,10 +19,12 @@ export type { Optional }
  *
  * The empty values `null` and `undefined` sort last.
  *
- * @param target the first boolean to compare
- * @param other the second boolean to compare
+ * @param target - the first boolean to compare
+ * @param other - the second boolean to compare
  * @returns false before true
- * @example Sort booleans false-true
+ *
+ * @example
+ * Sort booleans false-true.
  * ```ts
  * import { compareBooleansAsc } from "@trashpanda001/helpers/comparators"
  *
@@ -47,10 +49,12 @@ export function compareBooleansAsc(target: Optional<boolean>, other: Optional<bo
  *
  * The empty values `null` and `undefined` sort last.
  *
- * @param target the first boolean to compare
- * @param other the second boolean to compare
+ * @param target - the first boolean to compare
+ * @param other - the second boolean to compare
  * @returns true before false
- * @example Sort booleans true-false
+ *
+ * @example
+ * Sort booleans true-false.
  * ```ts
  * import { compareBooleansDesc } from "@trashpanda001/helpers/comparators"
  *
@@ -75,11 +79,13 @@ export function compareBooleansDesc(target: Optional<boolean>, other: Optional<b
  *
  * The empy values `null` and `undefined` sort last.
  *
- * @param target the first date to compare
- * @param other the second date to compare
+ * @param target - the first date to compare
+ * @param other - the second date to compare
  * @returns earlier dates first
  * @throws Error if Luxon is not available
- * @example Sort dates ascending
+ *
+ * @example
+ * Sort dates ascending.
  * ```ts
  * import { compareDatesAsc } from "@trashpanda001/helpers/comparators"
  *
@@ -105,8 +111,8 @@ export function compareDatesAsc(target: Optional<Date | DateTime>, other: Option
  *
  * The empy values `null` and `undefined` sort last.
  *
- * @param target the first date to compare
- * @param other the second date to compare
+ * @param target - the first date to compare
+ * @param other - the second date to compare
  * @returns later dates first
  * @throws Error if Luxon is not available
  *
@@ -136,10 +142,12 @@ export function compareDatesDesc(target: Optional<Date | DateTime>, other: Optio
  *
  * The empty values `null` and `undefined` sort last.
  *
- * @param target the first number to compare
- * @param other the second number to compare
+ * @param target - the first number to compare
+ * @param other - the second number to compare
  * @returns smaller numbers first
- * @example Sort numbers ascending
+ *
+ * @example
+ * Sort numbers ascending.
  * ```ts
  * import { compareNumbersAsc } from "@trashpanda001/helpers/comparators"
  *
@@ -158,10 +166,12 @@ export function compareNumbersAsc(target: Optional<number>, other: Optional<numb
  *
  * The empty values `null` and `undefined` sort last.
  *
- * @param target the first number to compare
- * @param other the second number to compare
+ * @param target - the first number to compare
+ * @param other - the second number to compare
  * @returns larger numbers first
- * @example Sort numbers desscending
+ *
+ * @example
+ * Sort numbers desscending.
  * ```ts
  * import { compareNumbersDesc } from "@trashpanda001/helpers/comparators"
  *
@@ -181,10 +191,12 @@ export function compareNumbersDesc(target: Optional<number>, other: Optional<num
  * To sort strings with numbers in a human-friendly way, see `compareStringsNatural`. The empty
  * values  `""`, `null`, and `undefined` sort last.
  *
- * @param target the first string to compare
- * @param other the second string to compare
+ * @param target - the first string to compare
+ * @param other - the second string to compare
  * @returns alphabetic ordering
- * @example Sort strings alphabetically
+ *
+ * @example
+ * Sort strings alphabetically.
  * ```ts
  * import { compareStrings } from "@trashpanda001/helpers/comparators"
  *
@@ -203,11 +215,13 @@ export function compareStrings(target: Optional<string>, other: Optional<string>
  *
  * Empty values sort last: `""`, `null`, and `undefined` last.
  *
- * @param target the first string to compare
- * @param other the second string to compare
+ * @param target - the first string to compare
+ * @param other - the second string to compare
  * @returns alphabetic ordering, with numbers sorted naturally
  * @throws Error if string-natural-compare is not available
- * @example Sort strings with ascending numbers
+ *
+ * @example
+ * Sort strings with ascending numbers.
  * ```ts
  * import { compareStringsNatural } from "@trashpanda001/helpers/comparators"
  *
@@ -229,11 +243,13 @@ export function compareStringsNatural(target: Optional<string>, other: Optional<
  *
  * Empty values sort last: `""`, `null`, and `undefined` last.
  *
- * @param target the first string to compare
- * @param other the second string to compare
+ * @param target - the first string to compare
+ * @param other - the second string to compare
  * @returns reverse-alphabetic ordering, with numbers sorted naturally
  * @throws Error if string-natural-compare is not available
- * @example Sort strings with descending numbers
+ *
+ * @example
+ * Sort strings with descending numbers.
  * ```ts
  * import { compareStringsNaturalReversed } from "@trashpanda001/helpers/comparators"
  *
@@ -256,10 +272,12 @@ export function compareStringsNaturalReversed(target: Optional<string>, other: O
  * To sort strings with numbers in a human-friendly way, see `compareStringsNaturalReversed`. The empty
  * values  `""`, `null`, and `undefined` sort last.
  *
- * @param target the first string to compare
- * @param other the second string to compare
+ * @param target - the first string to compare
+ * @param other - the second string to compare
  * @returns reverse-alphabetic ordering
- * @example Sort strings alphabetically in reverse order
+ *
+ * @example
+ * Sort strings alphabetically in reverse order.
  * ```ts
  * import { compareStringsReversed } from "@trashpanda001/helpers/comparators"
  *

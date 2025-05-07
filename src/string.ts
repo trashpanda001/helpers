@@ -12,8 +12,9 @@ const isSSR = typeof window == "undefined"
 /**
  * Convert first character in a string to uppercase, leaving the rest untouched.
  *
- * @param string the string to capitalize
+ * @param string - the string to capitalize
  * @returns the string with the first character capitalized
+ *
  * @example
  * ```ts
  * import { capitalize } from "@trashpanda001/helpers/string"
@@ -31,10 +32,11 @@ export function capitalize(string: string) {
  *
  * The last chunk may contain less than `chunkSize` characters.
  *
- * @param string the string to chunk
- * @param chunkSize a positive integer
+ * @param string - the string to chunk
+ * @param chunkSize - a positive integer
  * @returns an array of strings
  * @throws RangeError if `chunkSize` is not a positive integer
+ *
  * @example
  * ```ts
  * import { chunkEvery } from "@trashpanda001/helpers/string"
@@ -57,10 +59,11 @@ export function chunkEvery(string: string, chunkSize: number) {
 /**
  * Pluralize / count something in English.
  *
- * @param count the number of items
- * @param singular the singular form of the item
- * @param plural the plural form of the item (default: `singular + "s"`)
+ * @param count - the number of items
+ * @param singular - the singular form of the item
+ * @param plural - the plural form of the item (default: `singular + "s"`)
  * @returns the string with the count and the singular or plural form
+ *
  * @example
  * ```ts
  * import { countable } from "@trashpanda001/helpers/string"
@@ -79,8 +82,9 @@ export function countable(count: number, singular: string, plural: string = sing
 /**
  * Decode a base-64 string into a binary string.
  *
- * @param data the base-64 string to decode
+ * @param data - the base-64 string to decode
  * @returns the decoded binary string
+ *
  * @example
  * ```ts
  * import { decode64 } from "@trashpanda001/helpers/string"
@@ -98,9 +102,10 @@ export function decode64(data: string) {
 /**
  * Encodes a string into a base-64 encoded string.
  *
- * @param string the string to encode
- * @param padding whether to add padding characters (`=`) to the end of the string (default: `false`)
+ * @param string - the string to encode
+ * @param padding - whether to add padding characters (`=`) to the end of the string (default: `false`)
  * @returns the base-64 encoded string
+ *
  * @example
  * ```ts
  * import { encode64 } from "@trashpanda001/helpers/string"
@@ -121,8 +126,9 @@ export function encode64(string: string, padding = false) {
  *
  * This is `encodeURIComponent` plus the percent encoding for `!`, `'`, `(`, `)`, and `*`.
  *
- * @param string the string to encode
+ * @param string - the string to encode
  * @returns the encoded string
+ *
  * @example
  * ```ts
  * import { encodeRfc3986 } from "@trashpanda001/helpers/string"
@@ -141,9 +147,10 @@ export function encodeRfc3986(string: string) {
  * Automatically drops null or undefined parameter values (if needed, explicitly pass as string values).
  * Handles the case if the `url` already constains some re-encoded query parameters.
  *
- * @param url the URL to encode
- * @param params the query parameters to encode
+ * @param url - the URL to encode
+ * @param params - the query parameters to encode
  * @returns the encoded URL
+ *
  * @example
  * ```ts
  * import { encodeUrl } from "@trashpanda001/helpers/string"
@@ -181,8 +188,9 @@ export function encodeUrl(url: string | URL, params: URLParams = {}) {
  *
  * https://stackoverflow.com/questions/10696223/reason-for-5381-number-in-djb-hash-function/13809282#13809282
  *
- * @param string string to hash
+ * @param string - string to hash
  * @returns integer (possibly negative)
+ *
  * @example
  * ```ts
  * import { hashCode } from "@trashpanda001/helpers/string"
@@ -198,8 +206,9 @@ export function hashCode(string: string) {
 /**
  * Returns the hostname of the given URL or empty string.
  *
- * @param url the URL to parse
+ * @param url - the URL to parse
  * @returns the hostname of the URL or empty string
+ *
  * @example
  * ```ts
  * import { hostname } from "@trashpanda001/helpers/string"
@@ -227,8 +236,9 @@ export function hostname(url: null | string | undefined | URL) {
  *
  * Similar to what React does when using a style object in a Component.
  *
- * @param styles the CSS properties to convert
+ * @param styles - the CSS properties to convert
  * @returns the CSS string value
+ *
  * @example
  * ```ts
  * import { styleToString } from "@trashpanda001/helpers/string"
@@ -253,8 +263,9 @@ export function styleToString(styles: CSSProperties) {
  * This is typically done for a more natural sort order, for example "The Beatles" would be changed
  * to "Beatles" and sorted with other bands beginning with the letter B.
  *
- * @param name the name to unprefix
+ * @param name - the name to unprefix
  * @returns the name without the prefix
+ *
  * @example
  * ```ts
  * import { unprefixName } from "@trashpanda001/helpers/string"
@@ -272,8 +283,9 @@ export function unprefixName(name: string) {
 /**
  * Decodes a URL-safe base-64 string into a binary string.
  *
- * @param data the base-64 string to decode
+ * @param data - the base-64 string to decode
  * @returns the decoded binary string
+ *
  * @example
  * ```ts
  * import { urlDecode64 } from "@trashpanda001/helpers/string"
@@ -291,9 +303,10 @@ export function urlDecode64(data: string) {
 /**
  * Encodes a binary string into a base-64 encoded string with a URL and filename safe alphabet.
  *
- * @param string the string to encode
- * @param padding whether to add padding characters (`=`) to the end of the string (default: `false`)
+ * @param string - the string to encode
+ * @param padding - whether to add padding characters (`=`) to the end of the string (default: `false`)
  * @returns the base-64 encoded string
+ *
  * @example
  * ```ts
  * import { urlEncode64 } from "@trashpanda001/helpers/string"
