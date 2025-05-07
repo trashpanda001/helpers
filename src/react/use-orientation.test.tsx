@@ -1,8 +1,8 @@
 import { act, renderHook } from "@testing-library/react"
-import { useMediaQuery } from "@trashpanda001/helpers/hooks"
+import { useOrientation } from "@trashpanda001/helpers/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
-describe("useMediaQuery hook", () => {
+describe("useOrientation hook", () => {
   let listeners: Set<(e: MediaQueryListEvent) => void>
 
   beforeEach(() => {
@@ -27,40 +27,40 @@ describe("useMediaQuery hook", () => {
     vi.unstubAllGlobals()
   })
 
-  it("returns false by default", () => {
-    const { result } = renderHook(() => useMediaQuery("(min-width: 600px)"))
-    expect(result.current).toBe(false)
+  it("returns 'landscape' by default", () => {
+    const { result } = renderHook(() => useOrientation())
+    expect(result.current).toBe("landscape")
   })
 
-  it("updates value on media query change events", () => {
-    const { result } = renderHook(() => useMediaQuery("(min-width: 600px)"))
-    expect(result.current).toBe(false)
+  it("updates value on orientation change events", () => {
+    const { result } = renderHook(() => useOrientation())
+    expect(result.current).toBe("landscape")
 
     act(() => {
       listeners.forEach((cb) => cb({ matches: true } as MediaQueryListEvent))
     })
-    expect(result.current).toBe(true)
+    expect(result.current).toBe("portrait")
 
     act(() => {
       listeners.forEach((cb) => cb({ matches: false } as MediaQueryListEvent))
     })
-    expect(result.current).toBe(false)
+    expect(result.current).toBe("landscape")
   })
 
   it("removes event listener on unmount", () => {
-    const { result, unmount } = renderHook(() => useMediaQuery("(min-width: 600px)"))
+    const { result, unmount } = renderHook(() => useOrientation())
 
     act(() => {
       listeners.forEach((cb) => cb({ matches: true } as MediaQueryListEvent))
     })
-    expect(result.current).toBe(true)
+    expect(result.current).toBe("portrait")
 
     unmount()
 
     act(() => {
       listeners.forEach((cb) => cb({ matches: false } as MediaQueryListEvent))
     })
-    expect(result.current).toBe(true)
+    expect(result.current).toBe("portrait")
     expect(listeners.size).toBe(0)
   })
 })

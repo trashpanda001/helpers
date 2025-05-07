@@ -9,7 +9,7 @@ import { useReducer } from "react"
  * @example
  * Toggle state and toggler function.
  * ```tsx
- * import { useToggle } from "@trashpanda001/helpers/hooks"
+ * import { useToggle } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const [show, toggle] = useToggle(false)

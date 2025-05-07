@@ -11,7 +11,7 @@ import { useEffect, useRef } from "react"
  * @example
  * Prompt the user before leaving the page.
  * ```tsx
- * import { useBeforeUnload } from "@trashpanda001/helpers/hooks"
+ * import { useBeforeUnload } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   useBeforeUnload((event) => {

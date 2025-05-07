@@ -8,7 +8,7 @@ import { useReducer } from "react"
  * @example
  * Force a component to re-render.
  * ```tsx
- * import { useForceUpdate } from "@trashpanda001/helpers/hooks"
+ * import { useForceUpdate } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const forceUpdate = useForceUpdate()

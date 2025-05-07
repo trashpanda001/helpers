@@ -1,7 +1,7 @@
 {
   "name": "@trashpanda001/helpers",
   "description": "Helpers for my projects.",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "type": "module",
   "engines": {
     "node": "^22.0.0"
@@ -19,9 +19,9 @@
     "./comparators": "./dist/comparators.js",
     "./cookie": "./dist/cookie.js",
     "./function": "./dist/function.js",
-    "./hooks": "./dist/hooks/index.js",
     "./number": "./dist/number.js",
     "./object": "./dist/object.js",
+    "./react": "./dist/react/index.js",
     "./string": "./dist/string.js",
     "./types": "./dist/types.js"
   },
@@ -42,10 +42,11 @@
     "loc": "tokei --exclude pnpm-lock.yaml",
     "lint": "eslint --fix --max-warnings=0 && prettier --cache --write '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}'",
     "lint:ci": "eslint --max-warnings=0 && prettier --cache --check '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}'",
-    "prepublishOnly": "pnpm run build && pnpm run build:docs",
+    "prepublishOnly": "pnpm run lint:ci && pnpm run build && pnpm run build:docs",
     "publishd": "pnpm publish --dry-run",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest watch",
+    "watch": "concurrently 'pnpm run build:watch' 'pnpm test:watch'"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
@@ -53,10 +54,11 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
     "@types/luxon": "^3.6.2",
-    "@types/node": "^22.15.14",
+    "@types/node": "^22.15.15",
     "@types/react": "^19.1.3",
     "@types/react-dom": "^19.1.3",
     "@types/string-natural-compare": "^3.0.4",
+    "concurrently": "^9.1.2",
     "eslint": "^9.26.0",
     "eslint-plugin-perfectionist": "^4.12.3",
     "eslint-plugin-react": "^7.37.5",

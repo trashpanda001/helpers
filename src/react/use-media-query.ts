@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
  * @example
  * Check if the screen is at a mobile breakpoint.
  * ```tsx
- * import { useMediaQuery } from "@trashpanda001/helpers/hooks"
+ * import { useMediaQuery } from "@trashpanda001/helpers/react"
  *
  * function Component() {
  *   const isMobile = useMediaQuery("(max-width: 600px)")
