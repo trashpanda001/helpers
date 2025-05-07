@@ -1,4 +1,6 @@
 export { useBeforeUnload } from "./use-before-unload.js"
+export { useBodyClass } from "./use-body-class.js"
+export { useBodyStyle } from "./use-body-style.js"
 export { useForceUpdate } from "./use-force-update.js"
 export { useMediaQuery } from "./use-media-query.js"
 export { useMounted } from "./use-mounted.js"
