@@ -1,5 +1,7 @@
-A collection of helpers for my projects.
-Here be dragons.
+[![NPM version][npm-img]][npm-url]
+[![Build Status][badge-build]][build-url]
+
+A collection of helpers for my projects. Here be dragons.
 
 ### Resources
 
@@ -12,3 +14,8 @@ Here be dragons.
 ```sh
 pnpm add @trashpanda001/helpers
 ```
+
+[npm-img]: http://img.shields.io/npm/v/@trashpanda001/helpers.svg
+[npm-url]: https://www.npmjs.com/package/@trasgoabda001/helpers
+[build-img]: https://github.com/trashpanda001/helpers/actions/workflows/test.yaml/badge.svg
+[build-url]: https://github.com/trashpanda001/helpers/actions/workflows/test.yaml
