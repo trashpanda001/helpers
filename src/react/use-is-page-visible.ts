@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 /**
- * Monitors changes in visibility state.
+ * Monitors changes in page visibility state.
  *
  * https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
  *
@@ -10,15 +10,15 @@ import { useEffect, useState } from "react"
  * @example
  * Check if the page is visible.
  * ```tsx
- * import { useVisibility } from "@trashpanda001/helpers/react"
+ * import { useIsPageVisible } from "@trashpanda001/helpers/react"
  *
  * function Component() {
- *   const isVisible = useVisibility()
+ *   const isVisible = useIsPageVisible()
  *   return <div>{isVisible ? "Visible" : "Hidden"}</div>
  * }
  * ```
  */
-export function useVisibility() {
+export function useIsPageVisible() {
   const [visibilityState, setVisibilityState] = useState("visible")
   useEffect(() => {
     const handler = () => setVisibilityState(document.visibilityState)

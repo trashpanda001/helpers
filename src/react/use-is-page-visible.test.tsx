@@ -1,19 +1,19 @@
 import { act, renderHook } from "@testing-library/react"
-import { useVisibility } from "@trashpanda001/helpers/react"
+import { useIsPageVisible } from "@trashpanda001/helpers/react"
 import { afterEach, describe, expect, it } from "vitest"
 
-describe("useVisibility hook", () => {
+describe("useIsPageVisible hook", () => {
   afterEach(() => {
     Object.defineProperty(document, "visibilityState", { configurable: true, value: "visible" })
   })
 
   it("returns true by default", () => {
-    const { result } = renderHook(() => useVisibility())
+    const { result } = renderHook(() => useIsPageVisible())
     expect(result.current).toBe(true)
   })
 
   it("changes to false when hidden, then back to true for visible", () => {
-    const { result } = renderHook(() => useVisibility())
+    const { result } = renderHook(() => useIsPageVisible())
     expect(result.current).toBe(true)
 
     act(() => {

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react"
 import { useHover } from "@trashpanda001/helpers/react"
 import { describe, expect, it, vi } from "vitest"
 
-function TestComponent({ onHover = (_hovered: boolean) => {} }) {
+function Component({ onHover = (_hovered: boolean) => {} }) {
   const { isHovered, ref } = useHover<HTMLDivElement>(onHover)
   return (
     <div data-testid="hover-element" ref={ref}>
@@ -13,14 +13,14 @@ function TestComponent({ onHover = (_hovered: boolean) => {} }) {
 
 describe("useHover", () => {
   it("should initialize with isHovered as false", () => {
-    render(<TestComponent />)
+    render(<Component />)
     const element = screen.getByTestId("hover-element")
     expect(element.textContent).toBe("Not Hovered")
   })
 
   it("should set isHovered to true on pointerenter and call callback with true", () => {
     const callback = vi.fn()
-    render(<TestComponent onHover={callback} />)
+    render(<Component onHover={callback} />)
     const element = screen.getByTestId("hover-element")
 
     // Simulate pointer enter event
@@ -33,7 +33,7 @@ describe("useHover", () => {
 
   it("should set isHovered to false on pointerleave and call callback with false", () => {
     const callback = vi.fn()
-    render(<TestComponent onHover={callback} />)
+    render(<Component onHover={callback} />)
     const element = screen.getByTestId("hover-element")
 
     // First enter, then leave
@@ -46,7 +46,7 @@ describe("useHover", () => {
   })
 
   it("should work without a callback", () => {
-    render(<TestComponent />)
+    render(<Component />)
     const element = screen.getByTestId("hover-element")
 
     // Simulate pointer enter event

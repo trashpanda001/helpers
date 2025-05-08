@@ -2,7 +2,7 @@ import { render } from "@testing-library/react"
 import { useBeforeUnload } from "@trashpanda001/helpers/react"
 import { describe, expect, it, vi } from "vitest"
 
-function TestComponent({ callback, enabled = true }: { callback: (e: Event) => void; enabled?: boolean }) {
+function Component({ callback, enabled = true }: { callback: (e: Event) => void; enabled?: boolean }) {
   useBeforeUnload(callback as (e: BeforeUnloadEvent) => void, enabled)
   return null
 }
@@ -10,7 +10,7 @@ function TestComponent({ callback, enabled = true }: { callback: (e: Event) => v
 describe("useBeforeUnload", () => {
   it("invokes callback on beforeunload event", () => {
     const callback = vi.fn()
-    render(<TestComponent callback={callback} />)
+    render(<Component callback={callback} />)
     const event = new Event("beforeunload", { cancelable: true })
     window.dispatchEvent(event)
     expect(callback).toHaveBeenCalledWith(event)
@@ -18,7 +18,7 @@ describe("useBeforeUnload", () => {
 
   it("does not invoke callback when disabled", () => {
     const callback = vi.fn()
-    render(<TestComponent callback={callback} enabled={false} />)
+    render(<Component callback={callback} enabled={false} />)
     const event = new Event("beforeunload", { cancelable: true })
     window.dispatchEvent(event)
     expect(callback).not.toHaveBeenCalled()
@@ -26,7 +26,7 @@ describe("useBeforeUnload", () => {
 
   it("removes event listener on unmount", () => {
     const callback = vi.fn()
-    const { unmount } = render(<TestComponent callback={callback} />)
+    const { unmount } = render(<Component callback={callback} />)
     unmount()
     const event = new Event("beforeunload", { cancelable: true })
     window.dispatchEvent(event)

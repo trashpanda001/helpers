@@ -7,15 +7,15 @@ import { useEffect, useState } from "react"
  *
  * @example
  * ```tsx
- * import { useMounted } from "@trashpanda001/helpers/react"
+ * import { useIsMounted } from "@trashpanda001/helpers/react"
  *
  * function Component() {
- *   const mounted = useMounted()
- *   return <div>{mounted ? "Mounted" : "Unmounted"}</div>
+ *   const isMounted = useIsMounted()
+ *   return <div>{isMounted ? "Mounted" : "Unmounted"}</div>
  * }
  * ```
  */
-export function useMounted() {
+export function useIsMounted() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
