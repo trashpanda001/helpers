@@ -63,7 +63,7 @@
     "eslint-plugin-perfectionist": "^4.12.3",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "happy-dom": "^17.4.6",
+    "happy-dom": "^17.4.7",
     "prettier": "^3.5.3",
     "typedoc": "^0.28.4",
     "typescript": "^5.8.3",
