@@ -49,7 +49,7 @@
     "watch": "concurrently 'pnpm run build:watch' 'pnpm test:watch'"
   },
   "devDependencies": {
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.27.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
@@ -59,7 +59,7 @@
     "@types/react-dom": "^19.1.5",
     "@types/string-natural-compare": "^3.0.4",
     "concurrently": "^9.1.2",
-    "eslint": "^9.26.0",
+    "eslint": "^9.27.0",
     "eslint-plugin-perfectionist": "^4.13.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.1.4",
