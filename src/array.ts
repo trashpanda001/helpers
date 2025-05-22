@@ -9,7 +9,7 @@ import type { Primitive } from "./types.js"
 export type { Primitive }
 
 /** Sentinel value to continue execution. */
-export const CONTINUE = Symbol.for("continue")
+export const CONTINUE = Symbol.for("CONTINUE")
 
 /**
  * Breaks an array into chunks of size `chunkSize`.

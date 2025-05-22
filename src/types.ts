@@ -13,4 +13,4 @@ export type Optional<T> = null | T | undefined
 export type Primitive = bigint | boolean | null | number | string | symbol | undefined
 
 /** Simple URL key-value parameters. */
-export type URLParams = Record<string, boolean | null | number | string | undefined>
+export type URLPrimitiveParams = Record<string, Primitive>
