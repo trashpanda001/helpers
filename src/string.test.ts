@@ -5,13 +5,14 @@ import {
   decode64,
   encode64,
   encodeRfc3986,
-  encodeUrl,
+  encodeUrlParams,
   hashCode,
   hostname,
   styleToString,
   unprefixName,
   urlDecode64,
   urlEncode64,
+  type Primitive,
 } from "@trashpanda001/helpers/string"
 import { describe, expect, it } from "vitest"
 
@@ -185,37 +186,84 @@ describe("urlDecode64/urlEncode64", () => {
   })
 })
 
-describe("encodeUrl", () => {
+describe("encodeUrlParams", () => {
   it("encodes passed parameters", () => {
-    const url = encodeUrl("/search", { a: null, limit: 200, query: "foo bar", z: undefined })
+    const url = encodeUrlParams("/search", { a: null, limit: 200, query: "foo bar", z: undefined })
     expect(url).toBe("/search?limit=200&query=foo+bar")
   })
 
   it("encodes empty parameters object", () => {
-    const url = encodeUrl("/empty", {})
+    const url = encodeUrlParams("/empty", {})
     expect(url).toBe("/empty")
   })
 
   it("merges parameters with existing query string", () => {
-    const url = encodeUrl("/search?limit=200", { query: "foo" })
+    const url = encodeUrlParams("/search?limit=200", { query: "foo" })
     expect(url).toBe("/search?limit=200&query=foo")
   })
 
   it("overrides query string with parameters", () => {
-    const url = encodeUrl("/search?limit=200&foo=bar", { foo: null, limit: 50 })
+    const url = encodeUrlParams("/search?limit=200&foo=bar", { foo: null, limit: 50 })
     expect(url).toBe("/search?limit=50")
   })
 
   it("supports absolute string URLs", () => {
-    const url = encodeUrl("https://google.com/?q=foo", { q: "bar" })
+    const url = encodeUrlParams("https://google.com/?q=foo", { q: "bar" })
     expect(url).toBe("https://google.com/?q=bar")
-    const url2 = encodeUrl("http://google.com/?q=foo", { q: "bar" })
+    const url2 = encodeUrlParams("http://google.com/?q=foo", { q: "bar" })
     expect(url2).toBe("http://google.com/?q=bar")
   })
 
   it("supports real URL objects", () => {
     const url = new URL("https://google.com/?q=foo")
-    const encodedUrl = encodeUrl(url, { q: "bar" })
+    const encodedUrl = encodeUrlParams(url, { q: "bar" })
     expect(encodedUrl).toBe("https://google.com/?q=bar")
+  })
+
+  it("handles numeric parameter values", () => {
+    const url = encodeUrlParams("/page", { id: 123, score: 98.6 })
+    expect(url).toBe("/page?id=123&score=98.6")
+  })
+
+  it("handles boolean parameter values", () => {
+    const url = encodeUrlParams("/settings", { enabled: true, visible: false })
+    expect(url).toBe("/settings?enabled=true&visible=false")
+  })
+
+  it("handles special characters in parameter values", () => {
+    const url = encodeUrlParams("/search", { query: "a&b=c?d#e+" })
+    expect(url).toBe("/search?query=a%26b%3Dc%3Fd%23e%2B")
+  })
+
+  it("preserves hash fragments", () => {
+    const url = encodeUrlParams("/page#section1", { q: "test" })
+    expect(url).toBe("/page?q=test#section1")
+  })
+
+  it("accepts URLSearchParams as parameters", () => {
+    const params = new URLSearchParams({ limit: "50", query: "search term" })
+    const url = encodeUrlParams("/api", params)
+    expect(url).toBe("/api?limit=50&query=search+term")
+  })
+
+  it("accepts arrays as parameters", () => {
+    const params: Array<[string, Primitive]> = [
+      ["limit", 50],
+      ["query", "search term"],
+    ]
+    const url = encodeUrlParams("/api", params)
+    expect(url).toBe("/api?limit=50&query=search+term")
+  })
+
+  it("accepts string as parameters", () => {
+    const params = "limit=50&query=search+term"
+    const url = encodeUrlParams("/api", params)
+    expect(url).toBe("/api?limit=50&query=search+term")
+  })
+
+  it("accepts ?-prefixed string as parameters", () => {
+    const params = "?limit=50&query=search+term"
+    const url = encodeUrlParams("/api", params)
+    expect(url).toBe("/api?limit=50&query=search+term")
   })
 })

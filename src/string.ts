@@ -3,9 +3,9 @@
  *
  * @module
  */
-import type { CSSProperties, URLParams } from "./types.js"
+import type { CSSProperties, Primitive } from "./types.js"
 
-export type { CSSProperties, URLParams }
+export type { CSSProperties, Primitive }
 
 const isSSR = typeof window == "undefined"
 
@@ -153,17 +153,25 @@ export function encodeRfc3986(string: string) {
  *
  * @example
  * ```ts
- * import { encodeUrl } from "@trashpanda001/helpers/string"
+ * import { encodeUrlParams } from "@trashpanda001/helpers/string"
  *
- * encodeUrl("/search", { a: null, limit: 200, query: "foo bar", z: undefined })
+ * encodeUrlParams("/search", { a: null, limit: 200, query: "foo bar", z: undefined })
  * // "/search?limit=200&query=foo+bar"
- * encodeUrl("/search?limit=200", { query: "foo" })
+ * encodeUrlParams("/search?limit=200", { query: "foo" })
  * // "/search?limit=200&query=foo"
- * encodeUrl("/none", null)
+ * encodeUrlParams("/none", null)
  * // "/none"
  * ```
  */
-export function encodeUrl(url: string | URL, params: URLParams = {}) {
+export function encodeUrlParams(
+  url: string | URL,
+  params:
+    | Iterable<[string, Primitive]>
+    | ReadonlyArray<[string, Primitive]>
+    | Record<string, Primitive>
+    | string
+    | URLSearchParams,
+) {
   let u: URL
   let isAbsolute: boolean
   if (url instanceof URL) {
@@ -173,13 +181,23 @@ export function encodeUrl(url: string | URL, params: URLParams = {}) {
     isAbsolute = /^https?:\/\//.test(url)
     u = new URL(url, !isAbsolute ? "http://localhost" : undefined)
   }
-  Object.entries(params).forEach(([key, value]) => {
+
+  const iterable =
+    params instanceof URLSearchParams
+      ? params.entries()
+      : typeof params == "string"
+        ? new URLSearchParams(params).entries()
+        : Array.isArray(params)
+          ? params
+          : Object.entries(params)
+
+  for (const [key, value] of iterable) {
     if (value == null) {
       u.searchParams.delete(key)
     } else {
       u.searchParams.set(key, String(value))
     }
-  })
+  }
   return isAbsolute ? u.href : u.pathname + u.search + u.hash
 }
 
