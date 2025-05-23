@@ -6,6 +6,7 @@
 import type { CSSProperties, Primitive } from "./types.js"
 
 export type { CSSProperties, Primitive }
+export type URLSearchParamsLike = Array<[string, Primitive]> | Record<string, Primitive> | string | URLSearchParams
 
 const isSSR = typeof window == "undefined"
 
@@ -145,33 +146,26 @@ export function encodeRfc3986(string: string) {
  * Encode a URL with optional query parameters.
  *
  * Automatically drops null or undefined parameter values (if needed, explicitly pass as string values).
- * Handles the case if the `url` already constains some re-encoded query parameters.
+ * Handles the case if the `url` already contains some re-encoded query parameters.
+ * Accepts multiple parameter objects that will be merged, with later parameters overriding earlier ones.
  *
  * @param url - the URL to encode
- * @param params - the query parameters to encode
+ * @param params - zero or more parameter objects to encode
  * @returns the encoded URL
  *
  * @example
  * ```ts
  * import { encodeUrlParams } from "@trashpanda001/helpers/string"
  *
- * encodeUrlParams("/search", { a: null, limit: 200, query: "foo bar", z: undefined })
+ * encodeUrlParams("/search", { limit: 200 }, { query: "foo bar" })
  * // "/search?limit=200&query=foo+bar"
- * encodeUrlParams("/search?limit=200", { query: "foo" })
- * // "/search?limit=200&query=foo"
- * encodeUrlParams("/none", null)
+ * encodeUrlParams("/search?limit=200", { query: "foo" }, { limit: 300 })
+ * // "/search?limit=300&query=foo"
+ * encodeUrlParams("/none")
  * // "/none"
  * ```
  */
-export function encodeUrlParams(
-  url: string | URL,
-  params:
-    | Iterable<[string, Primitive]>
-    | ReadonlyArray<[string, Primitive]>
-    | Record<string, Primitive>
-    | string
-    | URLSearchParams,
-) {
+export function encodeUrlParams(url: string | URL, ...params: URLSearchParamsLike[]) {
   let u: URL
   let isAbsolute: boolean
   if (url instanceof URL) {
@@ -182,22 +176,25 @@ export function encodeUrlParams(
     u = new URL(url, !isAbsolute ? "http://localhost" : undefined)
   }
 
-  const iterable =
-    params instanceof URLSearchParams
-      ? params.entries()
-      : typeof params == "string"
-        ? new URLSearchParams(params).entries()
-        : Array.isArray(params)
-          ? params
-          : Object.entries(params)
+  for (const param of params) {
+    const iterable =
+      param instanceof URLSearchParams
+        ? param.entries()
+        : typeof param == "string"
+          ? new URLSearchParams(param).entries()
+          : Array.isArray(param)
+            ? param
+            : Object.entries(param)
 
-  for (const [key, value] of iterable) {
-    if (value == null) {
-      u.searchParams.delete(key)
-    } else {
-      u.searchParams.set(key, String(value))
+    for (const [key, value] of iterable) {
+      if (value == null) {
+        u.searchParams.delete(key)
+      } else {
+        u.searchParams.set(key, String(value))
+      }
     }
   }
+
   return isAbsolute ? u.href : u.pathname + u.search + u.hash
 }
 

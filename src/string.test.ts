@@ -266,4 +266,42 @@ describe("encodeUrlParams", () => {
     const url = encodeUrlParams("/api", params)
     expect(url).toBe("/api?limit=50&query=search+term")
   })
+
+  it("accepts multiple parameter objects that get merged", () => {
+    const url = encodeUrlParams("/api", { limit: 10, page: 1 }, { limit: 20, sort: "date" }, { filter: "active" })
+    expect(url).toBe("/api?limit=20&page=1&sort=date&filter=active")
+  })
+
+  it("can be called with no parameters", () => {
+    const url = encodeUrlParams("/api")
+    expect(url).toBe("/api")
+  })
+
+  it("handles different parameter types in variadic arguments", () => {
+    const searchParams = new URLSearchParams({ q: "search term" })
+    const arrayParams: Array<[string, Primitive]> = [["page", 1]]
+    const objectParams = { limit: 50 }
+    const stringParams = "sort=date"
+
+    const url = encodeUrlParams("/api", searchParams, arrayParams, objectParams, stringParams)
+
+    expect(url).toBe("/api?q=search+term&page=1&limit=50&sort=date")
+  })
+
+  it("applies parameters in order, with later ones overriding earlier ones", () => {
+    const url = encodeUrlParams(
+      "/api",
+      { limit: 10, page: 1, sort: "name" },
+      { filter: "active", limit: 20 },
+      { limit: 30, page: 2 },
+    )
+
+    expect(url).toBe("/api?limit=30&page=2&sort=name&filter=active")
+  })
+
+  it("correctly handles null and undefined values across multiple parameter objects", () => {
+    const url = encodeUrlParams("/api", { a: 1, b: 2, c: 3 }, { b: null }, { c: undefined, d: 4 })
+
+    expect(url).toBe("/api?a=1&d=4")
+  })
 })
