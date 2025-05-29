@@ -15,6 +15,12 @@ A collection of helpers for my projects. Here be dragons.
 pnpm add @trashpanda001/helpers
 ```
 
+or
+
+```sh
+npm install @trashpanda001/helpers
+```
+
 ### Example usage
 
 ```ts
