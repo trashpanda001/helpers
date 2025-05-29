@@ -1,7 +1,7 @@
 {
   "name": "@trashpanda001/helpers",
   "description": "Helpers for my projects.",
-  "version": "0.18.0",
+  "version": "0.18.1",
   "type": "module",
   "engines": {
     "node": "^22.0.0"
@@ -15,6 +15,7 @@
   "author": "Trash Panda <adrian@danieli.org>",
   "homepage": "https://trashpanda001.github.io/helpers/",
   "exports": {
+    ".": "./dist/index.js",
     "./array": "./dist/array.js",
     "./comparators": "./dist/comparators.js",
     "./cookie": "./dist/cookie.js",

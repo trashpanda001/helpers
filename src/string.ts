@@ -3,12 +3,11 @@
  *
  * @module
  */
+import { isServer } from "./index.js"
 import type { CSSProperties, Primitive } from "./types.js"
 
 export type { CSSProperties, Primitive }
 export type URLSearchParamsLike = Array<[string, Primitive]> | Record<string, Primitive> | string | URLSearchParams
-
-const isSSR = typeof window == "undefined"
 
 /**
  * Convert first character in a string to uppercase, leaving the rest untouched.
@@ -97,7 +96,7 @@ export function countable(count: number, singular: string, plural: string = sing
  * ```
  */
 export function decode64(data: string) {
-  return isSSR ? Buffer.from(data, "base64").toString() : window.atob(data)
+  return isServer ? Buffer.from(data, "base64").toString() : window.atob(data)
 }
 
 /**
@@ -118,7 +117,7 @@ export function decode64(data: string) {
  * ```
  */
 export function encode64(string: string, padding = false) {
-  const encoded = isSSR ? Buffer.from(string).toString("base64") : window.btoa(string)
+  const encoded = isServer ? Buffer.from(string).toString("base64") : window.btoa(string)
   return padding ? encoded : encoded.replace(/=+$/g, "")
 }
 

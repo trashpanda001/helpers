@@ -3,7 +3,7 @@
  *
  * @module
  */
-const isSSR = typeof window == "undefined"
+import { isServer } from "./index.js"
 
 /** Cookie options */
 export type CookieOptions = {
@@ -37,7 +37,7 @@ export type CookieOptions = {
  * ```
  */
 export function deleteCookie(name: string, options?: Readonly<CookieOptions>) {
-  if (isSSR) {
+  if (isServer) {
     throw new Error("deleteCookie is not available during SSR")
   }
   setCookie(name, "", options)
@@ -61,7 +61,7 @@ export function deleteCookie(name: string, options?: Readonly<CookieOptions>) {
  * ```
  */
 export function getCookie(name: string) {
-  if (isSSR) {
+  if (isServer) {
     throw new Error("getCookie is not available during SSR")
   }
   const regex = new RegExp("(?:^|;\\s*)" + name + "=([^;]*)")
@@ -85,7 +85,7 @@ export function getCookie(name: string) {
  * ```
  */
 export function getCookies() {
-  if (isSSR) {
+  if (isServer) {
     throw new Error("getCookies is not available during SSR")
   }
   return document.cookie.split("; ").reduce((cookies: Record<string, string>, cookie) => {
@@ -126,7 +126,7 @@ export function getCookies() {
  * It's the only way to be sure.
  */
 export function nukeCookie(name: string, path?: string) {
-  if (isSSR) {
+  if (isServer) {
     throw new Error("nukeCookie is not available during SSR")
   }
   const domainParts = window.location.hostname.split(".")
@@ -166,7 +166,7 @@ export function nukeCookie(name: string, path?: string) {
  * ```
  */
 export function setCookie(name: string, value: string, options: Readonly<CookieOptions> = {}) {
-  if (isSSR) {
+  if (isServer) {
     throw new Error("setCookie is not available during SSR")
   }
   const { domain, maxAge = value != "" ? 34560000 : 0, path = "/", sameSite = "Lax" } = options
