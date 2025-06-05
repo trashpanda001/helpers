@@ -57,18 +57,18 @@
     "@types/luxon": "^3.6.2",
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",
-    "@types/react-dom": "^19.1.5",
+    "@types/react-dom": "^19.1.6",
     "@types/string-natural-compare": "^3.0.4",
     "eslint": "^9.28.0",
-    "eslint-plugin-perfectionist": "^4.13.0",
+    "eslint-plugin-perfectionist": "^4.14.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "happy-dom": "^17.6.1",
+    "happy-dom": "^17.6.3",
     "prettier": "^3.5.3",
     "typedoc": "^0.28.5",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1",
-    "vitest": "^3.2.1"
+    "vitest": "^3.2.2"
   },
   "peerDependencies": {
     "luxon": "^3",
