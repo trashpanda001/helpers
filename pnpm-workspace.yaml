@@ -1,6 +1,7 @@
+enableGlobalVirtualStore: true
+ignoredBuiltDependencies:
+  - esbuild
 publicHoistPattern:
   - "*eslint*"
   - "*prettier*"
 strictPeerDependencies: true
-ignoredBuiltDependencies:
-  - esbuild
