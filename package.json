@@ -55,7 +55,11 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
     "@types/luxon": "^3.6.2",
+<<<<<<< HEAD
     "@types/node": "^22.15.33",
+=======
+    "@types/node": "^22.15.32",
+>>>>>>> bed38f3 (Bump deps)
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@types/string-natural-compare": "^3.0.4",
