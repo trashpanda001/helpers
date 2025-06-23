@@ -47,8 +47,7 @@
     "prepublishOnly": "pnpm run build:all",
     "publishd": "pnpm publish --dry-run",
     "test": "vitest run",
-    "test:watch": "vitest watch",
-    "zlint": "prettier --cache --check '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}'"
+    "test:watch": "vitest watch"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
