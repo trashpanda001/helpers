@@ -47,7 +47,8 @@
     "prepublishOnly": "pnpm run build:all",
     "publishd": "pnpm publish --dry-run",
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "zlint": "prettier --cache --check '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}'"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
@@ -64,7 +65,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.1.4",
     "happy-dom": "^18.0.1",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.0",
     "typedoc": "^0.28.5",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.1",

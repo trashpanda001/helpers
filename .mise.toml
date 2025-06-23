@@ -1,2 +1,5 @@
+[env]
+PRETTIER_EXPERIMENTAL_CLI = "1"
+
 [tools]
 node = { version = "22.16.0", postinstall = "corepack enable" }
