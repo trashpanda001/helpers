@@ -8,6 +8,7 @@ import {
   encodeUrlParams,
   hashCode,
   hostname,
+  interpolate,
   styleToString,
   unprefixName,
   urlDecode64,
@@ -303,5 +304,98 @@ describe("encodeUrlParams", () => {
     const url = encodeUrlParams("/api", { a: 1, b: 2, c: 3 }, { b: null }, { c: undefined, d: 4 })
 
     expect(url).toBe("/api?a=1&d=4")
+  })
+})
+
+describe("interpolate", () => {
+  it("replaces single variable", () => {
+    expect(interpolate("Hello, {name}!", { name: "World" })).toBe("Hello, World!")
+  })
+
+  it("replaces multiple variables", () => {
+    expect(interpolate("Hello, {name}! You are {age} years old.", { age: "25", name: "Alice" })).toBe(
+      "Hello, Alice! You are 25 years old.",
+    )
+  })
+
+  it("replaces the same variable multiple times", () => {
+    expect(interpolate("{greeting}, {name}! {greeting} again, {name}!", { greeting: "Hi", name: "Bob" })).toBe(
+      "Hi, Bob! Hi again, Bob!",
+    )
+  })
+
+  it("handles empty variables object", () => {
+    expect(interpolate("Hello, {name}!", {})).toBe("Hello, {name}!")
+  })
+
+  it("handles variables not present in text", () => {
+    expect(interpolate("Hello, World!", { age: "25", name: "Alice" })).toBe("Hello, World!")
+  })
+
+  it("handles text with no variables", () => {
+    expect(interpolate("Hello, World!", { name: "Alice" })).toBe("Hello, World!")
+  })
+
+  it("handles empty text", () => {
+    expect(interpolate("", { name: "Alice" })).toBe("")
+  })
+
+  it("handles empty text with empty variables", () => {
+    expect(interpolate("", {})).toBe("")
+  })
+
+  it("handles variables with special characters", () => {
+    expect(interpolate("Hello, {name}!", { name: "Alice & Bob" })).toBe("Hello, Alice & Bob!")
+  })
+
+  it("handles variables with regex special characters", () => {
+    expect(interpolate("Hello, {name}!", { name: "$1 [test] (group)" })).toBe("Hello, $1 [test] (group)!")
+  })
+
+  it("handles variables with curly braces in values", () => {
+    expect(interpolate("Hello, {name}!", { name: "{Bob}" })).toBe("Hello, {Bob}!")
+  })
+
+  it("handles text with escaped braces (should not replace)", () => {
+    expect(interpolate("Hello, \\{name\\}!", { name: "Alice" })).toBe("Hello, \\{name\\}!")
+  })
+
+  it("handles malformed variable references", () => {
+    expect(interpolate("Hello, {name! Missing closing brace", { name: "Alice" })).toBe(
+      "Hello, {name! Missing closing brace",
+    )
+    expect(interpolate("Hello, name}! Missing opening brace", { name: "Alice" })).toBe(
+      "Hello, name}! Missing opening brace",
+    )
+  })
+
+  it("handles variables with numbers in names", () => {
+    expect(interpolate("Item {item1} and {item2}", { item1: "A", item2: "B" })).toBe("Item A and B")
+  })
+
+  it("handles variables with underscores in names", () => {
+    expect(interpolate("Hello, {first_name} {last_name}!", { first_name: "John", last_name: "Doe" })).toBe(
+      "Hello, John Doe!",
+    )
+  })
+
+  it("handles case-sensitive variable names", () => {
+    expect(interpolate("Hello, {Name} and {name}!", { Name: "Alice", name: "Bob" })).toBe("Hello, Alice and Bob!")
+  })
+
+  it("handles variables with empty string values", () => {
+    expect(interpolate("Hello, {name}!", { name: "" })).toBe("Hello, !")
+  })
+
+  it("handles complex template with mixed content", () => {
+    const template = "Welcome {title} {lastName}! Your order #{orderId} for ${amount} is {status}."
+    const variables = {
+      amount: "99.99",
+      lastName: "Smith",
+      orderId: "12345",
+      status: "confirmed",
+      title: "Dr.",
+    }
+    expect(interpolate(template, variables)).toBe("Welcome Dr. Smith! Your order #12345 for $99.99 is confirmed.")
   })
 })

@@ -246,6 +246,29 @@ export function hostname(url: null | string | undefined | URL) {
 }
 
 /**
+ * Returns the text with variables replaced by their values.
+ *
+ * @param text - the template text with variables in the form `{variableName}`
+ * @param variables - the variables to replace in the text
+ * @returns a new string with the variables replaced by their values
+ *
+ * @example
+ * ```ts
+ * import { interpolate } from "@trashpanda001/helpers/string"
+ *
+ * interpolate("Hello, {name}!", { name: "World" })
+ * // "Hello, World!"
+ * interpolate("Hello, {name}!", { name: "World", age: "42" })
+ * // "Hello, World!" -- age is not used
+ * interpolate("Hello, {name}!", {})
+ * // "Hello, {name}!" -- unknown variable is not replaced
+ * ```
+ */
+export function interpolate(text: string, variables: Record<string, string>) {
+  return Object.entries(variables).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, value), text)
+}
+
+/**
  * Convert a CSS object to a CSS string value.
  *
  * Similar to what React does when using a style object in a Component.

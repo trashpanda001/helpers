@@ -1,12 +1,12 @@
 {
   "name": "@trashpanda001/helpers",
   "description": "Helpers for my projects.",
-  "version": "0.18.1",
+  "version": "0.19.0",
   "type": "module",
   "engines": {
     "node": "^22.0.0"
   },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac",
+  "packageManager": "pnpm@10.12.3+sha512.467df2c586056165580ad6dfb54ceaad94c5a30f80893ebdec5a44c5aa73c205ae4a5bb9d5ed6bb84ea7c249ece786642bbb49d06a307df218d03da41c317417",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -55,20 +55,20 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
     "@types/luxon": "^3.6.2",
-    "@types/node": "^22.15.31",
+    "@types/node": "^22.15.33",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@types/string-natural-compare": "^3.0.4",
     "eslint": "^9.29.0",
-    "eslint-plugin-perfectionist": "^4.14.0",
+    "eslint-plugin-perfectionist": "^4.15.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.1.4",
     "happy-dom": "^18.0.1",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.1",
     "typedoc": "^0.28.5",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0",
-    "vitest": "^3.2.3"
+    "typescript-eslint": "^8.35.0",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "luxon": "^3",
