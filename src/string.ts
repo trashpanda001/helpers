@@ -265,10 +265,7 @@ export function hostname(url: null | string | undefined | URL) {
  * ```
  */
 export function interpolate(text: string, variables: Record<string, string>) {
-  return Object.entries(variables).reduce(
-    (result, [key, value]) => result.replace(new RegExp(`{${key}}`, "g"), value),
-    text,
-  )
+  return Object.entries(variables).reduce((result, [key, value]) => result.replaceAll(`{${key}}`, value), text)
 }
 
 /**
