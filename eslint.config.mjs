@@ -22,6 +22,7 @@ const eslintConfig = defineConfig([
       curly: ["error", "all"],
       "no-constant-condition": "warn",
       "no-param-reassign": "error",
+      "no-restricted-globals": ["error", "location", "navigator"],
       "no-restricted-imports": ["error", { patterns: ["../*"] }],
       //"no-use-before-define": ["error", { functions: false }],
     },
