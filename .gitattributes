@@ -1,0 +1,2 @@
+# Disable diff for lock files
+pnpm-lock.yaml -diff
