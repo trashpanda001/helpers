@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "build:all": "pnpm run clean && pnpm run lint:ci && pnpm run build && pnpm run test && pnpm run build:docs",
+    "build:all": "pnpm install && pnpm run clean && pnpm run lint:ci && pnpm run build && pnpm run test && pnpm run build:docs",
     "build:docs": "typedoc --treatWarningsAsErrors",
     "build:watch": "tsc --watch",
     "clean": "rm -rf dist/*",
