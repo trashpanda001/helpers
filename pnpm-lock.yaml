@@ -35,7 +35,7 @@ importers:
         version: 10.4.1
       '@testing-library/react':
         specifier: ^16.3.0
-        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.9))(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@types/luxon':
         specifier: ^3.7.1
         version: 3.7.1
@@ -43,11 +43,11 @@ importers:
         specifier: ^22.17.1
         version: 22.17.1
       '@types/react':
-        specifier: ^19.1.9
-        version: 19.1.9
+        specifier: ^19.1.10
+        version: 19.1.10
       '@types/react-dom':
         specifier: ^19.1.7
-        version: 19.1.7(@types/react@19.1.9)
+        version: 19.1.7(@types/react@19.1.10)
       '@types/string-natural-compare':
         specifier: ^3.0.4
         version: 3.0.4
@@ -662,8 +662,8 @@ packages:
     peerDependencies:
       '@types/react': ^19.0.0
 
-  '@types/react@19.1.9':
-    resolution: {integrity: sha512-WmdoynAX8Stew/36uTSVMcLJJ1KRh6L3IZRx1PZ7qJtBqT3dYTgyDTx8H1qoRghErydW7xw9mSJ3wS//tCRpFA==}
+  '@types/react@19.1.10':
+    resolution: {integrity: sha512-EhBeSYX0Y6ye8pNebpKrwFJq7BoQ8J5SO6NlvNwwHjSj6adXJViPQrKlsyPw7hLBLvckEMO1yxeGdR82YBBlDg==}
 
   '@types/string-natural-compare@3.0.4':
     resolution: {integrity: sha512-M7TwoIEvNr7Go1CUdp8qjOEWwwYPOHq4N4IlWX+735eJDk3qFfwfUS8WAod0qnViRB+ig0v+eXyxr6zaqKJmhg==}
@@ -2305,15 +2305,15 @@ snapshots:
       picocolors: 1.1.1
       pretty-format: 27.5.1
 
-  '@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.9))(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:
       '@babel/runtime': 7.28.2
       '@testing-library/dom': 10.4.1
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
     optionalDependencies:
-      '@types/react': 19.1.9
-      '@types/react-dom': 19.1.7(@types/react@19.1.9)
+      '@types/react': 19.1.10
+      '@types/react-dom': 19.1.7(@types/react@19.1.10)
 
   '@tybys/wasm-util@0.10.0':
     dependencies:
@@ -2346,11 +2346,11 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/react-dom@19.1.7(@types/react@19.1.9)':
+  '@types/react-dom@19.1.7(@types/react@19.1.10)':
     dependencies:
-      '@types/react': 19.1.9
+      '@types/react': 19.1.10
 
-  '@types/react@19.1.9':
+  '@types/react@19.1.10':
     dependencies:
       csstype: 3.1.3
 
