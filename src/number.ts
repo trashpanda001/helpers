@@ -130,7 +130,7 @@ export function randomFloat(min: number, max?: number) {
 
 /**
  * Generate a random integer between `min` (inclusive) and `max` (exclusive). If `max` is omitted,
- * generates a random integer between `0-min`.
+ * generates a random integer between `0-min`. Avoids modulo bias.
  *
  * @param min - the minimum value
  * @param max - the maximum value (exclusive)
@@ -147,5 +147,16 @@ export function randomFloat(min: number, max?: number) {
  * ```
  */
 export function randomInt(min: number, max?: number) {
-  return Math.floor(randomFloat(min, max))
+  const actualMax = max ?? min
+  const actualMin = max === undefined ? 0 : min
+  const range = actualMax - actualMin
+
+  // Generate random values until we get one in the valid range
+  while (true) {
+    const random = Math.random()
+    const result = Math.floor(random * range) + actualMin
+    if (result < actualMax) {
+      return result
+    }
+  }
 }

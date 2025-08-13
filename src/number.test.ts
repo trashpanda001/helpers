@@ -69,15 +69,95 @@ describe("randomFloat", () => {
 })
 
 describe("randomInt", () => {
-  it("floors the random float result", () => {
+  it("generates integers between 0 and min when max is undefined", () => {
     vi.spyOn(Math, "random").mockReturnValue(0.99)
-    // randomFloat(0, 10) => 9.9, floored to 9
-    expect(randomInt(0, 10)).toBe(9)
+    // randomFloat(100) => 99, floored to 99
+    expect(randomInt(100)).toBe(99)
   })
 
-  it("uses 0 as min when max is undefined", () => {
-    vi.spyOn(Math, "random").mockReturnValue(0.1)
-    // randomFloat(100) => 10, floored to 10
-    expect(randomInt(100)).toBe(10)
+  it("generates integers between min and max when both provided", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.5)
+    // randomFloat(5, 10) => 7.5, floored to 7
+    expect(randomInt(5, 10)).toBe(7)
+  })
+
+  it("returns min when random is 0", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0)
+    expect(randomInt(5, 10)).toBe(5)
+  })
+
+  it("returns max-1 when random is close to 1", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.999999)
+    expect(randomInt(5, 10)).toBe(9)
+  })
+
+  it("handles negative ranges", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.5)
+    expect(randomInt(-5, 5)).toBe(0)
+  })
+
+  it("handles single value range", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.5)
+    expect(randomInt(5, 6)).toBe(5)
+  })
+
+  it("avoids modulo bias by ensuring uniform distribution", () => {
+    const min = 0
+    const max = 10
+    const iterations = 10000
+    const counts = new Array(max - min).fill(0)
+
+    // Collect many samples
+    for (let i = 0; i < iterations; i++) {
+      const result = randomInt(min, max)
+      counts[result - min]++
+    }
+
+    // Check that all values are generated
+    counts.forEach((count, _index) => {
+      expect(count).toBeGreaterThan(0)
+    })
+
+    // Check that distribution is roughly uniform (within 20% tolerance)
+    const expectedCount = iterations / (max - min)
+    counts.forEach((count, _index) => {
+      expect(count).toBeGreaterThan(expectedCount * 0.8)
+      expect(count).toBeLessThan(expectedCount * 1.2)
+    })
+  })
+
+  it("avoids modulo bias for larger ranges", () => {
+    const min = 0
+    const max = 100
+    const iterations = 50000
+    const counts = new Array(max - min).fill(0)
+
+    // Collect many samples
+    for (let i = 0; i < iterations; i++) {
+      const result = randomInt(min, max)
+      counts[result - min]++
+    }
+
+    // Check that all values are generated
+    counts.forEach((count, _index) => {
+      expect(count).toBeGreaterThan(0)
+    })
+
+    // Check that distribution is roughly uniform (within 25% tolerance for larger range)
+    const expectedCount = iterations / (max - min)
+    counts.forEach((count, _index) => {
+      expect(count).toBeGreaterThan(expectedCount * 0.75)
+      expect(count).toBeLessThan(expectedCount * 1.25)
+    })
+  })
+
+  it("handles edge case where range is 1", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.5)
+    expect(randomInt(5, 6)).toBe(5)
+  })
+
+  it("handles edge case where range is 2", () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.5)
+    expect(randomInt(5, 7)).toBe(6)
   })
 })

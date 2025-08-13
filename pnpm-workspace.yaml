@@ -1,4 +1,4 @@
-enableGlobalVirtualStore: true
+enableGlobalVirtualStore: false
 ignoredBuiltDependencies:
   - esbuild
 publicHoistPattern:
