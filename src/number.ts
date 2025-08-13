@@ -151,13 +151,12 @@ export function randomInt(min: number, max?: number) {
   const actualMin = max === undefined ? 0 : min
   const range = actualMax - actualMin
 
-  // Calculate the maximum multiple of range that fits in [0, 1)
-  const maxMultiple = Math.floor(1 / (range + 1)) * (range + 1)
-
+  // Generate random values until we get one in the valid range
   while (true) {
     const random = Math.random()
-    if (random < maxMultiple) {
-      return Math.floor(random / (range + 1)) + actualMin
+    const result = Math.floor(random * range) + actualMin
+    if (result < actualMax) {
+      return result
     }
   }
 }
