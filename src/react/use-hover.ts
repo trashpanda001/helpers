@@ -29,7 +29,8 @@ export function useHover<T extends HTMLElement = HTMLElement>(onHover?: (hovered
   useEffect(() => {
     const element = ref.current
     if (!element) {
-      throw new Error("useHover: ref is not set")
+      console.warn("useHover: ref is not set. Make sure to attach the ref to an element.")
+      return
     }
     function handlePointerEnter() {
       callbackRef.current?.(true)
