@@ -4,7 +4,7 @@
  * @module
  */
 import { isServer } from "./index.js"
-import type { CSSProperties, Primitive } from "./types.js"
+import { type CSSProperties, type Primitive } from "./types.js"
 
 export type { CSSProperties, Primitive }
 export type URLSearchParamsLike = Array<[string, Primitive]> | Record<string, Primitive> | string | URLSearchParams

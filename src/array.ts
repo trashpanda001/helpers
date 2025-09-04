@@ -5,10 +5,9 @@
  */
 import { identity } from "./function.js"
 import { randomInt } from "./number.js"
-import type { Primitive } from "./types.js"
+import { type Primitive } from "./types.js"
 
-export type { Primitive }
-
+export { type Primitive }
 /** Sentinel value to continue execution. */
 export const CONTINUE = Symbol.for("CONTINUE")
 

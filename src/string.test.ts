@@ -9,11 +9,11 @@ import {
   hashCode,
   hostname,
   interpolate,
+  type Primitive,
   styleToString,
   unprefixName,
   urlDecode64,
   urlEncode64,
-  type Primitive,
 } from "@trashpanda001/helpers/string"
 import { describe, expect, it } from "vitest"
 
