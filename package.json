@@ -51,7 +51,8 @@
     "prettier:fix": "prettier '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}' --write",
     "publishd": "pnpm publish --dry-run",
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "upgrade:pnpm": "corepack use pnpm@latest"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
