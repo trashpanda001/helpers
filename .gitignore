@@ -1,5 +1,14 @@
 /.git/
+
+# Node
+/node_modules/
+
+# outputs
 /docs/
 /dist/
-/node_modules/
+
+# TypeScript incremental build info
+/tsconfig.tsbuildinfo
+
+# filesystem detritus
 .DS_Store
