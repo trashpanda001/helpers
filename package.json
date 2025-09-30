@@ -1,7 +1,7 @@
 {
   "name": "@trashpanda001/helpers",
   "description": "Helpers for my projects.",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "type": "module",
   "engines": {
     "node": "^22.0.0"
@@ -48,8 +48,8 @@
     "lint": "pnpm eslint:fix && pnpm prettier:fix && pnpm tsc:check",
     "nuke": "pnpm clean && rm -rf node_modules/ && pnpm install --frozen-lockfile",
     "prepublishOnly": "pnpm build:all",
-    "prettier:check": "prettier '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}' --check",
-    "prettier:fix": "prettier '**/*.{cjs,cts,css,html,js,json,jsx,md,mjs,mts,ts,tsx,yaml}' --write",
+    "prettier:check": "prettier '**/*.{cjs,cts,css,html,js,json,jsonc,jsx,md,mjs,mts,ts,tsx,yaml}' --check",
+    "prettier:fix": "prettier '**/*.{cjs,cts,css,html,js,json,jsonc,jsx,md,mjs,mts,ts,tsx,yaml}' --write",
     "publishd": "pnpm publish --dry-run",
     "test": "vitest run",
     "test:watch": "vitest watch",

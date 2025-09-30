@@ -11,7 +11,8 @@ import {
   interpolate,
   type Primitive,
   styleToString,
-  unprefixName,
+  unprefix,
+  unprefixEnglishArticles,
   urlDecode64,
   urlEncode64,
 } from "@trashpanda001/helpers/string"
@@ -158,15 +159,68 @@ describe("styleToString", () => {
   })
 })
 
-describe("unprefixName", () => {
+describe("unprefix", () => {
+  it("removes string prefix when string starts with it", () => {
+    expect(unprefix("The Beatles", "The ")).toBe("Beatles")
+    expect(unprefix("prefix-suffix", "prefix-")).toBe("suffix")
+    expect(unprefix("hello world", "hello")).toBe(" world")
+  })
+
+  it("returns original string when it does not start with the prefix", () => {
+    expect(unprefix("The Beatles", "A ")).toBe("The Beatles")
+    expect(unprefix("hello", "world")).toBe("hello")
+    expect(unprefix("", "prefix")).toBe("")
+  })
+
+  it("handles empty string input", () => {
+    expect(unprefix("", "prefix")).toBe("")
+    expect(unprefix("", "")).toBe("")
+  })
+
+  it("handles empty prefix", () => {
+    expect(unprefix("hello", "")).toBe("hello")
+  })
+
+  it("removes regex prefix when it matches", () => {
+    expect(unprefix("The Beatles", /^(the|a|an) /i)).toBe("Beatles")
+    expect(unprefix("123abc", /^\d+/)).toBe("abc")
+    expect(unprefix("ABC123", /^[A-Z]+/)).toBe("123")
+  })
+
+  it("returns original string when regex does not match", () => {
+    expect(unprefix("The Beatles", /^(a|an) /i)).toBe("The Beatles")
+    expect(unprefix("abc", /^\d+/)).toBe("abc")
+  })
+
+  it("handles regex with global flag", () => {
+    expect(unprefix("hello hello world", /^hello /g)).toBe("hello world")
+  })
+
+  it("handles case-sensitive regex", () => {
+    expect(unprefix("The Beatles", /^(the|a|an) /)).toBe("The Beatles") // case-sensitive, no match
+    expect(unprefix("the beatles", /^(the|a|an) /)).toBe("beatles") // case-sensitive match
+  })
+
+  it("handles complex regex patterns", () => {
+    expect(unprefix("Mr. John Doe", /^(mr\.|ms\.|mrs\.) /i)).toBe("John Doe")
+    expect(unprefix("Dr. Jane Smith", /^(dr\.|prof\.) /i)).toBe("Jane Smith")
+  })
+
+  it("handles regex that matches multiple characters", () => {
+    expect(unprefix("   indented text", /^\s+/)).toBe("indented text")
+    expect(unprefix("!!!important", /^!+/)).toBe("important")
+  })
+})
+
+describe("unprefixEnglishArticles", () => {
   it("removes 'the', 'a', 'an' prefixes case-insensitively", () => {
-    expect(unprefixName("The Beatles")).toBe("Beatles")
-    expect(unprefixName("a Something")).toBe("Something")
-    expect(unprefixName("An Adventure")).toBe("Adventure")
+    expect(unprefixEnglishArticles("The Beatles")).toBe("Beatles")
+    expect(unprefixEnglishArticles("a Something")).toBe("Something")
+    expect(unprefixEnglishArticles("An Adventure")).toBe("Adventure")
   })
 
   it("does not remove when prefix is part of word", () => {
-    expect(unprefixName("Theodore")).toBe("Theodore")
+    expect(unprefixEnglishArticles("Theodore")).toBe("Theodore")
   })
 })
 
