@@ -4,10 +4,10 @@
  * @module
  */
 import { identity } from "./function.js"
-import type { Primitive } from "./types.js"
+import { randomInt } from "./number.js"
+import { type Primitive } from "./types.js"
 
-export type { Primitive }
-
+export { type Primitive }
 /** Sentinel value to continue execution. */
 export const CONTINUE = Symbol.for("CONTINUE")
 
@@ -131,7 +131,7 @@ export function groupBy<T, K extends PropertyKey, V = T>(
 export function shuffle<T>(array: readonly T[]) {
   const newArray = [...array]
   for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
+    const j = randomInt(i + 1)
     ;[newArray[i], newArray[j]] = [newArray[j]!, newArray[i]!]
   }
   return newArray
@@ -187,6 +187,9 @@ export function sortBy<T, V>(array: readonly T[], mapFn: (x: T) => V, compareFn:
  * ```
  */
 export function times<T>(n: number, mapFn: (i: number) => T = identity as (i: number) => T) {
+  if (!(Number.isInteger(n) && n >= 0)) {
+    throw new RangeError("Times count must be a non-negative integer")
+  }
   return Array.from({ length: n }, (_, i) => mapFn(i))
 }
 
@@ -216,6 +219,8 @@ export function uniq<T extends Primitive>(array: readonly T[]) {
  *
  * The first occurrence of each element is kept.
  *
+ * Optimized implementation using for...of loop instead of forEach for better performance.
+ *
  * @param array - the input array
  * @param uniqFn - a function that returns the value to check for duplicates
  * @returns a new array with unique elements
@@ -230,14 +235,20 @@ export function uniq<T extends Primitive>(array: readonly T[]) {
  * ```
  */
 export function uniqBy<T, S extends Primitive>(array: readonly T[], uniqFn: (x: T) => S) {
+  if (array.length === 0) {
+    return []
+  }
+
   const set = new Set<S>()
-  const newArray: T[] = []
-  array.forEach((element) => {
+  const result: T[] = []
+
+  for (const element of array) {
     const value = uniqFn(element)
     if (!set.has(value)) {
       set.add(value)
-      newArray.push(element)
+      result.push(element)
     }
-  })
-  return newArray
+  }
+
+  return result
 }

@@ -1,4 +1,4 @@
-import { styleToString, type CSSProperties } from "@trashpanda001/helpers/string"
+import { type CSSProperties, styleToString } from "@trashpanda001/helpers/string"
 import { useEffect } from "react"
 
 /**

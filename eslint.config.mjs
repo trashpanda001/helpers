@@ -24,7 +24,6 @@ const eslintConfig = defineConfig([
       "no-param-reassign": "error",
       "no-restricted-globals": ["error", "location", "navigator"],
       "no-restricted-imports": ["error", { patterns: ["../*"] }],
-      //"no-use-before-define": ["error", { functions: false }],
     },
   },
 
@@ -40,8 +39,8 @@ const eslintConfig = defineConfig([
   {
     extends: [perfectionist.configs["recommended-natural"]],
     rules: {
-      "perfectionist/sort-imports": "off", // handled by prettier-plugin-sort-imports
-      "perfectionist/sort-named-imports": "off", // handled by prettier-plugin-sort-imports
+      "perfectionist/sort-imports": ["error", { newlinesBetween: 0 }],
+      "perfectionist/sort-named-imports": ["error", { newlinesBetween: 0 }],
     },
   },
 

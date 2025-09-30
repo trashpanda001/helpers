@@ -4,6 +4,32 @@
  * @module
  */
 
+import { randomFloat } from "./number.js"
+
+/**
+ * Schedule a callback to trigger between min and max delay.
+ *
+ * #### Examples
+ *
+ *     asyncCallback(doCallback)
+ *     // invokes in 20-80ms
+ *
+ *     const cancelFn = asyncCallback(doCallback, 0, 1000)
+ *     // invokes in 0-1000ms
+ *     cancelFn()
+ *     // cancels timer (cleanup)
+ *
+ * @param callback - function to invoke after delay
+ * @param minDelay - minimum delay in milliseconds, defaults to 20
+ * @param maxDelay - maximum delay in milliseconds, defaults to minDelay + 80
+ * @returns cancel / cleanup function to abort callback
+ */
+export function asyncCallback(callback: () => void, minDelay = 20, maxDelay = minDelay + 80) {
+  const delay = randomFloat(minDelay, maxDelay)
+  const timerId = setTimeout(callback, delay)
+  return () => clearTimeout(timerId)
+}
+
 /**
  * An identity function that returns its first argument.
  *

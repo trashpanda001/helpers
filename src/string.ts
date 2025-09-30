@@ -4,7 +4,7 @@
  * @module
  */
 import { isServer } from "./index.js"
-import type { CSSProperties, Primitive } from "./types.js"
+import { type CSSProperties, type Primitive } from "./types.js"
 
 export type { CSSProperties, Primitive }
 export type URLSearchParamsLike = Array<[string, Primitive]> | Record<string, Primitive> | string | URLSearchParams
@@ -295,6 +295,33 @@ export function styleToString(styles: CSSProperties) {
 }
 
 /**
+ * Removes a prefix from a string.
+ *
+ * @param string - the string to unprefix
+ * @param prefix - the prefix to remove
+ * @returns the string without the prefix
+ *
+ * @example
+ * ```ts
+ * import { unprefix } from "@trashpanda001/helpers/string"
+ *
+ * unprefix("The Beatles", "The ")
+ * // "Beatles"
+ * unprefix("The Beatles", /^(the|a|an) /i)
+ * // "Beatles"
+ * ```
+ */
+export function unprefix(string: string, prefix: RegExp | string) {
+  if (prefix instanceof RegExp) {
+    return string.replace(prefix, "")
+  }
+  if (string.startsWith(prefix)) {
+    return string.slice(prefix.length)
+  }
+  return string
+}
+
+/**
  * Removes common stop word determiners from the beginning of a name: the, a, an.
  *
  * This is typically done for a more natural sort order, for example "The Beatles" would be changed
@@ -305,16 +332,16 @@ export function styleToString(styles: CSSProperties) {
  *
  * @example
  * ```ts
- * import { unprefixName } from "@trashpanda001/helpers/string"
+ * import { unprefixEnglishArticles } from "@trashpanda001/helpers/string"
  *
- * unprefixName("The Odor")
+ * unprefixEnglishArticles("The Odor")
  * // "Odor"
- * unprefixName("Theodore")
+ * unprefixEnglishArticles("Theodore")
  * // "Theodore"
  * ```
  */
-export function unprefixName(name: string) {
-  return name.replace(/^(the|a|an) /i, "")
+export function unprefixEnglishArticles(name: string) {
+  return unprefix(name, /^(the|a|an) /i)
 }
 
 /**

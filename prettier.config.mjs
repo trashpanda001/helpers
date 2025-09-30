@@ -1,6 +1,5 @@
 const config = {
-  importOrder: ["<THIRD_PARTY_MODULES>", "^@/", "^[.]"],
-  plugins: ["@prettier/plugin-oxc", "@ianvs/prettier-plugin-sort-imports"],
+  plugins: ["@prettier/plugin-oxc"],
   printWidth: 120,
   semi: false,
 }

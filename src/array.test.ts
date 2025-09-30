@@ -153,6 +153,11 @@ describe("times", () => {
     const result = times(0)
     expect(result).toEqual([])
   })
+
+  it("throws if n is negative", () => {
+    expect(() => times(-1)).toThrow()
+    expect(() => times(-5)).toThrow()
+  })
 })
 
 describe("uniq", () => {

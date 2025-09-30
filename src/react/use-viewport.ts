@@ -4,17 +4,17 @@ import { useEffect, useState } from "react"
 export type ViewportInfo = {
   /** Viewport height in CSS pixels */
   height?: number
-  /** >= 1280px = desktop / landscape (iPad Pro 12.9") */
+  /** &ge;1280px desktop / landscape (iPad Pro 12.9") */
   lg?: boolean
-  /** >= 1024px = laptop / landscape table (iPad Mini 5th gen / iPad) */
+  /** &ge;1024px laptop / landscape table (iPad Mini 5th gen / iPad) */
   md?: boolean
-  /** < 724px = mobile phones, typically >=375px */
+  /** &lt;724px mobile phones, typically &ge;375px */
   mobile?: boolean
-  /** >=724px = portrait tablet / landscape phone (iPhone 13 Mini / iPhone 11 Pro + safe area)*/
+  /** &ge;724px portrait tablet / landscape phone (iPhone 13 Mini / iPhone 11 Pro + safe area)*/
   sm?: boolean
   /** Viewport width in CSS pixels */
   width?: number
-  /** >= 1536px = huge desktop / 4K */
+  /** &ge;1536px huge desktop / 4K */
   xl?: boolean
 }
 

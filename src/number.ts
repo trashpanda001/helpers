@@ -150,8 +150,6 @@ export function randomInt(min: number, max?: number) {
   const actualMax = max ?? min
   const actualMin = max === undefined ? 0 : min
   const range = actualMax - actualMin
-
-  // Generate random values until we get one in the valid range
   while (true) {
     const random = Math.random()
     const result = Math.floor(random * range) + actualMin
