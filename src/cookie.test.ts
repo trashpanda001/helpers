@@ -1,4 +1,4 @@
-import { getCookie, getCookies, nukeCookie, setCookie } from "@trashpanda001/helpers/cookie"
+import { getCookie, getCookies, hasCookie, nukeCookie, setCookie } from "@trashpanda001/helpers/cookie"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 function removeAllCookies() {
@@ -82,6 +82,58 @@ describe("getCookies", () => {
       specialCookie: "value with spaces",
       symbolsCookie: "!@#$%",
     })
+  })
+})
+
+describe("hasCookie", () => {
+  beforeEach(removeAllCookies)
+
+  it("returns false when no cookies exist", () => {
+    expect(getCookies()).toEqual({}) // Verify no cookies
+    expect(hasCookie("nonExistent")).toBe(false)
+  })
+
+  it("returns true when the cookie exists", () => {
+    document.cookie = "testCookie=testValue"
+    expect(hasCookie("testCookie")).toBe(true)
+  })
+
+  it("returns false when the cookie does not exist", () => {
+    document.cookie = "otherCookie=value"
+    expect(hasCookie("testCookie")).toBe(false)
+  })
+
+  it("returns true for each cookie when multiple cookies exist", () => {
+    document.cookie = "firstCookie=value1"
+    document.cookie = "secondCookie=value2"
+    document.cookie = "thirdCookie=value3"
+    expect(hasCookie("firstCookie")).toBe(true)
+    expect(hasCookie("secondCookie")).toBe(true)
+    expect(hasCookie("thirdCookie")).toBe(true)
+    expect(hasCookie("nonExistent")).toBe(false)
+  })
+
+  it("handles cookies with similar names correctly", () => {
+    document.cookie = "user=john"
+    document.cookie = "username=johndoe"
+    document.cookie = "user_id=12345"
+    expect(hasCookie("user")).toBe(true)
+    expect(hasCookie("username")).toBe(true)
+    expect(hasCookie("user_id")).toBe(true)
+    expect(hasCookie("usern")).toBe(false)
+    expect(hasCookie("name")).toBe(false)
+  })
+
+  it("returns true for cookie with empty value", () => {
+    document.cookie = "emptyCookie="
+    expect(hasCookie("emptyCookie")).toBe(true)
+  })
+
+  it("returns false after cookie is removed", () => {
+    document.cookie = "tempCookie=value"
+    expect(hasCookie("tempCookie")).toBe(true)
+    document.cookie = "tempCookie=; Max-Age=-1"
+    expect(hasCookie("tempCookie")).toBe(false)
   })
 })
 
