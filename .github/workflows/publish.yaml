@@ -31,9 +31,10 @@ jobs:
         id: deployment
         with:
           path: docs/
-      - run: pnpm publish --no-git-checks
-        # env:
-        #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish
+  #      - run: pnpm publish --no-git-checks
+  # env:
+  #   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-docs:
     needs: build-and-publish-npm
