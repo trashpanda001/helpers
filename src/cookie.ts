@@ -98,6 +98,27 @@ export function getCookies() {
 }
 
 /**
+ * Check if a cookie exists.
+ *
+ * @param name - the cookie name
+ * @returns true if the cookie exists, false otherwise
+ * @throws Error if called during SSR
+ *
+ * @example
+ * ```ts
+ * import { hasCookie } from "@trashpanda001/helpers/cookie"
+ *
+ * hasCookie("foo")  // true
+ * ```
+ */
+export function hasCookie(name: string) {
+  if (isServer) {
+    throw new Error("hasCookie is not available during SSR")
+  }
+  return document.cookie.split("; ").some((c) => c.startsWith(`${name}=`))
+}
+
+/**
  * Delete a cookie with all permutations of domains and subdomains of `window.location.hostname` and
  * all subpaths of the given path.
  *

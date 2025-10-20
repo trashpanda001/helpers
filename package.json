@@ -6,7 +6,7 @@
   "engines": {
     "node": "^22.0.0"
   },
-  "packageManager": "pnpm@10.18.2+sha512.9fb969fa749b3ade6035e0f109f0b8a60b5d08a1a87fdf72e337da90dcc93336e2280ca4e44f2358a649b83c17959e9993e777c2080879f3801e6f0d999ad3dd",
+  "packageManager": "pnpm@10.18.3+sha512.bbd16e6d7286fd7e01f6b3c0b3c932cda2965c06a908328f74663f10a9aea51f1129eea615134bf992831b009eabe167ecb7008b597f40ff9bc75946aadfb08d",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -57,24 +57,24 @@
     "upgrade:pnpm": "corepack use pnpm@latest"
   },
   "devDependencies": {
-    "@eslint/js": "^9.37.0",
+    "@eslint/js": "^9.38.0",
     "@prettier/plugin-oxc": "^0.0.4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.0",
     "@types/luxon": "^3.7.1",
-    "@types/node": "^22.18.10",
+    "@types/node": "^22.18.11",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@types/string-natural-compare": "^3.0.4",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "eslint-plugin-perfectionist": "^4.15.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.2.0",
-    "happy-dom": "^20.0.0",
+    "happy-dom": "^20.0.5",
     "prettier": "^3.6.2",
     "typedoc": "^0.28.14",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.0",
+    "typescript-eslint": "^8.46.1",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {

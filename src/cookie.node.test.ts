@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { deleteCookie, getCookie, getCookies, nukeCookie, setCookie } from "@trashpanda001/helpers/cookie"
+import { deleteCookie, getCookie, getCookies, hasCookie, nukeCookie, setCookie } from "@trashpanda001/helpers/cookie"
 import { describe, expect, it } from "vitest"
 
 describe("SSR tests", () => {
@@ -9,5 +9,9 @@ describe("SSR tests", () => {
     expect(() => deleteCookie("test")).toThrowError("deleteCookie is not available during SSR")
     expect(() => getCookies()).toThrowError("getCookies is not available during SSR")
     expect(() => nukeCookie("test")).toThrowError("nukeCookie is not available during SSR")
+  })
+
+  it("throws an error when hasCookie is called during SSR", () => {
+    expect(() => hasCookie("test")).toThrow()
   })
 })
