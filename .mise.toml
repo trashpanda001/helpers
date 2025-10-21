@@ -2,4 +2,5 @@
 PRETTIER_EXPERIMENTAL_CLI = "1"
 
 [tools]
-node = { version = "22.20.0", postinstall = "corepack enable" }
+pnpm = "10.18.3"
+node = "22.21.0"
