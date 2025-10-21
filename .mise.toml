@@ -2,5 +2,6 @@
 PRETTIER_EXPERIMENTAL_CLI = "1"
 
 [tools]
-pnpm = "10.18.3"
 node = "22.21.0"
+pnpm = "10.18.3"
+
