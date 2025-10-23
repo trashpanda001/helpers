@@ -54,10 +54,13 @@ describe("useResizeObserver", () => {
   beforeEach(() => {
     originalResizeObserver = window.ResizeObserver
     mockObserver = new MockResizeObserver(() => {})
-    window.ResizeObserver = vi.fn().mockImplementation((callback) => {
-      mockObserver = new MockResizeObserver(callback)
-      return mockObserver
-    })
+    window.ResizeObserver = class extends MockResizeObserver {
+      constructor(callback: ResizeObserverCallback) {
+        super(callback)
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        mockObserver = this
+      }
+    } as unknown as typeof ResizeObserver
   })
 
   afterEach(() => {
