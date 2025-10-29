@@ -1,120 +1,71 @@
-import { act, render, renderHook, screen } from "@testing-library/react"
+import { act, renderHook } from "@testing-library/react"
 import { useResizeObserver } from "@trashpanda001/helpers/react"
-import { useRef } from "react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
-// Mock implementation of ResizeObserver
-class MockResizeObserver {
-  callback: ResizeObserverCallback
-  elements: Set<Element>
-  constructor(callback: ResizeObserverCallback) {
-    this.callback = callback
-    this.elements = new Set()
-  }
-  disconnect() {
-    this.elements.clear()
-  }
-  observe(element: Element) {
-    this.elements.add(element)
-  }
-  triggerResize(element: Element, rect: DOMRectReadOnly) {
-    this.callback(
-      [
-        {
-          contentRect: rect,
-          target: element,
-        } as ResizeObserverEntry,
-      ],
-      this,
-    )
-  }
-  unobserve(element: Element) {
-    this.elements.delete(element)
-  }
-}
-
-function TestComponent() {
-  const ref = useRef<HTMLDivElement>(null)
-  const rect = useResizeObserver(ref)
-
-  return (
-    <div>
-      <div data-testid="resizable-element" ref={ref} style={{ height: "100px", width: "100px" }} />
-      <div data-testid="rect-info">
-        Width: {rect.width}, Height: {rect.height}
-      </div>
-    </div>
-  )
-}
-
 describe("useResizeObserver", () => {
-  let originalResizeObserver: typeof ResizeObserver
-  let mockObserver: MockResizeObserver
+  let OriginalRO: typeof ResizeObserver
+  let observe: ReturnType<typeof vi.fn>
+  let unobserve: ReturnType<typeof vi.fn>
+  let callback: ResizeObserverCallback
 
   beforeEach(() => {
-    originalResizeObserver = window.ResizeObserver
-    mockObserver = new MockResizeObserver(() => {})
-    window.ResizeObserver = vi.fn().mockImplementation((callback) => {
-      mockObserver = new MockResizeObserver(callback)
-      return mockObserver
-    })
+    OriginalRO = window.ResizeObserver
+
+    observe = vi.fn()
+    unobserve = vi.fn()
+
+    class ROStub {
+      disconnect = vi.fn()
+      observe = observe
+      unobserve = unobserve
+      constructor(cb: ResizeObserverCallback) {
+        callback = cb
+      }
+    }
+
+    window.ResizeObserver = ROStub as unknown as typeof ResizeObserver
   })
 
   afterEach(() => {
-    window.ResizeObserver = originalResizeObserver
+    window.ResizeObserver = OriginalRO
+    vi.restoreAllMocks()
   })
 
-  it("initializes with empty DOMRectReadOnly", () => {
-    const { result } = renderHook(() => {
-      const ref = { current: document.createElement("div") }
-      return useResizeObserver(ref)
-    })
-
-    expect(result.current.width).toBe(0)
-    expect(result.current.height).toBe(0)
-  })
-
-  it("throws an error if ref is not set", () => {
+  it("throws if ref is not set", () => {
     expect(() => {
-      renderHook(() => {
-        const ref = { current: null }
-        return useResizeObserver(ref)
-      })
+      renderHook(() => useResizeObserver({ current: null }))
     }).toThrow("useResizeObserver: ref is not set")
   })
 
-  it("observes the referenced element", () => {
-    const spyObserve = vi.spyOn(MockResizeObserver.prototype, "observe")
+  it("observes on mount and unobserves on unmount", () => {
+    const ref = { current: document.createElement("div") }
+    const { unmount } = renderHook(() => useResizeObserver(ref))
 
-    renderHook(() => {
-      const ref = { current: document.createElement("div") }
-      return useResizeObserver(ref)
-    })
-
-    expect(spyObserve).toHaveBeenCalledTimes(1)
-  })
-
-  it("unobserves the element on unmount", () => {
-    const spyUnobserve = vi.spyOn(MockResizeObserver.prototype, "unobserve")
-
-    const { unmount } = renderHook(() => {
-      const ref = { current: document.createElement("div") }
-      return useResizeObserver(ref)
-    })
+    expect(observe).toHaveBeenCalledWith(ref.current)
 
     unmount()
-    expect(spyUnobserve).toHaveBeenCalledTimes(1)
+    expect(unobserve).toHaveBeenCalledWith(ref.current)
   })
 
-  it("updates rect when element size changes", async () => {
-    render(<TestComponent />)
+  it("updates rect when element size changes", () => {
+    const ref = { current: document.createElement("div") }
+    const { result } = renderHook(() => useResizeObserver(ref))
 
-    const element = screen.getByTestId("resizable-element")
+    expect(result.current.width).toBe(0)
+    expect(result.current.height).toBe(0)
 
     act(() => {
-      mockObserver.triggerResize(element, new DOMRectReadOnly(0, 0, 200, 150))
+      callback(
+        [
+          {
+            contentRect: new DOMRectReadOnly(0, 0, 200, 150),
+          } as unknown as ResizeObserverEntry,
+        ] as unknown as ResizeObserverEntry[],
+        {} as unknown as ResizeObserver,
+      )
     })
 
-    expect(screen.getByTestId("rect-info").textContent).toBe("Width: 200, Height: 150")
+    expect(result.current.width).toBe(200)
+    expect(result.current.height).toBe(150)
   })
 })
