@@ -1,8 +1,22 @@
 enableGlobalVirtualStore: false
+
 ignoredBuiltDependencies:
   - esbuild
+
 minimumReleaseAge: 1440
+
+# minimumReleaseAgeExclude:
+#   - "@trashpanda001/helpers"
+
+# onlyBuiltDependencies:
+#   - unrs-resolver
+
+peerDependencyRules:
+  allowedVersions:
+    "@prettier/plugin-oxc": "0.1.3"
+
 publicHoistPattern:
   - "*eslint*"
   - "*prettier*"
+
 strictPeerDependencies: true
