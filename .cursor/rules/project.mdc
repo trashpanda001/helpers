@@ -1,0 +1,12 @@
+---
+description: Project development rules
+globs:
+---
+
+# Development Commands
+
+This project uses mise for tool version management. Always run pnpm commands through mise:
+
+- `mise exec -- pnpm test` - run tests
+- `mise exec -- pnpm lint` - lint and format code
+- `mise exec -- pnpm build` - compile TypeScript
