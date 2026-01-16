@@ -17,10 +17,11 @@ describe("useViewport hook", () => {
       if (event == "resize") {
         resizeListeners.push(listener as EventListener)
         if (options && typeof options === "object" && "signal" in options && options.signal instanceof AbortSignal) {
-          signalToListenerMap.set(options.signal, listener as EventListener)
-          options.signal.addEventListener("abort", () => {
+          const signal = options.signal as AbortSignal
+          signalToListenerMap.set(signal, listener as EventListener)
+          signal.addEventListener("abort", () => {
             resizeListeners = resizeListeners.filter((l) => l !== listener)
-            signalToListenerMap.delete(options.signal)
+            signalToListenerMap.delete(signal)
           })
         }
       }
