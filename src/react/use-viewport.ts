@@ -40,7 +40,8 @@ export type ViewportInfo = {
 export function useViewport() {
   const [info, setInfo] = useState<ViewportInfo>({})
   useEffect(() => {
-    function handleResize() {
+    const abortController = new AbortController()
+    const handleResize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
       setInfo({
@@ -53,10 +54,10 @@ export function useViewport() {
         xl: width >= 1536,
       })
     }
-    window.addEventListener("resize", handleResize, { passive: true })
+    window.addEventListener("resize", handleResize, { passive: true, signal: abortController.signal })
     handleResize()
     return () => {
-      window.removeEventListener("resize", handleResize)
+      abortController.abort()
     }
   }, [])
   return info

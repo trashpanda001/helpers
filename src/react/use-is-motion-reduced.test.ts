@@ -11,8 +11,13 @@ describe("useIsMotionReduced hook", () => {
       "matchMedia",
       (query: string) =>
         ({
-          addEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) => {
+          addEventListener: (_: string, cb: (e: MediaQueryListEvent) => void, options?: AddEventListenerOptions) => {
             listeners.add(cb)
+            if (options?.signal instanceof AbortSignal) {
+              options.signal.addEventListener("abort", () => {
+                listeners.delete(cb)
+              })
+            }
           },
           matches: false,
           media: query,

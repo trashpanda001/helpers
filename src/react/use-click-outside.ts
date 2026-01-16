@@ -25,14 +25,18 @@ export function useClickOutside<T extends HTMLElement = HTMLElement>(onClickOuts
   callbackRef.current = onClickOutside
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (elementRef.current && !elementRef.current.contains(event.target as Node)) {
-        callbackRef.current(event)
-      }
-    }
-    document.addEventListener("click", handleClickOutside, { capture: true, passive: true })
+    const abortController = new AbortController()
+    document.addEventListener(
+      "click",
+      (event: MouseEvent) => {
+        if (elementRef.current && !elementRef.current.contains(event.target as Node)) {
+          callbackRef.current(event)
+        }
+      },
+      { capture: true, passive: true, signal: abortController.signal },
+    )
     return () => {
-      document.removeEventListener("click", handleClickOutside, { capture: true })
+      abortController.abort()
     }
   }, [])
 

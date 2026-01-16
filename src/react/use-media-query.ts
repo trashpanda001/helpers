@@ -21,15 +21,14 @@ export function useMediaQuery(query: string) {
   const [value, setValue] = useState(false)
 
   useEffect(() => {
-    function onChange(event: MediaQueryListEvent) {
-      setValue(event.matches)
-    }
+    const controller = new AbortController()
     const result = matchMedia(query)
-    result.addEventListener("change", onChange, { passive: true })
+    result.addEventListener("change", (event) => setValue(event.matches), {
+      passive: true,
+      signal: controller.signal,
+    })
     setValue(result.matches)
-    return () => {
-      result.removeEventListener("change", onChange)
-    }
+    return () => controller.abort()
   }, [query])
 
   return value

@@ -9,6 +9,7 @@ import {
   hashCode,
   hostname,
   interpolate,
+  parseUUID7Timestamp,
   type Primitive,
   styleToString,
   unprefix,
@@ -144,6 +145,27 @@ describe("hostname", () => {
 
   it("handles URLs with subdomains", () => {
     expect(hostname("https://api.example.com/v1")).toBe("api.example.com")
+  })
+})
+
+describe("parseUUID7Timestamp", () => {
+  it("returns a Date with the timestamp stored in the UUID", () => {
+    const timestampMs = Date.UTC(2024, 0, 1, 0, 0, 0, 0)
+    const hex = timestampMs.toString(16).padStart(12, "0")
+    const uuid = `${hex.slice(0, 8)}-${hex.slice(8, 12)}-7abc-def0-123456789abc`
+
+    const parsed = parseUUID7Timestamp(uuid)
+
+    expect(parsed).toBeInstanceOf(Date)
+    expect(parsed.getTime()).toBe(timestampMs)
+  })
+
+  it("ignores the remaining UUID bytes when parsing", () => {
+    const timestampMs = Date.UTC(2030, 6, 4, 12, 30, 15, 250)
+    const hex = timestampMs.toString(16).padStart(12, "0")
+    const uuid = `${hex.slice(0, 8)}-${hex.slice(8, 12)}-7fff-ffff-ffffffffffff`
+
+    expect(parseUUID7Timestamp(uuid).getTime()).toBe(timestampMs)
   })
 })
 

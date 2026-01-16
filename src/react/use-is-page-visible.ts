@@ -21,10 +21,13 @@ import { useEffect, useState } from "react"
 export function useIsPageVisible() {
   const [visibilityState, setVisibilityState] = useState("visible")
   useEffect(() => {
-    const handler = () => setVisibilityState(document.visibilityState)
-    window.addEventListener("visibilitychange", handler, { passive: true })
+    const abortController = new AbortController()
+    window.addEventListener("visibilitychange", () => setVisibilityState(document.visibilityState), {
+      passive: true,
+      signal: abortController.signal,
+    })
     return () => {
-      window.removeEventListener("visibilitychange", handler)
+      abortController.abort()
     }
   }, [])
   return visibilityState == "visible"

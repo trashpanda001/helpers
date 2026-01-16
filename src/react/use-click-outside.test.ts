@@ -39,9 +39,20 @@ describe("useClickOutside", () => {
   })
 
   it("should remove the event listener when component unmounts", () => {
-    const removeEventListenerSpy = vi.spyOn(document, "removeEventListener")
-    const { unmount } = renderHook(() => useClickOutside(() => {}))
+    const callback = vi.fn()
+    const div = document.createElement("div")
+    document.body.appendChild(div)
+    const { result, unmount } = renderHook(() => useClickOutside(callback))
+    Object.defineProperty(result.current, "current", { value: div })
     unmount()
-    expect(removeEventListenerSpy).toHaveBeenCalled()
+
+    const outsideClickEvent = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+    })
+    document.body.dispatchEvent(outsideClickEvent)
+
+    expect(callback).not.toHaveBeenCalled()
+    document.body.removeChild(div)
   })
 })
