@@ -32,19 +32,25 @@ export function useHover<T extends HTMLElement = HTMLElement>(onHover?: (hovered
       console.warn("useHover: ref is not set. Make sure to attach the ref to an element.")
       return
     }
-    function handlePointerEnter() {
-      callbackRef.current?.(true)
-      setIsHovered(true)
-    }
-    function handlePointerLeave() {
-      callbackRef.current?.(false)
-      setIsHovered(false)
-    }
-    element.addEventListener("pointerenter", handlePointerEnter, { passive: true })
-    element.addEventListener("pointerleave", handlePointerLeave, { passive: true })
+    const abortController = new AbortController()
+    element.addEventListener(
+      "pointerenter",
+      () => {
+        callbackRef.current?.(true)
+        setIsHovered(true)
+      },
+      { passive: true, signal: abortController.signal },
+    )
+    element.addEventListener(
+      "pointerleave",
+      () => {
+        callbackRef.current?.(false)
+        setIsHovered(false)
+      },
+      { passive: true, signal: abortController.signal },
+    )
     return () => {
-      element.removeEventListener("pointerenter", handlePointerEnter)
-      element.removeEventListener("pointerleave", handlePointerLeave)
+      abortController.abort()
     }
   }, [])
   return { isHovered, ref }

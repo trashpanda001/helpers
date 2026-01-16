@@ -30,12 +30,16 @@ export function useBeforeUnload(callback: (event: BeforeUnloadEvent) => void, en
     if (!enabled) {
       return
     }
-    function handleBeforeUnload(event: BeforeUnloadEvent) {
-      callbackRef.current?.(event)
-    }
-    window.addEventListener("beforeunload", handleBeforeUnload, { passive: false })
+    const abortController = new AbortController()
+    window.addEventListener(
+      "beforeunload",
+      (event: BeforeUnloadEvent) => {
+        callbackRef.current?.(event)
+      },
+      { passive: false, signal: abortController.signal },
+    )
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload)
+      abortController.abort()
     }
   }, [enabled])
 }

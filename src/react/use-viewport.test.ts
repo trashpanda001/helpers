@@ -6,14 +6,23 @@ describe("useViewport hook", () => {
   const originalInnerWidth = window.innerWidth
   const originalInnerHeight = window.innerHeight
   let resizeListeners: Array<EventListener> = []
+  let signalToListenerMap: Map<AbortSignal, EventListener> = new Map()
 
   beforeEach(() => {
     resizeListeners = []
+    signalToListenerMap = new Map()
     Object.defineProperty(window, "innerWidth", { configurable: true, value: 1024, writable: true })
     Object.defineProperty(window, "innerHeight", { configurable: true, value: 768, writable: true })
-    vi.spyOn(window, "addEventListener").mockImplementation((event, listener, _options) => {
+    vi.spyOn(window, "addEventListener").mockImplementation((event, listener, options) => {
       if (event == "resize") {
         resizeListeners.push(listener as EventListener)
+        if (options && typeof options === "object" && "signal" in options && options.signal instanceof AbortSignal) {
+          signalToListenerMap.set(options.signal, listener as EventListener)
+          options.signal.addEventListener("abort", () => {
+            resizeListeners = resizeListeners.filter((l) => l !== listener)
+            signalToListenerMap.delete(options.signal)
+          })
+        }
       }
     })
     vi.spyOn(window, "removeEventListener").mockImplementation((event, listener) => {
