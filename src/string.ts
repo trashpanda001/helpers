@@ -269,6 +269,27 @@ export function interpolate(text: string, variables: Record<string, string>) {
 }
 
 /**
+ * Parse the timestamp from a UUID v7.
+ * UUID v7 stores a Unix timestamp in milliseconds in the first 48 bits.
+ *
+ * @param uuid7 - the UUID v7 string to parse
+ * @returns the timestamp as a Date
+ *
+ * @example
+ * ```ts
+ * import { parseUUID7Timestamp } from "@trashpanda001/helpers/string"
+ *
+ * parseUUID7Timestamp("01234567-90ab-7fff-ffff-ffffffffffff")
+ * // 2009-08-23T03:58:18.283Z
+ * ```
+ */
+export function parseUUID7Timestamp(uuid7: string) {
+  const hex = uuid7.replace(/-/g, "").substring(0, 12)
+  const timestampMs = parseInt(hex, 16)
+  return new Date(timestampMs)
+}
+
+/**
  * Convert a CSS object to a CSS string value.
  *
  * Similar to what React does when using a style object in a Component.
