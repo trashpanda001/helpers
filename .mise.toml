@@ -3,4 +3,4 @@ PRETTIER_EXPERIMENTAL_CLI = "1"
 
 [tools]
 node = "24.13.0"
-pnpm = "10.28.0"
+pnpm = "10.28.1"
