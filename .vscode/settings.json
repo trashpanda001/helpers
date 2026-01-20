@@ -1,11 +1,13 @@
 {
   // fix everything with ESLint
-  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   // Prettier is the default formatter for all files
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // format file on save
   "editor.formatOnSave": true,
-  // do not format each line after we type
+  // do NOT format each line after we type
   "editor.formatOnType": false,
   // use spaces for indentation
   "editor.insertSpaces": true,
@@ -14,5 +16,7 @@
   // use 2 spaces for tabs
   "editor.tabSize": 2,
   // automatically update imports when we move a file
-  "javascript.updateImportsOnFileMove.enabled": "always"
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  // use pnpm as the package manager
+  "npm.packageManager": "pnpm"
 }
