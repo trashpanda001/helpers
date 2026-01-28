@@ -62,7 +62,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/luxon": "^3.7.1",
     "@types/node": "^24.10.9",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "@types/string-natural-compare": "^3.0.4",
     "eslint": "^9.39.2",
@@ -73,7 +73,7 @@
     "prettier": "^3.8.1",
     "typedoc": "^0.28.16",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.1",
+    "typescript-eslint": "^8.54.0",
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
